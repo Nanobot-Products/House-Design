@@ -968,6 +968,249 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+
+/* ==========================================================================
+   ULTRA-CLEAN & SIMPLE UI ENHANCEMENTS
+   ========================================================================== */
+
+/* Full-viewport canvas */
+#workspace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#viewport-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Floating Left Drawer for Furniture & Tools */
+#left-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 85vw;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border-color);
+  box-shadow: 10px 0 35px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  transform: translateX(0);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+#left-sidebar.collapsed {
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+/* Floating button to open sidebar */
+#btn-toggle-catalog {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 80;
+  background: rgba(30, 41, 59, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+#btn-toggle-catalog:hover {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+  transform: translateY(-1px);
+}
+
+.drawer-close-btn {
+  background: rgba(51, 65, 85, 0.6);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.drawer-close-btn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Floating Right Inspector Card */
+#right-sidebar {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 310px;
+  max-width: 90vw;
+  max-height: calc(100% - 28px);
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#right-sidebar.collapsed {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px) scale(0.96);
+}
+
+.inspector-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inspector-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.inspector-close-btn:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+}
+
+/* Floating Camera Presets Bar */
+.camera-quick-bar {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 70;
+}
+
+.cam-btn {
+  background: rgba(51, 65, 85, 0.6);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.cam-btn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+/* Floating Navigation / Interaction Hint */
+.interaction-hint-pill {
+  position: absolute;
+  bottom: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: var(--text-muted);
+  padding: 5px 14px;
+  border-radius: 16px;
+  font-size: 11px;
+  pointer-events: none;
+  z-index: 60;
+  white-space: nowrap;
+}
+
+/* Modal Table Styling for Room Sizes */
+.room-size-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.room-size-table th {
+  background: rgba(30, 41, 59, 0.8);
+  color: #38bdf8;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border-color);
+  font-weight: 600;
+}
+
+.room-size-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  color: var(--text-main);
+}
+
+.room-size-table tr:hover {
+  background: rgba(51, 65, 85, 0.3);
+}
+
+.vastu-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: bold;
+}
+.vastu-tag.sw { background: rgba(244, 63, 94, 0.2); color: #fda4af; }
+.vastu-tag.se { background: rgba(245, 158, 11, 0.2); color: #fde68a; }
+.vastu-tag.ne { background: rgba(16, 185, 129, 0.2); color: #a7f3d0; }
+.vastu-tag.nw { background: rgba(56, 189, 248, 0.2); color: #bae6fd; }
+.vastu-tag.cen { background: rgba(168, 85, 247, 0.2); color: #e9d5ff; }
+
   </style>
 </head>
 <body>
@@ -978,77 +1221,94 @@ body {
       <div class="brand-icon">🕉️</div>
       <div>
         <span class="brand-title">HomeCraft 3D</span>
-        <span class="brand-badge">100% Hindu Vastu • Jodhpur 30×60</span>
+        <span class="brand-badge">Jodhpur 30×60 South-Facing</span>
       </div>
     </div>
 
-    <!-- Mode Switcher -->
+    <!-- Clean Central View Mode Switcher -->
     <div class="view-modes">
-      <button class="mode-btn active" data-mode="2d_plan">
+      <button class="mode-btn active" data-mode="3d_orbit" title="360° Interactive 3D Model">
+        <span>🌐</span>
+        <span>3D View</span>
+      </button>
+      <button class="mode-btn" data-mode="3d_walk" title="First-Person Walkthrough (WASD)">
+        <span>🚶</span>
+        <span>Walk Inside</span>
+      </button>
+      <button class="mode-btn" data-mode="2d_plan" title="Architectural Blueprint Dimensions">
         <span>📐</span>
         <span>2D Blueprint</span>
-      </button>
-      <button class="mode-btn" data-mode="3d_orbit">
-        <span>🌐</span>
-        <span>3D Orbit View</span>
-      </button>
-      <button class="mode-btn" data-mode="3d_walk">
-        <span>🚶</span>
-        <span>Walkthrough</span>
       </button>
     </div>
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <button class="action-btn" id="btn-undo" title="Undo (Ctrl+Z)">↩️</button>
-      <button class="action-btn" id="btn-redo" title="Redo (Ctrl+Y)">↪️</button>
-      <button class="action-btn" id="btn-templates">📑 Templates</button>
-      <button class="action-btn" id="btn-load-project">📂 Open</button>
-      <button class="action-btn primary" id="btn-save-project">💾 Save</button>
-      <button class="action-btn" id="btn-snapshot" title="Export High-Res Image">📸 Snapshot</button>
+      <button class="action-btn" id="btn-room-sizes" title="View Room Sizes & Vastu Guide">
+        <span>📏</span>
+        <span>Room Sizes</span>
+      </button>
+      <button class="action-btn" id="btn-snapshot" title="Capture Photo of Current View">
+        <span>📸</span>
+        <span>Photo</span>
+      </button>
+      <button class="action-btn primary" id="btn-save-project" title="Save Project Design">
+        <span>💾</span>
+        <span>Save</span>
+      </button>
+      <button class="action-btn" id="btn-templates" style="display: none;">📑</button>
+      <button class="action-btn" id="btn-load-project" style="display: none;">📂</button>
+      <button class="action-btn" id="btn-undo" style="display: none;">↩️</button>
+      <button class="action-btn" id="btn-redo" style="display: none;">↪️</button>
       <input type="file" id="file-input-load" accept=".json" style="display: none;">
     </div>
   </header>
 
-  <!-- Multi-Floor Level Switcher & Vastu Information Bar -->
+  <!-- Multi-Floor Level Switcher & Orientation Bar -->
   <div id="floor-bar">
     <div class="floor-tabs">
       <button class="floor-tab-btn active" data-floor="0">
         <span>🅿️</span>
-        <span>Ground Floor (Parking + 2 Rooms)</span>
+        <span>Ground Floor</span>
       </button>
       <button class="floor-tab-btn" data-floor="1">
         <span>🏠</span>
-        <span>1st Floor (Bro 1 - Vastu 3BHK)</span>
+        <span>1st Floor (Bro 1)</span>
       </button>
       <button class="floor-tab-btn" data-floor="2">
         <span>🏠</span>
-        <span>2nd Floor (Bro 2 - Vastu 3BHK)</span>
+        <span>2nd Floor (Bro 2)</span>
       </button>
-      <button class="floor-tab-btn" data-floor="-1" style="border-color: #38bdf8;">
+      <button class="floor-tab-btn" data-floor="-1" style="border-color: #38bdf8; color: #38bdf8;">
         <span>🏢</span>
-        <span>3D Building Stack (All 3 Floors)</span>
+        <span>Whole Building (3D Stack)</span>
       </button>
     </div>
 
     <div class="floor-info-badge">
-      <span class="climatic-pill">🕉️ Vastu Purusha Mandala • ☀️ South Facing • 🌬️ Stack Airflow</span>
-      <span class="plot-pill">Plot: 30' × 60' (1800 sq ft)</span>
+      <span class="climatic-pill">☀️ South Road • 🌬️ Stack Cooling</span>
+      <span class="plot-pill">30' × 60' (1800 sq ft)</span>
     </div>
   </div>
 
   <!-- Main Workspace -->
   <div id="workspace">
 
-    <!-- Left Sidebar: Architectural Tools & Furniture Catalog -->
-    <aside id="left-sidebar">
+    <!-- Floating Toggle Button for Furniture & Architectural Tools Drawer -->
+    <button id="btn-toggle-catalog" title="Open Furniture Catalog & Tools">
+      <span>🛋️</span>
+      <span>Furniture & Tools</span>
+    </button>
+
+    <!-- Left Collapsible Drawer: Architectural Tools & Furniture Catalog -->
+    <aside id="left-sidebar" class="collapsed">
       <div class="sidebar-header">
         <div class="sidebar-title-row">
-          <span class="sidebar-title">Design Elements</span>
+          <span class="sidebar-title">🛋️ Furniture & Tools</span>
+          <button id="btn-close-catalog" class="drawer-close-btn" title="Close Drawer">✕</button>
         </div>
         <div class="search-input-wrap">
           <span class="search-icon">🔍</span>
-          <input type="text" id="catalog-search" class="search-input" placeholder="Search furniture & fixtures...">
+          <input type="text" id="catalog-search" class="search-input" placeholder="Search furniture...">
         </div>
       </div>
 
@@ -1058,15 +1318,15 @@ body {
           <span class="tool-icon">👆</span>
           <span>Select</span>
         </button>
-        <button class="tool-btn" data-tool="wall" title="Draw Wall Segments">
+        <button class="tool-btn" data-tool="wall" title="Draw Wall">
           <span class="tool-icon">🧱</span>
           <span>Wall</span>
         </button>
-        <button class="tool-btn" data-tool="door" title="Place Door onto Wall">
+        <button class="tool-btn" data-tool="door" title="Place Door">
           <span class="tool-icon">🚪</span>
           <span>Door</span>
         </button>
-        <button class="tool-btn" data-tool="window" title="Place Window onto Wall">
+        <button class="tool-btn" data-tool="window" title="Place Window">
           <span class="tool-icon">🪟</span>
           <span>Window</span>
         </button>
@@ -1088,10 +1348,10 @@ body {
       </div>
     </aside>
 
-    <!-- Center Viewport / Canvas Container -->
+    <!-- Center Viewport / Canvas Container (100% Expansive Canvas) -->
     <main id="viewport-container">
       <!-- 2D Blueprint Canvas -->
-      <canvas id="floorplan-canvas"></canvas>
+      <canvas id="floorplan-canvas" style="display: none;"></canvas>
 
       <!-- 3D Three.js Canvas Container -->
       <div id="threejs-canvas-container"></div>
@@ -1099,12 +1359,17 @@ body {
       <!-- Live Drawing Hint Tooltip -->
       <div id="drawing-hint">Click anywhere to start drawing wall.</div>
 
-      <!-- 3D Camera Quick Angles Bar -->
+      <!-- Floating Camera Angle Presets (Bottom Center) -->
       <div id="camera-quick-bar" class="camera-quick-bar">
-        <button class="cam-btn" data-preset="isometric">Perspective 3D</button>
-        <button class="cam-btn" data-preset="top">Bird's Eye Top</button>
-        <button class="cam-btn" data-preset="front">South Front Road</button>
+        <button class="cam-btn" data-preset="front">🏠 Front (South)</button>
+        <button class="cam-btn" data-preset="top">🦅 Top View</button>
         <button class="cam-btn" data-preset="side">Side Elevation</button>
+        <button class="cam-btn" data-preset="isometric">🔄 Reset 3D</button>
+      </div>
+
+      <!-- Floating Interaction Hint -->
+      <div class="interaction-hint-pill">
+        🖱️ Left-Click to Rotate • Scroll to Zoom • Right-Click to Pan
       </div>
 
       <!-- First-Person Walkthrough HUD -->
@@ -1120,10 +1385,11 @@ body {
       </div>
     </main>
 
-    <!-- Right Sidebar: Properties & Customizer -->
-    <aside id="right-sidebar">
+    <!-- Floating Right Inspector Card (Opens on Selection) -->
+    <aside id="right-sidebar" class="collapsed">
       <div class="inspector-header">
-        <span class="inspector-title">Properties & Vastu Info</span>
+        <span class="inspector-title">Properties & Vastu</span>
+        <button id="btn-close-inspector" class="inspector-close-btn" title="Close">✕</button>
       </div>
       <div id="inspector-content" class="inspector-body">
         <!-- Dynamically populated based on selection -->
@@ -1139,28 +1405,140 @@ body {
         <span class="status-val" id="status-coords">X: 0.00m, Y: 0.00m</span>
       </div>
       <div class="status-item">
-        <span>📐 Floor Area:</span>
+        <span>📐 Area:</span>
         <span class="status-val" id="status-area">0 m²</span>
       </div>
     </div>
     <div class="status-right">
       <div class="status-item">
-        <span>⌨️ Shortcuts: <kbd>R</kbd> Rotate • <kbd>Del</kbd> Delete • <kbd>Esc</kbd> Deselect</span>
+        <span>Shortcuts: <kbd>R</kbd> Rotate • <kbd>Del</kbd> Delete • <kbd>Esc</kbd> Deselect</span>
       </div>
     </div>
   </footer>
 
-  <!-- Template Selection Modal -->
-  <div id="templates-modal" class="modal-backdrop">
-    <div class="modal-dialog">
+  <!-- Room Sizes & Vastu Guide Modal -->
+  <div id="room-sizes-modal" class="modal-backdrop">
+    <div class="modal-dialog" style="max-width: 680px;">
       <div class="modal-header">
-        <h3 class="modal-title">Select a House Template</h3>
-        <button id="modal-close" class="modal-close-btn">✕</button>
+        <h3 class="modal-title">📏 Complete Room Sizes & Vastu Guide</h3>
+        <button id="modal-close-room-sizes" class="modal-close-btn">✕</button>
       </div>
       <div class="modal-body">
-        <div id="template-list" class="template-card-grid">
-          <!-- Dynamically populated -->
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+          Plot: <b style="color: #f8fafc;">30'-0" × 60'-0" (1800 sq ft / 200 Gaj)</b> • Facing: <b style="color: #f59e0b;">South (Road)</b> • Location: <b style="color: #38bdf8;">Jodhpur, Rajasthan</b>
         </div>
+
+        <h4 style="color: #38bdf8; font-size: 13px; margin: 10px 0 6px;">🏠 1st Floor & 2nd Floor (Identical Luxury 3BHK for Brothers)</h4>
+        <table class="room-size-table">
+          <thead>
+            <tr>
+              <th>Space / Room</th>
+              <th>Dimensions</th>
+              <th>Carpet Area</th>
+              <th>Vastu Zone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>🛋️ Grand Living & Dining Hall</b></td>
+              <td>13'6" to 22'6" × 25'0"</td>
+              <td><b>~330 sq ft</b></td>
+              <td><span class="vastu-tag cen">Central Open</span></td>
+            </tr>
+            <tr>
+              <td><b>👑 Restored Master Suite</b></td>
+              <td>11'3" × 19'8"</td>
+              <td><b>221 sq ft</b></td>
+              <td><span class="vastu-tag sw">Nairutya (SW)</span></td>
+            </tr>
+            <tr>
+              <td><b>🛏️ Bedroom 3 (Study/Bed)</b></td>
+              <td>15'0" × 14'6"</td>
+              <td><b>217 sq ft</b></td>
+              <td><span class="vastu-tag ne">North-East</span></td>
+            </tr>
+            <tr>
+              <td><b>🌬️ Bedroom 2 (Children/Bed)</b></td>
+              <td>15'0" × 14'6"</td>
+              <td><b>217 sq ft</b></td>
+              <td><span class="vastu-tag nw">Vayavya (NW)</span></td>
+            </tr>
+            <tr>
+              <td><b>🔥 Modular Kitchen</b></td>
+              <td>9'1" × 14'1"</td>
+              <td>128 sq ft</td>
+              <td><span class="vastu-tag se">Agneya (SE)</span></td>
+            </tr>
+            <tr>
+              <td><b>🙏 Sacred Mandir (Pooja)</b></td>
+              <td>5'8" × 5'6"</td>
+              <td>31 sq ft</td>
+              <td><span class="vastu-tag ne">Ishanya / East</span></td>
+            </tr>
+            <tr>
+              <td><b>🌀 Central OTS Air Chimney</b></td>
+              <td>5'0" × 5'0"</td>
+              <td>25 sq ft</td>
+              <td><span class="vastu-tag cen">Brahmasthan</span></td>
+            </tr>
+            <tr>
+              <td><b>South Shaded Balcony</b></td>
+              <td>30'0" × 4'5"</td>
+              <td>132 sq ft</td>
+              <td>South Front</td>
+            </tr>
+            <tr>
+              <td><b>North Rear Balcony</b></td>
+              <td>30'0" × 4'0"</td>
+              <td>120 sq ft</td>
+              <td>North Cool Air</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4 style="color: #38bdf8; font-size: 13px; margin: 18px 0 6px;">🅿️ Ground Floor (Common Stilt + 2 Rear Rooms)</h4>
+        <table class="room-size-table">
+          <thead>
+            <tr>
+              <th>Space / Room</th>
+              <th>Dimensions</th>
+              <th>Carpet Area</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>🅿️ Covered Stilt Parking</b></td>
+              <td>30'0" × 41'6"</td>
+              <td><b>~950 sq ft</b></td>
+              <td>Fits 3–4 cars (SUVs) + 4–6 bikes</td>
+            </tr>
+            <tr>
+              <td><b>🛏️ Rear Room 1 + Bath</b></td>
+              <td>15'0" × 14'9"</td>
+              <td>221 sq ft</td>
+              <td>Vayavya (NW) with window to North gali</td>
+            </tr>
+            <tr>
+              <td><b>🛏️ Rear Room 2 + Bath</b></td>
+              <td>15'0" × 14'9"</td>
+              <td>221 sq ft</td>
+              <td>Ishanya (NE) with window to North gali</td>
+            </tr>
+            <tr>
+              <td><b>🌬️ North Rear Gali</b></td>
+              <td>30'0" × 3'9"</td>
+              <td>112 sq ft</td>
+              <td>Open-to-sky cool air reservoir</td>
+            </tr>
+            <tr>
+              <td><b>SW Staircase & Lift Core</b></td>
+              <td>7'6" × 14'7"</td>
+              <td>110 sq ft</td>
+              <td>Dedicated 5'×5' elevator shaft</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -1168,7 +1546,7 @@ body {
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
 
-    <!-- CDN Three.js Core & Controls (Cloudflare CDNJS & jsDelivr) -->
+  <!-- CDN Three.js Core & Controls (Cloudflare CDNJS & jsDelivr) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"></script>
@@ -2557,22 +2935,26 @@ body {
   'use strict';
 
   // Helper to build identical 100% Vastu Compliant 3BHK floor for each brother
+  // - Previous beloved Master Bedroom (11'3" x 19'8" = 221 sq ft) in Nairutya/SW
+  // - Bedroom 3 expanded to full 15'0" x 14'6" (217 sq ft) in North-East
+  // - Bedroom 2 at 15'0" x 14'6" (217 sq ft) in Vayavya/NW
+  // - Spacious Grand Living & Dining Great Room (~330 sq ft total open space)
   function createVastuBrother3BHK(floorId, floorName, elevation) {
     return {
       id: floorId,
       name: floorName,
       elevation: elevation,
-      description: '100% Hindu Vastu compliant 3BHK: Agneya (SE) Kitchen with East-facing stove, Ishanya (NE) Pooja Mandir, Nairutya (SW) Master Suite with South headboard, and central Brahmasthan OTS air chimney.',
+      description: '100% Hindu Vastu 3BHK: Previous luxury Master Suite (11\'3"x19\'8") in Nairutya, Bedroom 3 (15\'0"x14\'6"), Bedroom 2 (15\'0"x14\'6"), Grand Living Hall (~330 sq ft), Agneya Kitchen, and central OTS chimney.',
       walls: [
         // Exterior Boundary (30ft x 60ft -> 9.14m x 18.29m: X from -4.57 to +4.57, Z from -9.14 to +9.14)
-        // North Wall (Z = -7.8m, opening to 4.4ft North Rear Balcony / Gali)
-        { id: `${floorId}_w_n`, start: { x: -4.57, y: -7.8 }, end: { x: 4.57, y: -7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
+        // North Wall (Z = -7.92m, opening to 4.0ft North Rear Balcony / Gali)
+        { id: `${floorId}_w_n`, start: { x: -4.57, y: -7.92 }, end: { x: 4.57, y: -7.92 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
         // East Boundary (Party Wall)
-        { id: `${floorId}_w_e`, start: { x: 4.57, y: -7.8 }, end: { x: 4.57, y: 7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
+        { id: `${floorId}_w_e`, start: { x: 4.57, y: -7.92 }, end: { x: 4.57, y: 7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
         // South Front Wall (Z = 7.8m, opening to South Shaded Balcony)
         { id: `${floorId}_w_s`, start: { x: 4.57, y: 7.8 }, end: { x: -4.57, y: 7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
         // West Boundary (Party Wall)
-        { id: `${floorId}_w_w`, start: { x: -4.57, y: 7.8 }, end: { x: -4.57, y: -7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
+        { id: `${floorId}_w_w`, start: { x: -4.57, y: 7.8 }, end: { x: -4.57, y: -7.92 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
 
         // Balcony Railings
         // South Front Shaded Balcony (4.4ft deep chhajja overhang, Z = 7.8 to 9.14m)
@@ -2580,98 +2962,102 @@ body {
         { id: `${floorId}_balc_se`, start: { x: 4.57, y: 7.8 }, end: { x: 4.57, y: 9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
         { id: `${floorId}_balc_sw`, start: { x: -4.57, y: 7.8 }, end: { x: -4.57, y: 9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
 
-        // North Rear Balcony (Z = -7.8 to -9.14m)
-        { id: `${floorId}_balc_n`, start: { x: 1.5, y: -9.14 }, end: { x: 4.57, y: -9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
-        { id: `${floorId}_balc_ne`, start: { x: 4.57, y: -7.8 }, end: { x: 4.57, y: -9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
-        { id: `${floorId}_balc_nc`, start: { x: 1.5, y: -7.8 }, end: { x: 1.5, y: -9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
+        // North Rear Balcony (Z = -7.92 to -9.14m)
+        { id: `${floorId}_balc_n`, start: { x: -4.57, y: -9.14 }, end: { x: 4.57, y: -9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
+        { id: `${floorId}_balc_ne`, start: { x: 4.57, y: -7.92 }, end: { x: 4.57, y: -9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
+        { id: `${floorId}_balc_nw`, start: { x: -4.57, y: -7.92 }, end: { x: -4.57, y: -9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
 
-        // South-West Staircase & Lift Core (Nairutya Thermal & Heavy Mass Anchor)
-        { id: `${floorId}_stair_e`, start: { x: -2.3, y: 3.2 }, end: { x: -2.3, y: 7.8 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
-        { id: `${floorId}_stair_n`, start: { x: -4.57, y: 3.2 }, end: { x: -2.3, y: 3.2 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
+        // 1. SOUTH-WEST STAIRCASE & LIFT CORE (Nairutya Thermal Anchor)
+        { id: `${floorId}_stair_e`, start: { x: -2.3, y: 3.35 }, end: { x: -2.3, y: 7.8 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
+        { id: `${floorId}_stair_n`, start: { x: -4.57, y: 3.35 }, end: { x: -2.3, y: 3.35 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
         // 5ft x 5ft Lift Shaft Wall
-        { id: `${floorId}_lift_s`, start: { x: -4.57, y: 5.0 }, end: { x: -2.8, y: 5.0 }, thickness: 0.16, height: 2.8, color: '#cbd5e1' },
-        { id: `${floorId}_lift_e`, start: { x: -2.8, y: 3.2 }, end: { x: -2.8, y: 5.0 }, thickness: 0.16, height: 2.8, color: '#cbd5e1' },
+        { id: `${floorId}_lift_s`, start: { x: -4.57, y: 5.1 }, end: { x: -2.8, y: 5.1 }, thickness: 0.16, height: 2.8, color: '#cbd5e1' },
+        { id: `${floorId}_lift_e`, start: { x: -2.8, y: 3.35 }, end: { x: -2.8, y: 5.1 }, thickness: 0.16, height: 2.8, color: '#cbd5e1' },
 
-        // 1. 🔥 AGNEYA (South-East) MODULAR KITCHEN & UTILITY
-        // Placed strictly in South-East as per Vastu (Agni Sthan)
+        // 2. 🔥 AGNEYA (South-East) MODULAR KITCHEN & UTILITY (9'1" x 14'1")
         { id: `${floorId}_kit_w`, start: { x: 1.8, y: 3.5 }, end: { x: 1.8, y: 7.8 }, thickness: 0.15, height: 2.8, color: '#f8fafc' },
         { id: `${floorId}_kit_n`, start: { x: 1.8, y: 3.5 }, end: { x: 4.57, y: 3.5 }, thickness: 0.15, height: 2.8, color: '#f8fafc' },
 
-        // 2. ✨ BRAHMASTHAN (Center) OPEN-TO-SKY (OTS) AIR & LIGHT WELL (5.2ft x 5.2ft)
-        { id: `${floorId}_ots_n`, start: { x: -0.8, y: -0.8 }, end: { x: 0.8, y: -0.8 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
-        { id: `${floorId}_ots_e`, start: { x: 0.8, y: -0.8 }, end: { x: 0.8, y: 0.8 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
-        { id: `${floorId}_ots_s`, start: { x: 0.8, y: 0.8 }, end: { x: -0.8, y: 0.8 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
-        { id: `${floorId}_ots_w`, start: { x: -0.8, y: 0.8 }, end: { x: -0.8, y: -0.8 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
+        // 3. REAR BEDROOMS ZONE (Z = -7.92 to -3.50, Depth = 4.42m = 14'-6")
+        // Divider Wall separating Rear Bedrooms from middle living zone (Z = -3.50m)
+        { id: `${floorId}_rear_front_h`, start: { x: -4.57, y: -3.5 }, end: { x: 4.57, y: -3.5 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
 
-        // 3. 🙏 ISHANYA (North-East) SACRED MANDIR / POOJA ROOM
-        // Pure spiritual North-East corner (6ft x 6ft) with North morning light
-        { id: `${floorId}_pooja_s`, start: { x: 2.6, y: -5.8 }, end: { x: 4.57, y: -5.8 }, thickness: 0.12, height: 2.8, color: '#fef08a' },
-        { id: `${floorId}_pooja_w`, start: { x: 2.6, y: -7.8 }, end: { x: 2.6, y: -5.8 }, thickness: 0.12, height: 2.8, color: '#fef08a' },
+        // Central Divider between Bed 2 (NW) and Bed 3 (NE) (at X = 0, Width = 15' each)
+        { id: `${floorId}_rear_div_v`, start: { x: 0, y: -7.92 }, end: { x: 0, y: -3.5 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
 
-        // 4. 👑 NAIRUTYA (South-West / West) MASTER BEDROOM SUITE
-        // Master of the house in South-West/West for stability and grounded leadership
-        { id: `${floorId}_mbed_e`, start: { x: -1.2, y: -2.8 }, end: { x: -1.2, y: 3.2 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
-        { id: `${floorId}_mbed_n`, start: { x: -4.57, y: -2.8 }, end: { x: -1.2, y: -2.8 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
+        // Attached Bathroom for Bedroom 2 (Vayavya NW: 6'0" x 6'0" at X = -4.57 to -2.7, Z = -7.92 to -6.1)
+        { id: `${floorId}_b2bath_e`, start: { x: -2.7, y: -7.92 }, end: { x: -2.7, y: -6.1 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
+        { id: `${floorId}_b2bath_s`, start: { x: -4.57, y: -6.1 }, end: { x: -2.7, y: -6.1 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
 
-        // Master En-suite Bath (West wall, toilet on North-South axis)
-        { id: `${floorId}_mbath_e`, start: { x: -2.8, y: -2.8 }, end: { x: -2.8, y: -0.8 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
-        { id: `${floorId}_mbath_s`, start: { x: -4.57, y: -0.8 }, end: { x: -2.8, y: -0.8 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
+        // Attached Bathroom for Bedroom 3 (East wall: 6'0" x 6'0" at X = 2.7, Z = -7.92 to -6.1)
+        { id: `${floorId}_b3bath_w`, start: { x: 2.7, y: -7.92 }, end: { x: 2.7, y: -6.1 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
+        { id: `${floorId}_b3bath_s`, start: { x: 2.7, y: -6.1 }, end: { x: 4.57, y: -6.1 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
 
-        // 5. 🌬️ VAYAVYA (North-West) BEDROOM 2 (Children / Guest)
-        // Air & movement zone in North-West
-        { id: `${floorId}_b2_div_h`, start: { x: -4.57, y: -2.8 }, end: { x: 0, y: -2.8 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
-        { id: `${floorId}_b2_div_v`, start: { x: 0, y: -7.8 }, end: { x: 0, y: -2.8 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
+        // 4. 👑 NAIRUTYA (South-West / West) PREVIOUS MASTER BEDROOM SUITE (11'3" x 19'8" = 221 sq ft)
+        // Positioned along the West wall behind the staircase from Z = -3.50 to Z = +2.50 (length = 6.0m = 19'8")
+        // Width: X = -4.57 to -1.15 (width = 3.42m = 11'3")
+        { id: `${floorId}_mbed_e`, start: { x: -1.15, y: -3.5 }, end: { x: -1.15, y: 2.5 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
+        { id: `${floorId}_mbed_s`, start: { x: -4.57, y: 2.5 }, end: { x: -1.15, y: 2.5 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
 
-        // Attached Bathroom 2 (North-West outer wall, exhaust to North gali)
-        { id: `${floorId}_b2bath_e`, start: { x: -2.6, y: -7.8 }, end: { x: -2.6, y: -5.8 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
-        { id: `${floorId}_b2bath_s`, start: { x: -4.57, y: -5.8 }, end: { x: -2.6, y: -5.8 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
+        // Master En-suite Luxury Bath (West wall: 6'0" x 6'6" at X = -4.57 to -2.75, Z = -3.5 to -1.5)
+        { id: `${floorId}_mbath_e`, start: { x: -2.75, y: -3.5 }, end: { x: -2.75, y: -1.5 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
+        { id: `${floorId}_mbath_s`, start: { x: -4.57, y: -1.5 }, end: { x: -2.75, y: -1.5 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
 
-        // 6. BEDROOM 3 / GUEST ROOM (North-East / Center-East)
-        // Located between Pooja and Dining, facing peaceful North daylight
-        { id: `${floorId}_b3_w`, start: { x: 0, y: -5.8 }, end: { x: 2.6, y: -5.8 }, thickness: 0.15, height: 2.8, color: '#f8fafc' },
+        // 5. ✨ BRAHMASTHAN (Center) OTS AIR & LIGHT WELL (5.0ft x 5.0ft = 1.5m x 1.5m)
+        { id: `${floorId}_ots_n`, start: { x: -0.7, y: -1.0 }, end: { x: 0.8, y: -1.0 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
+        { id: `${floorId}_ots_e`, start: { x: 0.8, y: -1.0 }, end: { x: 0.8, y: 0.5 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
+        { id: `${floorId}_ots_s`, start: { x: 0.8, y: 0.5 }, end: { x: -0.7, y: 0.5 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
+        { id: `${floorId}_ots_w`, start: { x: -0.7, y: 0.5 }, end: { x: -0.7, y: -1.0 }, thickness: 0.12, height: 2.8, color: '#94a3b8' },
 
-        // 7. COMMON GUEST BATHROOM (Ventilating into central OTS)
-        { id: `${floorId}_cbath_w`, start: { x: -1.2, y: -1.6 }, end: { x: -1.2, y: 0.6 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
-        { id: `${floorId}_cbath_s`, start: { x: -1.2, y: 0.6 }, end: { x: -0.8, y: 0.6 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' }
+        // 6. 🙏 ISHANYA / EAST SACRED POOJA MANDIR (5'8" x 5'6")
+        // Positioned in the auspicious East/NE quadrant of the Living-Dining Hall (X = 2.8 to 4.57, Z = 1.6 to 3.3)
+        { id: `${floorId}_pooja_w`, start: { x: 2.8, y: 1.6 }, end: { x: 2.8, y: 3.3 }, thickness: 0.12, height: 2.8, color: '#fef08a' },
+        { id: `${floorId}_pooja_n`, start: { x: 2.8, y: 1.6 }, end: { x: 4.57, y: 1.6 }, thickness: 0.12, height: 2.8, color: '#fef08a' },
+
+        // 7. COMMON GUEST POWDER ROOM (Ventilating into central OTS)
+        // Positioned at X = -0.7 to 0.8, Z = -2.3 to -1.0
+        { id: `${floorId}_cbath_n`, start: { x: -0.7, y: -2.3 }, end: { x: 0.8, y: -2.3 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
+        { id: `${floorId}_cbath_w`, start: { x: -0.7, y: -2.3 }, end: { x: -0.7, y: -1.0 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
+        { id: `${floorId}_cbath_e`, start: { x: 0.8, y: -2.3 }, end: { x: 0.8, y: -1.0 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' }
       ],
       openings: [
-        // Front Balcony French Sliding Doors from Living Room
+        // Front Balcony French Sliding Doors from Living Room (9.2 ft span)
         { id: `${floorId}_op_liv_balc`, wallId: `${floorId}_w_s`, type: 'french_window', offset: 3.2, width: 2.8, height: 2.2, elevation: 0 },
 
-        // Apartment Entrance Door from Staircase & Lift Landing
+        // Apartment Main Foyer Entrance Door from Staircase Landing
         { id: `${floorId}_op_main_dr`, wallId: `${floorId}_stair_e`, type: 'door', offset: 1.2, width: 1.05, height: 2.2, elevation: 0 },
 
-        // Kitchen Door & East Window (for morning light)
+        // Kitchen Door & South Window
         { id: `${floorId}_op_kit_dr`, wallId: `${floorId}_kit_w`, type: 'door', offset: 1.2, width: 0.9, height: 2.1, elevation: 0 },
         { id: `${floorId}_op_kit_win`, wallId: `${floorId}_w_s`, type: 'window', offset: 7.2, width: 1.5, height: 1.4, elevation: 0.8 },
 
-        // Pooja Room Mandir Door (North-East)
-        { id: `${floorId}_op_pooja_dr`, wallId: `${floorId}_pooja_s`, type: 'door', offset: 1.0, width: 0.85, height: 2.1, elevation: 0 },
-
-        // Master Bedroom Door & Windows (South-West)
+        // Master Bedroom Door (Nairutya/SW) & Bath Door
         { id: `${floorId}_op_mbed_dr`, wallId: `${floorId}_mbed_e`, type: 'door', offset: 1.2, width: 0.95, height: 2.1, elevation: 0 },
-        { id: `${floorId}_op_mbed_ots_win`, wallId: `${floorId}_mbed_e`, type: 'window', offset: 4.2, width: 1.4, height: 1.4, elevation: 0.8 },
         { id: `${floorId}_op_mbath_dr`, wallId: `${floorId}_mbath_s`, type: 'door', offset: 0.9, width: 0.8, height: 2.1, elevation: 0 },
 
-        // Bedroom 2 Door & Window (North-West)
-        { id: `${floorId}_op_b2_dr`, wallId: `${floorId}_b2_div_h`, type: 'door', offset: 3.2, width: 0.95, height: 2.1, elevation: 0 },
-        { id: `${floorId}_op_b2_win`, wallId: `${floorId}_w_n`, type: 'window', offset: 6.8, width: 1.8, height: 1.4, elevation: 0.8 },
-        { id: `${floorId}_op_b2bath_dr`, wallId: `${floorId}_b2bath_s`, type: 'door', offset: 1.0, width: 0.8, height: 2.1, elevation: 0 },
+        // Bedroom 2 (NW - 15' x 14'6") Door, Window to North Gali & Bath Door
+        { id: `${floorId}_op_b2_dr`, wallId: `${floorId}_rear_front_h`, type: 'door', offset: 2.0, width: 0.95, height: 2.1, elevation: 0 },
+        { id: `${floorId}_op_b2_win`, wallId: `${floorId}_w_n`, type: 'window', offset: 2.2, width: 1.8, height: 1.4, elevation: 0.8 },
+        { id: `${floorId}_op_b2bath_dr`, wallId: `${floorId}_b2bath_s`, type: 'door', offset: 0.9, width: 0.8, height: 2.1, elevation: 0 },
 
-        // Bedroom 3 Door & Window to North Balcony
-        { id: `${floorId}_op_b3_dr`, wallId: `${floorId}_b3_w`, type: 'door', offset: 1.2, width: 0.9, height: 2.1, elevation: 0 },
-        { id: `${floorId}_op_b3_balc_dr`, wallId: `${floorId}_w_n`, type: 'door', offset: 2.2, width: 0.85, height: 2.1, elevation: 0 },
+        // Bedroom 3 (NE - 15' x 14'6") Door, Window to North Balcony & Bath Door
+        { id: `${floorId}_op_b3_dr`, wallId: `${floorId}_rear_front_h`, type: 'door', offset: 6.6, width: 0.95, height: 2.1, elevation: 0 },
+        { id: `${floorId}_op_b3_win`, wallId: `${floorId}_w_n`, type: 'window', offset: 6.8, width: 1.8, height: 1.4, elevation: 0.8 },
+        { id: `${floorId}_op_b3bath_dr`, wallId: `${floorId}_b3bath_s`, type: 'door', offset: 0.9, width: 0.8, height: 2.1, elevation: 0 },
 
-        // Common Bathroom Door
-        { id: `${floorId}_op_cbath_dr`, wallId: `${floorId}_cbath_s`, type: 'door', offset: 0.3, width: 0.75, height: 2.1, elevation: 0 }
+        // Pooja Room Mandir Door (Facing West to Living Hall)
+        { id: `${floorId}_op_pooja_dr`, wallId: `${floorId}_pooja_w`, type: 'door', offset: 0.85, width: 0.85, height: 2.1, elevation: 0 },
+
+        // Common Powder Room Door
+        { id: `${floorId}_op_cbath_dr`, wallId: `${floorId}_cbath_n`, type: 'door', offset: 0.7, width: 0.75, height: 2.1, elevation: 0 }
       ],
       rooms: [
         {
           id: `${floorId}_rm_living`,
-          name: 'Drawing & Living Lounge',
+          name: 'Grand Drawing & Living Lounge',
           floorMaterial: 'marble',
           floorColor: '#f8fafc',
-          bounds: { minX: -2.3, maxX: 1.8, minY: 3.2, maxY: 7.8 }
+          bounds: { minX: -2.3, maxX: 1.8, minY: 3.35, maxY: 7.8 }
         },
         {
           id: `${floorId}_rm_kitchen`,
@@ -2688,71 +3074,85 @@ body {
           bounds: { minX: -4.57, maxX: 4.57, minY: 7.8, maxY: 9.14 }
         },
         {
+          id: `${floorId}_rm_balcony_n`,
+          name: 'North Rear Balcony / Gali',
+          floorMaterial: 'tile',
+          floorColor: '#334155',
+          bounds: { minX: -4.57, maxX: 4.57, minY: -9.14, maxY: -7.92 }
+        },
+        {
           id: `${floorId}_rm_pooja`,
-          name: '🙏 Sacred Mandir (Ishanya/NE)',
+          name: '🙏 Sacred Mandir (Ishanya / East)',
           floorMaterial: 'marble',
           floorColor: '#fef08a',
-          bounds: { minX: 2.6, maxX: 4.57, minY: -7.8, maxY: -5.8 }
+          bounds: { minX: 2.8, maxX: 4.57, minY: 1.6, maxY: 3.3 }
         },
         {
           id: `${floorId}_rm_dining`,
-          name: 'Central Dining & Brahmasthan',
+          name: 'Central Family Lounge & Dining',
           floorMaterial: 'marble',
           floorColor: '#f8fafc',
-          bounds: { minX: -1.2, maxX: 1.8, minY: 0.8, maxY: 3.2 }
+          bounds: { minX: -1.15, maxX: 1.8, minY: 0.5, maxY: 3.35 }
         },
         {
           id: `${floorId}_rm_mbed`,
-          name: '👑 Master Suite (Nairutya/SW)',
+          name: '👑 Master Suite (11\'3"x19\'8" - Nairutya)',
           floorMaterial: 'oak_wood',
           floorColor: '#b45309',
-          bounds: { minX: -4.57, maxX: -1.2, minY: -2.8, maxY: 3.2 }
+          bounds: { minX: -4.57, maxX: -1.15, minY: -3.5, maxY: 2.5 }
         },
         {
           id: `${floorId}_rm_mbath`,
-          name: 'Master En-suite Bath',
+          name: 'Master En-suite Luxury Bath',
           floorMaterial: 'tile',
           floorColor: '#475569',
-          bounds: { minX: -4.57, maxX: -2.8, minY: -2.8, maxY: -0.8 }
+          bounds: { minX: -4.57, maxX: -2.75, minY: -3.5, maxY: -1.5 }
         },
         {
           id: `${floorId}_rm_bed2`,
-          name: '🌬️ Bedroom 2 (Vayavya/NW)',
+          name: '🌬️ Bedroom 2 (15\'x14\'6" - Vayavya/NW)',
           floorMaterial: 'oak_wood',
           floorColor: '#b45309',
-          bounds: { minX: -4.57, maxX: 0, minY: -7.8, maxY: -2.8 }
+          bounds: { minX: -4.57, maxX: 0, minY: -7.92, maxY: -3.5 }
         },
         {
           id: `${floorId}_rm_bed2bath`,
           name: 'Attached Bath 2',
           floorMaterial: 'tile',
           floorColor: '#475569',
-          bounds: { minX: -4.57, maxX: -2.6, minY: -7.8, maxY: -5.8 }
+          bounds: { minX: -4.57, maxX: -2.7, minY: -7.92, maxY: -6.1 }
         },
         {
           id: `${floorId}_rm_bed3`,
-          name: 'Bedroom 3 (North Light)',
+          name: '🛏️ Bedroom 3 (15\'x14\'6" - North-East)',
           floorMaterial: 'oak_wood',
           floorColor: '#b45309',
-          bounds: { minX: 0, maxX: 2.6, minY: -7.8, maxY: -2.8 }
+          bounds: { minX: 0, maxX: 4.57, minY: -7.92, maxY: -3.5 }
+        },
+        {
+          id: `${floorId}_rm_bed3bath`,
+          name: 'Attached Bath 3',
+          floorMaterial: 'tile',
+          floorColor: '#475569',
+          bounds: { minX: 2.7, maxX: 4.57, minY: -7.92, maxY: -6.1 }
         },
         {
           id: `${floorId}_rm_cbath`,
           name: 'Common Guest Toilet (OTS)',
           floorMaterial: 'tile',
           floorColor: '#475569',
-          bounds: { minX: -1.2, maxX: -0.8, minY: -1.6, maxY: 0.6 }
+          bounds: { minX: -0.7, maxX: 0.8, minY: -2.3, maxY: -1.0 }
         },
         {
           id: `${floorId}_rm_stair`,
           name: 'SW Staircase & 5x5 Lift Core',
           floorMaterial: 'tile',
           floorColor: '#1e293b',
-          bounds: { minX: -4.57, maxX: -2.3, minY: 3.2, maxY: 7.8 }
+          bounds: { minX: -4.57, maxX: -2.3, minY: 3.35, maxY: 7.8 }
         }
       ],
       furniture: [
-        // LIVING ROOM
+        // GRAND LIVING & LOUNGE
         {
           id: `${floorId}_f_sofa`,
           typeId: 'sofa_sectional',
@@ -2767,7 +3167,7 @@ body {
           typeId: 'coffee_table_wood',
           name: 'Oak Coffee Table',
           category: 'living',
-          position: { x: -0.2, y: 0, z: 5.6 },
+          position: { x: -0.2, y: 0, z: 5.4 },
           rotation: { y: 0 },
           color: '#b45309'
         },
@@ -2776,7 +3176,7 @@ body {
           typeId: 'tv_console',
           name: 'Media Console & 65" TV',
           category: 'living',
-          position: { x: -0.2, y: 0, z: 3.5 },
+          position: { x: -0.2, y: 0, z: 3.6 },
           rotation: { y: 0 },
           color: '#1e293b'
         },
@@ -2818,35 +3218,35 @@ body {
           color: '#94a3b8'
         },
 
-        // CENTRAL DINING AT BRAHMASTHAN
+        // CENTRAL DINING & LOUNGE AT BRAHMASTHAN
         {
           id: `${floorId}_f_dining`,
           typeId: 'dining_table_6',
           name: '6-Seater Dining Set',
           category: 'kitchen',
-          position: { x: 0.3, y: 0, z: 2.0 },
+          position: { x: 0.3, y: 0, z: 1.8 },
           rotation: { y: 0 },
           color: '#78350f'
         },
 
-        // 🙏 ISHANYA MANDIR
+        // 🙏 ISHANYA / EAST MANDIR
         {
           id: `${floorId}_f_mandir_art`,
           typeId: 'wall_art_large',
           name: 'Om & Deity Altar',
           category: 'decor',
-          position: { x: 3.6, y: 0, z: -7.7 },
+          position: { x: 3.6, y: 0, z: 1.7 },
           rotation: { y: 0 },
           color: '#f59e0b'
         },
 
-        // 👑 NAIRUTYA MASTER BEDROOM: Headboard on South wall (Sleeping head towards South)
+        // 👑 NAIRUTYA MASTER BEDROOM SUITE (11'3" x 19'8" - Previous Beloved Layout)
         {
           id: `${floorId}_f_mbed`,
           typeId: 'bed_king',
           name: 'King Bed (Head towards South)',
           category: 'bedroom',
-          position: { x: -2.8, y: 0, z: 1.8 },
+          position: { x: -2.8, y: 0, z: 1.2 },
           rotation: { y: 0 },
           color: '#334155'
         },
@@ -2855,7 +3255,7 @@ body {
           typeId: 'nightstand',
           name: 'Bedside Nightstand',
           category: 'bedroom',
-          position: { x: -4.0, y: 0, z: 2.6 },
+          position: { x: -4.0, y: 0, z: 2.0 },
           rotation: { y: 0 },
           color: '#1e293b'
         },
@@ -2864,16 +3264,16 @@ body {
           typeId: 'nightstand',
           name: 'Bedside Nightstand',
           category: 'bedroom',
-          position: { x: -1.6, y: 0, z: 2.6 },
+          position: { x: -1.6, y: 0, z: 2.0 },
           rotation: { y: 0 },
           color: '#1e293b'
         },
         {
           id: `${floorId}_f_mward`,
           typeId: 'wardrobe_3door',
-          name: 'Wardrobe (West Wall)',
+          name: 'Master Wardrobe (West Wall)',
           category: 'bedroom',
-          position: { x: -4.2, y: 0, z: 0 },
+          position: { x: -4.2, y: 0, z: -0.4 },
           rotation: { y: Math.PI / 2 },
           color: '#1e293b'
         },
@@ -2882,7 +3282,7 @@ body {
           typeId: 'bathtub_freestanding',
           name: 'Luxury Soaking Tub',
           category: 'bathroom',
-          position: { x: -3.7, y: 0, z: -2.0 },
+          position: { x: -3.7, y: 0, z: -2.5 },
           rotation: { y: 0 }
         },
         {
@@ -2890,17 +3290,17 @@ body {
           typeId: 'bathroom_vanity',
           name: 'Vanity Sink',
           category: 'bathroom',
-          position: { x: -3.2, y: 0, z: -1.1 },
+          position: { x: -3.2, y: 0, z: -1.8 },
           rotation: { y: Math.PI }
         },
 
-        // 🌬️ VAYAVYA BEDROOM 2 (North-West)
+        // 🌬️ VAYAVYA BEDROOM 2 (15' x 14'6"): King Bed with head towards South
         {
           id: `${floorId}_f_b2bed`,
           typeId: 'bed_king',
           name: 'King Bed (Head towards South)',
           category: 'bedroom',
-          position: { x: -1.2, y: 0, z: -4.2 },
+          position: { x: -1.2, y: 0, z: -4.8 },
           rotation: { y: 0 },
           color: '#475569'
         },
@@ -2909,7 +3309,7 @@ body {
           typeId: 'wardrobe_3door',
           name: 'Wardrobe',
           category: 'bedroom',
-          position: { x: -0.3, y: 0, z: -5.0 },
+          position: { x: -0.3, y: 0, z: -5.6 },
           rotation: { y: -Math.PI / 2 },
           color: '#1e293b'
         },
@@ -2930,13 +3330,13 @@ body {
           rotation: { y: 0 }
         },
 
-        // BEDROOM 3 / GUEST ROOM
+        // 🛏️ BEDROOM 3 (15' x 14'6" - North-East): Spacious King Bed & Study
         {
           id: `${floorId}_f_b3bed`,
-          typeId: 'bed_single',
-          name: 'Single Bed',
+          typeId: 'bed_king',
+          name: 'King Bed (Head towards South)',
           category: 'bedroom',
-          position: { x: 1.3, y: 0, z: -4.2 },
+          position: { x: 1.4, y: 0, z: -4.8 },
           rotation: { y: 0 },
           color: '#0d9488'
         },
@@ -2945,18 +3345,43 @@ body {
           typeId: 'study_desk',
           name: 'Study Desk (Facing East)',
           category: 'bedroom',
-          position: { x: 2.2, y: 0, z: -3.2 },
+          position: { x: 0.5, y: 0, z: -3.8 },
           rotation: { y: -Math.PI / 2 },
           color: '#b45309'
         },
+        {
+          id: `${floorId}_f_b3ward`,
+          typeId: 'wardrobe_3door',
+          name: 'Wardrobe',
+          category: 'bedroom',
+          position: { x: 2.2, y: 0, z: -5.6 },
+          rotation: { y: 0 },
+          color: '#1e293b'
+        },
+        {
+          id: `${floorId}_f_b3shower`,
+          typeId: 'shower_cabin',
+          name: 'Shower Cabin',
+          category: 'bathroom',
+          position: { x: 4.0, y: 0, z: -7.2 },
+          rotation: { y: 0 }
+        },
+        {
+          id: `${floorId}_f_b3toilet`,
+          typeId: 'toilet_modern',
+          name: 'Toilet (North-South Axis)',
+          category: 'bathroom',
+          position: { x: 3.2, y: 0, z: -7.2 },
+          rotation: { y: 0 }
+        },
 
-        // COMMON TOILET (North-South commode axis)
+        // COMMON POWDER ROOM
         {
           id: `${floorId}_f_ctoilet`,
           typeId: 'toilet_modern',
           name: 'Toilet (N-S Axis)',
           category: 'bathroom',
-          position: { x: -1.0, y: 0, z: -0.5 },
+          position: { x: 0.0, y: 0, z: -1.6 },
           rotation: { y: 0 }
         }
       ]
@@ -2968,7 +3393,7 @@ body {
     id: 'floor_g',
     name: 'Ground Floor (Common Stilt Parking & 2 Rear Rooms)',
     elevation: 0.0,
-    description: 'Vastu planned ground floor: South-West heavy staircase & 5x5 lift core, central-south vehicle gate, 2 rear rooms with attached baths & continuous North rear gali.',
+    description: 'Vastu planned ground floor: South-West heavy staircase & 5x5 lift core, central-south vehicle gate, 2 rear rooms (15x14-9 each) with attached baths & continuous North rear gali.',
     walls: [
       // Outer boundary (30ft x 60ft -> 9.14m x 18.29m: X from -4.57 to +4.57, Z from -9.14 to +9.14)
       { id: 'g_w_n', start: { x: -4.57, y: -9.14 }, end: { x: 4.57, y: -9.14 }, thickness: 0.22, height: 2.8, color: '#f1f5f9' },
@@ -3029,7 +3454,7 @@ body {
       },
       {
         id: 'g_rm_room1',
-        name: 'Rear Room 1 (Vayavya / Guest)',
+        name: 'Rear Room 1 (15\'x14\'-9" - Vayavya)',
         floorMaterial: 'tile',
         floorColor: '#475569',
         bounds: { minX: -4.57, maxX: 0, minY: -8.0, maxY: -3.5 }
@@ -3043,7 +3468,7 @@ body {
       },
       {
         id: 'g_rm_room2',
-        name: 'Rear Room 2 (Ishanya / Peaceful)',
+        name: 'Rear Room 2 (15\'x14\'-9" - Ishanya)',
         floorMaterial: 'tile',
         floorColor: '#475569',
         bounds: { minX: 0, maxX: 4.57, minY: -8.0, maxY: -3.5 }
@@ -3078,23 +3503,16 @@ body {
         category: 'bedroom',
         position: { x: -1.2, y: 0, z: -5.8 },
         rotation: { y: 0 },
-        color: '#475569'
+        color: '#334155'
       },
       {
         id: 'g_f_ward1',
         typeId: 'wardrobe_3door',
         name: 'Wardrobe',
         category: 'bedroom',
-        position: { x: -1.2, y: 0, z: -3.8 },
-        rotation: { y: 0 }
-      },
-      {
-        id: 'g_f_toilet1',
-        typeId: 'toilet_modern',
-        name: 'Toilet (N-S Axis)',
-        category: 'bathroom',
-        position: { x: -3.5, y: 0, z: -7.2 },
-        rotation: { y: 0 }
+        position: { x: -0.3, y: 0, z: -4.5 },
+        rotation: { y: -Math.PI / 2 },
+        color: '#1e293b'
       },
       {
         id: 'g_f_bed2',
@@ -3103,64 +3521,75 @@ body {
         category: 'bedroom',
         position: { x: 3.2, y: 0, z: -5.8 },
         rotation: { y: 0 },
-        color: '#475569'
+        color: '#334155'
       },
       {
         id: 'g_f_ward2',
         typeId: 'wardrobe_3door',
         name: 'Wardrobe',
         category: 'bedroom',
-        position: { x: 3.2, y: 0, z: -3.8 },
-        rotation: { y: 0 }
-      },
-      {
-        id: 'g_f_toilet2',
-        typeId: 'toilet_modern',
-        name: 'Toilet (N-S Axis)',
-        category: 'bathroom',
-        position: { x: 1.2, y: 0, z: -7.2 },
-        rotation: { y: 0 }
-      },
-      {
-        id: 'g_f_plant1',
-        typeId: 'indoor_plant_monstera',
-        name: 'Monstera Plant',
-        category: 'decor',
-        position: { x: 4.0, y: 0, z: 8.4 },
-        rotation: { y: 0 }
+        position: { x: 4.2, y: 0, z: -4.5 },
+        rotation: { y: Math.PI / 2 },
+        color: '#1e293b'
       }
     ]
   };
 
-  // Primary 30x60 Villa Template for 2 Brothers (100% Vastu Compliant)
-  const jodhpurVastuVilla = {
-    id: 'jodhpur_30x60_villa',
-    name: '30x60 Hindu Vastu Villa (G+2 for 2 Brothers)',
-    description: '100% Hindu Vastu compliant South-facing 30x60 design: Agneya (SE) Kitchen (cook facing East), Ishanya (NE) Pooja Mandir, Nairutya (SW) Master Suite (head South), and central Brahmasthan OTS stack chimney.',
-    preview: '🕉️',
-    plot: {
-      widthFeet: 30,
-      depthFeet: 60,
-      widthM: 9.14,
-      depthM: 18.29,
-      facing: 'South'
-    },
-    currentFloorIndex: 0,
-    floors: [
-      groundFloorVastu,
-      createVastuBrother3BHK('floor_1', '1st Floor (Brother 1 - Vastu 3BHK)', 3.0),
-      createVastuBrother3BHK('floor_2', '2nd Floor (Brother 2 - Vastu 3BHK)', 6.0)
-    ]
+  // Rooftop Terrace Floor
+  const terraceFloor = {
+    id: 'floor_terrace',
+    name: 'Terrace & Solar Roof',
+    elevation: 8.4,
+    description: 'Rooftop terrace with 3.5ft parapet walls, staircase and lift machine room tower in South-West (Nairutya highest point as per Vastu), and solar generation zone.',
+    walls: [
+      { id: 't_w_n', start: { x: -4.57, y: -9.14 }, end: { x: 4.57, y: -9.14 }, thickness: 0.22, height: 1.05, color: '#f8fafc' },
+      { id: 't_w_e', start: { x: 4.57, y: -9.14 }, end: { x: 4.57, y: 9.14 }, thickness: 0.22, height: 1.05, color: '#f8fafc' },
+      { id: 't_w_s', start: { x: 4.57, y: 9.14 }, end: { x: -4.57, y: 9.14 }, thickness: 0.22, height: 1.05, color: '#f8fafc' },
+      { id: 't_w_w', start: { x: -4.57, y: 9.14 }, end: { x: -4.57, y: -9.14 }, thickness: 0.22, height: 1.05, color: '#f8fafc' },
+      // Mumty / Staircase & Lift Tower (SW)
+      { id: 't_mumty_e', start: { x: -2.3, y: 3.2 }, end: { x: -2.3, y: 7.8 }, thickness: 0.2, height: 2.8, color: '#0284c7' },
+      { id: 't_mumty_n', start: { x: -4.57, y: 3.2 }, end: { x: -2.3, y: 3.2 }, thickness: 0.2, height: 2.8, color: '#0284c7' },
+      { id: 't_mumty_s', start: { x: -4.57, y: 7.8 }, end: { x: -2.3, y: 7.8 }, thickness: 0.2, height: 2.8, color: '#0284c7' }
+    ],
+    openings: [
+      { id: 't_op_mumty_dr', wallId: 't_mumty_e', type: 'door', offset: 1.2, width: 1.0, height: 2.1, elevation: 0 }
+    ],
+    rooms: [
+      {
+        id: 't_rm_open',
+        name: 'Open Sky Rooftop & Solar Zone',
+        floorMaterial: 'tile',
+        floorColor: '#e2e8f0',
+        bounds: { minX: -4.57, maxX: 4.57, minY: -9.14, maxY: 9.14 }
+      }
+    ],
+    furniture: []
   };
 
-  const TEMPLATES = [
-    jodhpurVastuVilla
+  const templates = [
+    {
+      id: 'jodhpur_vastu_30x60',
+      name: '30\'×60\' Jodhpur South-Facing Villa (G+2)',
+      description: 'Complete 3-story architectural solution: Stilt parking + 2 rear rooms with attached gali on ground; two identical luxury 3BHKs with spacious Living Hall (~330 sq ft), previous Master Suite (11\'3"x19\'8"), Bedroom 3 (15x14\'6"), Agni kitchen, Ishanya Pooja, and central OTS stack ventilation.',
+      plotDimensions: { width: 9.14, length: 18.29 }, // 30ft x 60ft
+      facing: 'South',
+      floors: [
+        groundFloorVastu,
+        createVastuBrother3BHK('floor_1', '1st Floor (Brother 1 Residence - 3BHK)', 2.8),
+        createVastuBrother3BHK('floor_2', '2nd Floor (Brother 2 Residence - 3BHK)', 5.6),
+        terraceFloor
+      ]
+    }
   ];
 
   window.HouseTemplates = {
-    getAll: function() { return TEMPLATES; },
-    getById: function(id) { return TEMPLATES.find(t => t.id === id); },
-    getDefault: function() { return jodhpurVastuVilla; }
+    templates,
+    getTemplateById(id) {
+      return templates.find(t => t.id === id) || templates[0];
+    },
+    getDefaultTemplate() {
+      return templates[0];
+    }
   };
 })(window);
 
@@ -4803,7 +5232,7 @@ body {
     constructor() {
       this.projectData = null;
       this.activeFloorIndex = 0; // 0: Ground, 1: 1st Floor, 2: 2nd Floor, -1: Multi-Floor 3D Stack
-      this.viewMode = '2d_plan'; // '2d_plan', '3d_orbit', '3d_walk'
+      this.viewMode = '3d_orbit'; // '2d_plan', '3d_orbit', '3d_walk'
       this.selectedObject = null;
       this.undoStack = [];
       this.redoStack = [];
@@ -4845,8 +5274,17 @@ body {
       this.updateStatusSummary();
 
       // Initial render
+            // Initial render in 3D Orbit view
       this.floorplan2D.render();
       this.scene3D.rebuildScene(this.projectData);
+      
+      // Auto-collapse sidebars for a clean, spacious 3D viewport
+      const leftSb = document.getElementById('left-sidebar');
+      if (leftSb) leftSb.classList.add('collapsed');
+      const rightSb = document.getElementById('right-sidebar');
+      if (rightSb) rightSb.classList.add('collapsed');
+      
+      this.setViewMode('3d_orbit');
     }
 
     getActiveFloor() {
@@ -5084,10 +5522,18 @@ body {
     // =========================================================================
     // SELECTION & INSPECTOR
     // =========================================================================
-    selectObject(obj) {
+        selectObject(obj) {
       this.selectedObject = obj;
       if (this.floorplan2D) {
         this.floorplan2D.selectedObject = obj;
+      }
+      const rightSb = document.getElementById('right-sidebar');
+      if (rightSb) {
+        if (obj) {
+          rightSb.classList.remove('collapsed');
+        } else {
+          rightSb.classList.add('collapsed');
+        }
       }
       this.renderInspector();
     }
@@ -5387,7 +5833,53 @@ body {
       });
     }
 
+
+    toggleLeftSidebar() {
+      const sb = document.getElementById('left-sidebar');
+      if (sb) {
+        sb.classList.toggle('collapsed');
+      }
+    }
+
+    closeInspector() {
+      this.selectObject(null);
+      const sb = document.getElementById('right-sidebar');
+      if (sb) sb.classList.add('collapsed');
+    }
+
+    openRoomSizesModal() {
+      const m = document.getElementById('room-sizes-modal');
+      if (m) m.classList.add('active');
+    }
+
+    closeRoomSizesModal() {
+      const m = document.getElementById('room-sizes-modal');
+      if (m) m.classList.remove('active');
+    }
+
     setupUI() {
+      // Toggle Left Sidebar (Drawer)
+      const btnToggleCat = document.getElementById('btn-toggle-catalog');
+      if (btnToggleCat) btnToggleCat.addEventListener('click', () => this.toggleLeftSidebar());
+      const btnCloseCat = document.getElementById('btn-close-catalog');
+      if (btnCloseCat) btnCloseCat.addEventListener('click', () => this.toggleLeftSidebar());
+
+      // Close Right Inspector
+      const btnCloseInsp = document.getElementById('btn-close-inspector');
+      if (btnCloseInsp) btnCloseInsp.addEventListener('click', () => this.closeInspector());
+
+      // Room Sizes Modal
+      const btnRoomSizes = document.getElementById('btn-room-sizes');
+      if (btnRoomSizes) btnRoomSizes.addEventListener('click', () => this.openRoomSizesModal());
+      const btnCloseRoomSizes = document.getElementById('modal-close-room-sizes');
+      if (btnCloseRoomSizes) btnCloseRoomSizes.addEventListener('click', () => this.closeRoomSizesModal());
+      const roomSizesModal = document.getElementById('room-sizes-modal');
+      if (roomSizesModal) {
+        roomSizesModal.addEventListener('click', (e) => {
+          if (e.target === roomSizesModal) this.closeRoomSizesModal();
+        });
+      }
+
       // 1. Floor Navigation Bar Buttons
       document.querySelectorAll('.floor-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
