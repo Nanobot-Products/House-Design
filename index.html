@@ -3047,32 +3047,33 @@ body {
 (function(window) {
   'use strict';
 
-  // Helper to build identical 100% Vastu Compliant 3BHK floor for each brother
+  // Helper to build identical 100% Vastu Compliant 3BHK floor with Shaded Pergola Rain Lounge
   // Updates:
-  // 1. MASTER SUITE IN FRONT (South-West / Nairutya): 12'0" x 19'9" (237 sq ft) with attached bath (6'0"x7'0") and direct sliding glass door opening onto South Shaded Balcony.
-  // 2. STAIRCASE & 5x5 LIFT CORE IN BACK/MIDDLE-WEST: Dog-legged RCC stairs + lift shaft shifted to West wall (Z = -3.50 to 1.80).
-  // 3. 100% FLUSH GUEST TOILET & CENTRAL OTS: Built flush against Staircase East wall and Bedroom 2 South wall with zero corridor protrusion.
-  // 4. COMMON NORTH REAR GALI on all floors with direct access doors.
-  // 5. GRAND OPEN LIVING HALL (~350 sq ft) with zero furniture clutter.
+  // 1. 🌿 SHADED PERGOLA RAIN LOUNGE (Front SW): 12'0" x 11'3" (135 sq ft) open green pavilion with glass shed canopy, wooden deck, and raised tropical planter boxes to sit & chill in rainy days.
+  // 2. 👑 MASTER SUITE (Nairutya / SW): 12'0" x 13'0" (156 sq ft) with luxury en-suite bath (6'0"x7'0") and full-height sliding glass doors opening directly onto the green rain garden.
+  // 3. 🪜 STAIRCASE & 5x5 LIFT CORE IN MIDDLE-WEST: Dedicated RCC dog-legged staircase (18 risers, landing, handrail) + lift shaft on West wall (Z = -3.50 to 1.80).
+  // 4. 📐 100% FLUSH GUEST TOILET & CENTRAL OTS: Built flush against Staircase East wall with zero corridor protrusion.
+  // 5. 🌬️ COMMON NORTH REAR GALI on all floors with direct access doors.
+  // 6. 🛋️ GRAND OPEN LIVING HALL (~350 sq ft) with front balcony slider.
   function createVastuBrother3BHK(floorId, floorName, elevation) {
     return {
       id: floorId,
       name: floorName,
       elevation: elevation,
-      description: '100% Hindu Vastu 3BHK: Front Nairutya Master Suite (12\'0"x19\'9") with direct balcony access, West-shifted Staircase & Lift Core, 100% Flush Guest Toilet & OTS, Private Entrance Foyer, Grand Open Living Hall (~350 sq ft), Common North Gali with direct doors, and 15x14\'6" rear bedrooms.',
+      description: '100% Hindu Vastu 3BHK: Shaded Pergola Rain Lounge (12\'0"x11\'3") with glass shed & planters, Front Nairutya Master Suite (12\'0"x13\'0") with garden slider, West-shifted Staircase & Lift Core, 100% Flush Guest Toilet & OTS, Private Entrance Foyer, Grand Living Hall (~350 sq ft), Common North Gali with direct doors, and 15x14\'6" rear bedrooms.',
       walls: [
         // Exterior Boundary (30ft x 60ft -> 9.14m x 18.29m: X from -4.57 to +4.57, Z from -9.14 to +9.14)
         // North Wall (Z = -7.92m, opening to 4.0ft North Rear Gali with doors)
         { id: `${floorId}_w_n`, start: { x: -4.57, y: -7.92 }, end: { x: 4.57, y: -7.92 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
         // East Boundary (Party Wall)
         { id: `${floorId}_w_e`, start: { x: 4.57, y: -7.92 }, end: { x: 4.57, y: 7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
-        // South Front Wall (Z = 7.8m, opening to South Shaded Balcony)
-        { id: `${floorId}_w_s`, start: { x: -4.57, y: 7.8 }, end: { x: 4.57, y: 7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
+        // South Front Wall of Living Room & Kitchen (Z = 7.8m)
+        { id: `${floorId}_w_s`, start: { x: -0.95, y: 7.8 }, end: { x: 4.57, y: 7.8 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
         // West Boundary (Party Wall)
         { id: `${floorId}_w_w`, start: { x: -4.57, y: 7.8 }, end: { x: -4.57, y: -7.92 }, thickness: 0.22, height: 2.8, color: '#f8fafc' },
 
         // Balcony & Gali Railings
-        // South Front Shaded Balcony (4.4ft deep chhajja overhang, Z = 7.8 to 9.14m)
+        // South Front Railing (Full 30ft span: Z = 9.14m)
         { id: `${floorId}_balc_s`, start: { x: -4.57, y: 9.14 }, end: { x: 4.57, y: 9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
         { id: `${floorId}_balc_se`, start: { x: 4.57, y: 7.8 }, end: { x: 4.57, y: 9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
         { id: `${floorId}_balc_sw`, start: { x: -4.57, y: 7.8 }, end: { x: -4.57, y: 9.14 }, thickness: 0.12, height: 1.05, color: '#38bdf8' },
@@ -3101,23 +3102,31 @@ body {
         // 3. ENTRANCE PRIVACY FOYER (Prawesh Vestibule: X = -2.37 to -0.95, Z = -0.60 to 1.80)
         { id: `${floorId}_foyer_screen`, start: { x: -0.95, y: 0.60 }, end: { x: -0.95, y: 1.80 }, thickness: 0.15, height: 2.8, color: '#38bdf8' },
 
-        // 4. 👑 FRONT SOUTH-WEST (NAIRUTYA) MASTER BEDROOM SUITE (12'0" x 19'9" = 237 sq ft: X = -4.57 to -0.95, Z = 1.80 to 7.80)
+        // 4. 👑 FRONT-WEST MASTER BEDROOM SUITE (12'0" x 13'0" = 156 sq ft: X = -4.57 to -0.95, Z = 1.80 to 5.60)
         { id: `${floorId}_mbed_n`, start: { x: -2.37, y: 1.80 }, end: { x: -0.95, y: 1.80 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
-        { id: `${floorId}_mbed_e`, start: { x: -0.95, y: 1.80 }, end: { x: -0.95, y: 7.80 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
+        { id: `${floorId}_mbed_e`, start: { x: -0.95, y: 1.80 }, end: { x: -0.95, y: 5.60 }, thickness: 0.18, height: 2.8, color: '#f8fafc' },
+        { id: `${floorId}_mbed_s`, start: { x: -4.57, y: 5.60 }, end: { x: -0.95, y: 5.60 }, thickness: 0.20, height: 2.8, color: '#f8fafc' },
         // Master En-suite Luxury Attached Bath (6'0" x 7'0": X = -4.57 to -2.74, Z = 1.80 to 3.90)
         { id: `${floorId}_mbath_e`, start: { x: -2.74, y: 1.80 }, end: { x: -2.74, y: 3.90 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
         { id: `${floorId}_mbath_s`, start: { x: -4.57, y: 3.90 }, end: { x: -2.74, y: 3.90 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
 
-        // 5. 🔥 AGNEYA (South-East) MODULAR KITCHEN & UTILITY (9'1" x 14'1")
+        // 5. 🌿 SHADED PERGOLA RAIN LOUNGE & GREEN PAVILION (12'0" x 11'3" = 135 sq ft: X = -4.57 to -0.95, Z = 5.60 to 9.14)
+        // Screen / glass partition separating Rain Lounge from Living front corridor
+        { id: `${floorId}_lounge_div`, start: { x: -0.95, y: 5.60 }, end: { x: -0.95, y: 7.80 }, thickness: 0.15, height: 1.4, color: '#38bdf8' },
+        // 3D Perimeter Raised Planter Boxes with Lush Tropical Greenery
+        { id: `${floorId}_planter_w`, start: { x: -4.35, y: 5.80 }, end: { x: -4.35, y: 8.95 }, thickness: 0.35, height: 0.65, color: '#16a34a' },
+        { id: `${floorId}_planter_s`, start: { x: -4.35, y: 8.85 }, end: { x: -1.15, y: 8.85 }, thickness: 0.35, height: 0.65, color: '#16a34a' },
+
+        // 6. 🔥 AGNEYA (South-East) MODULAR KITCHEN & UTILITY (9'1" x 14'1")
         { id: `${floorId}_kit_w`, start: { x: 1.80, y: 3.50 }, end: { x: 1.80, y: 7.80 }, thickness: 0.15, height: 2.8, color: '#f8fafc' },
         { id: `${floorId}_kit_n`, start: { x: 1.80, y: 3.50 }, end: { x: 4.57, y: 3.50 }, thickness: 0.15, height: 2.8, color: '#f8fafc' },
 
-        // 6. 🙏 ISHANYA / EAST SACRED POOJA MANDIR (5'8" x 5'6")
+        // 7. 🙏 ISHANYA / EAST SACRED POOJA MANDIR (5'8" x 5'6")
         { id: `${floorId}_pooja_n`, start: { x: 2.84, y: 1.60 }, end: { x: 4.57, y: 1.60 }, thickness: 0.12, height: 2.8, color: '#fef08a' },
         { id: `${floorId}_pooja_w`, start: { x: 2.84, y: 1.60 }, end: { x: 2.84, y: 3.30 }, thickness: 0.12, height: 2.8, color: '#fef08a' },
         { id: `${floorId}_pooja_s`, start: { x: 2.84, y: 3.30 }, end: { x: 4.57, y: 3.30 }, thickness: 0.12, height: 2.8, color: '#fef08a' },
 
-        // 7. REAR BEDROOMS ZONE (Z = -7.92 to -3.50, Depth = 4.42m = 14'-6")
+        // 8. REAR BEDROOMS ZONE (Z = -7.92 to -3.50, Depth = 4.42m = 14'-6")
         // Divider Wall separating Rear Bedrooms from middle living zone (Z = -3.50m)
         { id: `${floorId}_rear_front_h`, start: { x: -4.57, y: -3.50 }, end: { x: 4.57, y: -3.50 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
 
@@ -3133,14 +3142,14 @@ body {
         { id: `${floorId}_b3bath_s`, start: { x: 2.74, y: -6.10 }, end: { x: 4.57, y: -6.10 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' }
       ],
       openings: [
-        // Master Suite Direct Sliding Glass Door to Front Balcony (6'0" span)
-        { id: `${floorId}_op_mbed_balc`, wallId: `${floorId}_w_s`, type: 'french_window', offset: 1.2, width: 1.8, height: 2.2, elevation: 0 },
+        // Master Suite Sliding French Door opening directly into Pergola Rain Lounge (6'0" span)
+        { id: `${floorId}_op_mbed_lounge`, wallId: `${floorId}_mbed_s`, type: 'french_window', offset: 0.9, width: 1.8, height: 2.2, elevation: 0 },
 
         // Grand Living Hall Sliding French Door to Front Balcony (6'0" span)
-        { id: `${floorId}_op_liv_balc`, wallId: `${floorId}_w_s`, type: 'french_window', offset: 4.37, width: 1.8, height: 2.2, elevation: 0 },
+        { id: `${floorId}_op_liv_balc`, wallId: `${floorId}_w_s`, type: 'french_window', offset: 1.2, width: 1.8, height: 2.2, elevation: 0 },
 
         // Kitchen South Window & West Door
-        { id: `${floorId}_op_kit_win`, wallId: `${floorId}_w_s`, type: 'window', offset: 7.0, width: 1.4, height: 1.4, elevation: 0.8 },
+        { id: `${floorId}_op_kit_win`, wallId: `${floorId}_w_s`, type: 'window', offset: 3.8, width: 1.4, height: 1.4, elevation: 0.8 },
         { id: `${floorId}_op_kit_dr`, wallId: `${floorId}_kit_w`, type: 'door', offset: 0.8, width: 0.9, height: 2.1, elevation: 0 },
 
         // Apartment Main Door opening from Stair Lobby into Private Foyer
@@ -3151,23 +3160,15 @@ body {
         { id: `${floorId}_op_mbath_dr`, wallId: `${floorId}_mbath_s`, type: 'door', offset: 0.9, width: 0.8, height: 2.1, elevation: 0 },
 
         // Bedroom 2 (NW - 15' x 14'6"):
-        // Interior Door from Corridor
         { id: `${floorId}_op_b2_dr`, wallId: `${floorId}_rear_front_h`, type: 'door', offset: 3.65, width: 0.90, height: 2.1, elevation: 0 },
-        // Door opening directly to COMMON NORTH REAR GALI
         { id: `${floorId}_op_b2_gali_dr`, wallId: `${floorId}_w_n`, type: 'door', offset: 1.2, width: 0.95, height: 2.2, elevation: 0 },
-        // North Window for cross-ventilation
         { id: `${floorId}_op_b2_win`, wallId: `${floorId}_w_n`, type: 'window', offset: 2.6, width: 1.4, height: 1.4, elevation: 0.8 },
-        // Bath Door
         { id: `${floorId}_op_b2bath_dr`, wallId: `${floorId}_b2bath_s`, type: 'door', offset: 0.9, width: 0.8, height: 2.1, elevation: 0 },
 
         // Bedroom 3 (NE - 15' x 14'6"):
-        // Interior Door from Corridor
         { id: `${floorId}_op_b3_dr`, wallId: `${floorId}_rear_front_h`, type: 'door', offset: 4.65, width: 0.95, height: 2.1, elevation: 0 },
-        // Door opening directly to COMMON NORTH REAR GALI
         { id: `${floorId}_op_b3_gali_dr`, wallId: `${floorId}_w_n`, type: 'door', offset: 7.8, width: 0.95, height: 2.2, elevation: 0 },
-        // North Window for morning light
         { id: `${floorId}_op_b3_win`, wallId: `${floorId}_w_n`, type: 'window', offset: 6.2, width: 1.4, height: 1.4, elevation: 0.8 },
-        // Bath Door
         { id: `${floorId}_op_b3bath_dr`, wallId: `${floorId}_b3bath_s`, type: 'door', offset: 0.9, width: 0.8, height: 2.1, elevation: 0 },
 
         // Pooja Room Mandir Door (Facing West to Living Hall)
@@ -3200,10 +3201,17 @@ body {
         },
         {
           id: `${floorId}_rm_balcony_s`,
-          name: 'South Shaded Balcony (Chhajja)',
+          name: 'South Shaded Balcony',
           floorMaterial: 'tile',
           floorColor: '#475569',
-          bounds: { minX: -4.57, maxX: 4.57, minY: 7.80, maxY: 9.14 }
+          bounds: { minX: -0.95, maxX: 4.57, minY: 7.80, maxY: 9.14 }
+        },
+        {
+          id: `${floorId}_rm_lounge`,
+          name: '🌿 Pergola Rain Lounge (12\'0"x11\'3")',
+          floorMaterial: 'oak_wood', // Outdoor timber rain deck
+          floorColor: '#b45309',
+          bounds: { minX: -4.57, maxX: -0.95, minY: 5.60, maxY: 9.14 }
         },
         {
           id: `${floorId}_rm_balcony_n`,
@@ -3221,10 +3229,10 @@ body {
         },
         {
           id: `${floorId}_rm_mbed`,
-          name: '👑 Master Suite (12\'0"x19\'9" - Front SW)',
-          floorMaterial: 'oak_wood',
-          floorColor: '#b45309',
-          bounds: { minX: -4.57, maxX: -0.95, minY: 1.80, maxY: 7.80 }
+          name: '👑 Master Suite (12\'0"x13\'0" - Nairutya)',
+          floorMaterial: 'marble',
+          floorColor: '#f8fafc',
+          bounds: { minX: -4.57, maxX: -0.95, minY: 1.80, maxY: 5.60 }
         },
         {
           id: `${floorId}_rm_mbath`,
@@ -3284,7 +3292,7 @@ body {
         }
       ],
       furniture: [
-        // Dedicated Architectural Staircase in West Core (No furniture or accessories)
+        // Dedicated Architectural Staircase in West Core
         {
           id: `${floorId}_f_stairs`,
           typeId: 'staircase_rcc',
@@ -3304,52 +3312,33 @@ body {
     elevation: 0.0,
     description: 'Vastu planned ground floor: West wall staircase & 5x5 lift core, spacious 24ft entrance court for 4 SUVs, 2 rear rooms (15x14\'6" each) with attached baths & continuous North rear gali with direct access doors.',
     walls: [
-      // Outer boundary (30ft x 60ft -> 9.14m x 18.29m: X from -4.57 to +4.57, Z from -9.14 to +9.14)
       { id: 'g_w_n', start: { x: -4.57, y: -9.14 }, end: { x: 4.57, y: -9.14 }, thickness: 0.22, height: 2.8, color: '#f1f5f9' },
       { id: 'g_w_e', start: { x: 4.57, y: -9.14 }, end: { x: 4.57, y: 9.14 }, thickness: 0.22, height: 2.8, color: '#f1f5f9' },
-      // Main Gate Pillars in Front South (giving 7.2m / 24ft clear opening!)
       { id: 'g_w_s_left', start: { x: -4.57, y: 9.14 }, end: { x: -3.6, y: 9.14 }, thickness: 0.25, height: 2.8, color: '#0284c7' },
       { id: 'g_w_s_right', start: { x: 3.6, y: 9.14 }, end: { x: 4.57, y: 9.14 }, thickness: 0.25, height: 2.8, color: '#0284c7' },
       { id: 'g_w_w', start: { x: -4.57, y: 9.14 }, end: { x: -4.57, y: -9.14 }, thickness: 0.22, height: 2.8, color: '#f1f5f9' },
 
-      // North Rear Ventilation Gali Wall (at Z = -7.92m)
       { id: 'g_w_gali_h', start: { x: -4.57, y: -7.92 }, end: { x: 4.57, y: -7.92 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
-
-      // Divider between Rear Room 1 and Rear Room 2 (at X = 0, from Z = -7.92 to -3.5m)
       { id: 'g_w_room_div_v', start: { x: 0, y: -7.92 }, end: { x: 0, y: -3.5 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
-
-      // Front wall of rear rooms (separating rooms from parking at Z = -3.5m)
       { id: 'g_w_room_front_h', start: { x: -4.57, y: -3.5 }, end: { x: 4.57, y: -3.5 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
 
-      // Attached Bathroom 1 (West wall of Room 1)
       { id: 'g_w_bath1_e', start: { x: -2.74, y: -7.92 }, end: { x: -2.74, y: -6.10 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
       { id: 'g_w_bath1_s', start: { x: -4.57, y: -6.10 }, end: { x: -2.74, y: -6.10 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
-
-      // Attached Bathroom 2 (East wall of Room 2)
       { id: 'g_w_bath2_w', start: { x: 2.74, y: -7.92 }, end: { x: 2.74, y: -6.10 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
       { id: 'g_w_bath2_s', start: { x: 2.74, y: -6.10 }, end: { x: 4.57, y: -6.10 }, thickness: 0.12, height: 2.8, color: '#e2e8f0' },
 
-      // Staircase & Lift Core (SHIFTED TO MIDDLE/REAR WEST: Z = -3.50 to 1.80)
       { id: 'g_stair_e', start: { x: -2.37, y: -3.50 }, end: { x: -2.37, y: 1.80 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
       { id: 'g_stair_s', start: { x: -4.57, y: 1.80 }, end: { x: -2.37, y: 1.80 }, thickness: 0.2, height: 2.8, color: '#f8fafc' },
-      // 5ft x 5ft Lift Shaft Wall
       { id: 'g_lift_n', start: { x: -4.57, y: 0.28 }, end: { x: -3.05, y: 0.28 }, thickness: 0.18, height: 2.8, color: '#cbd5e1' },
       { id: 'g_lift_e', start: { x: -3.05, y: 0.28 }, end: { x: -3.05, y: 1.80 }, thickness: 0.18, height: 2.8, color: '#cbd5e1' }
     ],
     openings: [
-      // Main Motorized Gate (7.2m wide span in front south)
       { id: 'g_op_gate', wallId: 'g_w_s_left', type: 'door', offset: 0.9, width: 7.2, height: 2.5, elevation: 0 },
-
-      // Staircase & Lift Lobby Entry
       { id: 'g_op_stair_dr', wallId: 'g_stair_e', type: 'door', offset: 4.0, width: 1.05, height: 2.2, elevation: 0 },
-
-      // Room 1 (North-West) Door from Parking & DOOR TO ACCESS REAR GALI
       { id: 'g_op_r1_dr', wallId: 'g_w_room_front_h', type: 'door', offset: 3.65, width: 0.95, height: 2.1, elevation: 0 },
       { id: 'g_op_r1_gali_dr', wallId: 'g_w_gali_h', type: 'door', offset: 1.2, width: 0.95, height: 2.2, elevation: 0 },
       { id: 'g_op_r1_win', wallId: 'g_w_gali_h', type: 'window', offset: 2.6, width: 1.4, height: 1.4, elevation: 0.8 },
       { id: 'g_op_b1_dr', wallId: 'g_w_bath1_s', type: 'door', offset: 0.9, width: 0.8, height: 2.1, elevation: 0 },
-
-      // Room 2 (North-East) Door from Parking & DOOR TO ACCESS REAR GALI
       { id: 'g_op_r2_dr', wallId: 'g_w_room_front_h', type: 'door', offset: 4.65, width: 0.95, height: 2.1, elevation: 0 },
       { id: 'g_op_r2_gali_dr', wallId: 'g_w_gali_h', type: 'door', offset: 7.8, width: 0.95, height: 2.2, elevation: 0 },
       { id: 'g_op_r2_win', wallId: 'g_w_gali_h', type: 'window', offset: 6.2, width: 1.4, height: 1.4, elevation: 0.8 },
@@ -3407,7 +3396,6 @@ body {
       }
     ],
     furniture: [
-      // Dedicated Architectural Staircase in West Core (No furniture or accessories)
       {
         id: 'g_f_stairs',
         typeId: 'staircase_rcc',
@@ -3430,7 +3418,6 @@ body {
       { id: 't_w_e', start: { x: 4.57, y: -9.14 }, end: { x: 4.57, y: 9.14 }, thickness: 0.22, height: 1.05, color: '#f8fafc' },
       { id: 't_w_s', start: { x: 4.57, y: 9.14 }, end: { x: -4.57, y: 9.14 }, thickness: 0.22, height: 1.05, color: '#f8fafc' },
       { id: 't_w_w', start: { x: -4.57, y: 9.14 }, end: { x: -4.57, y: -9.14 }, thickness: 0.22, height: 1.05, color: '#f8fafc' },
-      // Mumty / Staircase & Lift Tower
       { id: 't_mumty_e', start: { x: -2.37, y: -3.50 }, end: { x: -2.37, y: 1.80 }, thickness: 0.2, height: 2.8, color: '#0284c7' },
       { id: 't_mumty_n', start: { x: -4.57, y: -3.50 }, end: { x: -2.37, y: -3.50 }, thickness: 0.2, height: 2.8, color: '#0284c7' },
       { id: 't_mumty_s', start: { x: -4.57, y: 1.80 }, end: { x: -2.37, y: 1.80 }, thickness: 0.2, height: 2.8, color: '#0284c7' }
@@ -3454,13 +3441,13 @@ body {
     {
       id: 'jodhpur_vastu_30x60',
       name: '30\'×60\' Jodhpur South-Facing Villa (G+2)',
-      description: 'Complete 3-story architectural solution: Stilt parking + 2 rear rooms on ground; two identical luxury 3BHKs with Front Master Suite (12\'0"x19\'9" in Nairutya/SW) with direct balcony access, West-shifted Staircase & Lift Core, 100% Flush Guest Toilet & OTS, Private Entrance Foyer, Grand Living Hall (~350 sq ft), Common North Gali with direct doors, and 15x14\'6" rear bedrooms.',
+      description: 'Complete 3-story architectural solution: Stilt parking + 2 rear rooms on ground; two identical luxury 3BHKs with Shaded Pergola Rain Lounge (12\'0"x11\'3") with glass shed & tropical planters, Front Master Suite (12\'0"x13\'0") with garden slider, West-shifted Staircase & Lift Core, 100% Flush Guest Toilet & OTS, Private Entrance Foyer, Grand Living Hall (~350 sq ft), Common North Gali with direct doors, and 15x14\'6" rear bedrooms.',
       plotDimensions: { width: 9.14, length: 18.29 },
       facing: 'South',
       floors: [
         groundFloorVastu,
-        createVastuBrother3BHK('floor_1', '1st Floor (Brother 1 Residence - 3BHK)', 2.8),
-        createVastuBrother3BHK('floor_2', '2nd Floor (Brother 2 Residence - 3BHK)', 5.6),
+        createVastuBrother3BHK('floor_1', '1st Floor (Brother 1 Residence - 3BHK + Rain Lounge)', 2.8),
+        createVastuBrother3BHK('floor_2', '2nd Floor (Brother 2 Residence - 3BHK + Rain Lounge)', 5.6),
         terraceFloor
       ]
     }
@@ -5164,12 +5151,12 @@ body {
 
     init() {
       // 1. Purge legacy localStorage caches containing old furniture
-      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean'].forEach(k => {
+      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master'].forEach(k => {
         try { localStorage.removeItem(k); } catch (e) {}
       });
 
       // Load primary 30x60 Jodhpur Villa Template (Clean, furniture-free with SW stairs)
-      const STORAGE_KEY = 'homecraft3d_project_30x60_v6_front_master';
+      const STORAGE_KEY = 'homecraft3d_project_30x60_v7_rain_lounge';
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
@@ -5347,7 +5334,7 @@ body {
 
     autoSave() {
       try {
-        localStorage.setItem('homecraft3d_project_30x60_v5_clean', JSON.stringify(this.projectData));
+        localStorage.setItem('homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', JSON.stringify(this.projectData));
       } catch (e) {}
     }
 
