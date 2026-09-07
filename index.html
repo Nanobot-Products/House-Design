@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeCraft 3D - 100% Hindu Vastu 30x60 Villa (Jodhpur South-Facing)</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header id="top-header">
+    <div class="brand-section">
+      <div class="brand-icon">🕉️</div>
+      <div>
+        <span class="brand-title">HomeCraft 3D</span>
+        <span class="brand-badge">100% Hindu Vastu • Jodhpur 30×60</span>
+      </div>
+    </div>
+
+    <!-- Mode Switcher -->
+    <div class="view-modes">
+      <button class="mode-btn active" data-mode="2d_plan">
+        <span>📐</span>
+        <span>2D Blueprint</span>
+      </button>
+      <button class="mode-btn" data-mode="3d_orbit">
+        <span>🌐</span>
+        <span>3D Orbit View</span>
+      </button>
+      <button class="mode-btn" data-mode="3d_walk">
+        <span>🚶</span>
+        <span>Walkthrough</span>
+      </button>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button class="action-btn" id="btn-undo" title="Undo (Ctrl+Z)">↩️</button>
+      <button class="action-btn" id="btn-redo" title="Redo (Ctrl+Y)">↪️</button>
+      <button class="action-btn" id="btn-templates">📑 Templates</button>
+      <button class="action-btn" id="btn-load-project">📂 Open</button>
+      <button class="action-btn primary" id="btn-save-project">💾 Save</button>
+      <button class="action-btn" id="btn-snapshot" title="Export High-Res Image">📸 Snapshot</button>
+      <input type="file" id="file-input-load" accept=".json" style="display: none;">
+    </div>
+  </header>
+
+  <!-- Multi-Floor Level Switcher & Vastu Information Bar -->
+  <div id="floor-bar">
+    <div class="floor-tabs">
+      <button class="floor-tab-btn active" data-floor="0">
+        <span>🅿️</span>
+        <span>Ground Floor (Parking + 2 Rooms)</span>
+      </button>
+      <button class="floor-tab-btn" data-floor="1">
+        <span>🏠</span>
+        <span>1st Floor (Bro 1 - Vastu 3BHK)</span>
+      </button>
+      <button class="floor-tab-btn" data-floor="2">
+        <span>🏠</span>
+        <span>2nd Floor (Bro 2 - Vastu 3BHK)</span>
+      </button>
+      <button class="floor-tab-btn" data-floor="-1" style="border-color: #38bdf8;">
+        <span>🏢</span>
+        <span>3D Building Stack (All 3 Floors)</span>
+      </button>
+    </div>
+
+    <div class="floor-info-badge">
+      <span class="climatic-pill">🕉️ Vastu Purusha Mandala • ☀️ South Facing • 🌬️ Stack Airflow</span>
+      <span class="plot-pill">Plot: 30' × 60' (1800 sq ft)</span>
+    </div>
+  </div>
+
+  <!-- Main Workspace -->
+  <div id="workspace">
+
+    <!-- Left Sidebar: Architectural Tools & Furniture Catalog -->
+    <aside id="left-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title-row">
+          <span class="sidebar-title">Design Elements</span>
+        </div>
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="catalog-search" class="search-input" placeholder="Search furniture & fixtures...">
+        </div>
+      </div>
+
+      <!-- Architectural Drawing Tools -->
+      <div class="arch-tools-section">
+        <button class="tool-btn active" data-tool="select" title="Select & Move Objects">
+          <span class="tool-icon">👆</span>
+          <span>Select</span>
+        </button>
+        <button class="tool-btn" data-tool="wall" title="Draw Wall Segments">
+          <span class="tool-icon">🧱</span>
+          <span>Wall</span>
+        </button>
+        <button class="tool-btn" data-tool="door" title="Place Door onto Wall">
+          <span class="tool-icon">🚪</span>
+          <span>Door</span>
+        </button>
+        <button class="tool-btn" data-tool="window" title="Place Window onto Wall">
+          <span class="tool-icon">🪟</span>
+          <span>Window</span>
+        </button>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <nav class="catalog-nav">
+        <button class="cat-tab active" data-cat="all">All</button>
+        <button class="cat-tab" data-cat="living">🛋️ Living</button>
+        <button class="cat-tab" data-cat="bedroom">🛏️ Bed</button>
+        <button class="cat-tab" data-cat="kitchen">🍳 Kitchen</button>
+        <button class="cat-tab" data-cat="bathroom">🚿 Bath</button>
+        <button class="cat-tab" data-cat="decor">🌿 Decor</button>
+      </nav>
+
+      <!-- Catalog Cards Container -->
+      <div id="catalog-content" class="catalog-content">
+        <!-- Dynamically rendered by app.js -->
+      </div>
+    </aside>
+
+    <!-- Center Viewport / Canvas Container -->
+    <main id="viewport-container">
+      <!-- 2D Blueprint Canvas -->
+      <canvas id="floorplan-canvas"></canvas>
+
+      <!-- 3D Three.js Canvas Container -->
+      <div id="threejs-canvas-container"></div>
+
+      <!-- Live Drawing Hint Tooltip -->
+      <div id="drawing-hint">Click anywhere to start drawing wall.</div>
+
+      <!-- 3D Camera Quick Angles Bar -->
+      <div id="camera-quick-bar" class="camera-quick-bar">
+        <button class="cam-btn" data-preset="isometric">Perspective 3D</button>
+        <button class="cam-btn" data-preset="top">Bird's Eye Top</button>
+        <button class="cam-btn" data-preset="front">South Front Road</button>
+        <button class="cam-btn" data-preset="side">Side Elevation</button>
+      </div>
+
+      <!-- First-Person Walkthrough HUD -->
+      <div id="walkthrough-hud">
+        <div class="crosshair"></div>
+        <div class="walkthrough-instructions">
+          <span><span class="key-badge">W</span> <span class="key-badge">A</span> <span class="key-badge">S</span> <span class="key-badge">D</span> to Walk</span>
+          <span>•</span>
+          <span>Mouse to Look Around</span>
+          <span>•</span>
+          <span>Press <span class="key-badge">ESC</span> to Exit</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Sidebar: Properties & Customizer -->
+    <aside id="right-sidebar">
+      <div class="inspector-header">
+        <span class="inspector-title">Properties & Vastu Info</span>
+      </div>
+      <div id="inspector-content" class="inspector-body">
+        <!-- Dynamically populated based on selection -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- Bottom Status Bar -->
+  <footer id="status-bar">
+    <div class="status-left">
+      <div class="status-item">
+        <span>📍 Cursor:</span>
+        <span class="status-val" id="status-coords">X: 0.00m, Y: 0.00m</span>
+      </div>
+      <div class="status-item">
+        <span>📐 Floor Area:</span>
+        <span class="status-val" id="status-area">0 m²</span>
+      </div>
+    </div>
+    <div class="status-right">
+      <div class="status-item">
+        <span>⌨️ Shortcuts: <kbd>R</kbd> Rotate • <kbd>Del</kbd> Delete • <kbd>Esc</kbd> Deselect</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Template Selection Modal -->
+  <div id="templates-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Select a House Template</h3>
+        <button id="modal-close" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="template-list" class="template-card-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Libraries -->
+  <script src="js/lib/three.min.js"></script>
+  <script src="js/lib/OrbitControls.js"></script>
+  <script src="js/lib/PointerLockControls.js"></script>
+
+  <!-- Application Modules -->
+  <script src="js/furnitureCatalog.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/floorplan2d.js"></script>
+  <script src="js/scene3d.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
