@@ -2934,6 +2934,100 @@ body {
           ctx.stroke();
         }
       }
+    },
+    {
+      id: 'staircase_rcc',
+      name: 'RCC Dog-Legged Staircase (7\'6" Core)',
+      category: 'stairs',
+      icon: '🪜',
+      width: 2.2,
+      depth: 4.2,
+      height: 2.9,
+      defaultColor: '#e2e8f0',
+      createMesh: function(options = {}) {
+        const group = new THREE.Group();
+        group.name = 'staircase_rcc';
+        const treadMat = createMat(options.color || '#e2e8f0', 0.5, 0.1);
+        const riserMat = createMat('#cbd5e1', 0.6, 0.1);
+        const railMat = createMat('#1e293b', 0.3, 0.8);
+        const woodRailMat = createMat('#78350f', 0.4, 0.1);
+
+        const flightW = 1.05;
+        const treadDepth = 0.28;
+        const riserH = 0.16;
+        const numSteps = 9;
+
+        // Flight 1 (Rising North to South or climbing towards landing)
+        for (let i = 0; i < numSteps; i++) {
+          const stepY = i * riserH;
+          const stepZ = (numSteps - 1 - i) * treadDepth - 0.5;
+          const stepGeo = new THREE.BoxGeometry(flightW, riserH, treadDepth);
+          const stepMesh = new THREE.Mesh(stepGeo, treadMat);
+          stepMesh.position.set(-flightW / 2 - 0.04, stepY + riserH / 2, stepZ);
+          stepMesh.castShadow = true;
+          stepMesh.receiveShadow = true;
+          group.add(stepMesh);
+        }
+
+        // Mid-landing slab (at Y = 9 * riserH = 1.44m)
+        const landingY = numSteps * riserH;
+        const landingGeo = new THREE.BoxGeometry(2.2, riserH, 1.1);
+        const landingMesh = new THREE.Mesh(landingGeo, treadMat);
+        landingMesh.position.set(0, landingY - riserH / 2, -1.8);
+        landingMesh.castShadow = true;
+        landingMesh.receiveShadow = true;
+        group.add(landingMesh);
+
+        // Flight 2 (Rising from landing back towards floor level)
+        for (let i = 0; i < numSteps; i++) {
+          const stepY = landingY + i * riserH;
+          const stepZ = -1.2 + i * treadDepth;
+          const stepGeo = new THREE.BoxGeometry(flightW, riserH, treadDepth);
+          const stepMesh = new THREE.Mesh(stepGeo, treadMat);
+          stepMesh.position.set(flightW / 2 + 0.04, stepY + riserH / 2, stepZ);
+          stepMesh.castShadow = true;
+          stepMesh.receiveShadow = true;
+          group.add(stepMesh);
+        }
+
+        // Center handrail divider & balusters
+        const railGeo = new THREE.CylinderGeometry(0.025, 0.025, 3.2, 8);
+        const railMesh = new THREE.Mesh(railGeo, woodRailMat);
+        railMesh.position.set(0, 1.8, 0);
+        railMesh.rotation.x = 0.45;
+        group.add(railMesh);
+
+        for (let b = 0; b < 6; b++) {
+          const balGeo = new THREE.CylinderGeometry(0.012, 0.012, 0.9, 8);
+          const bal = new THREE.Mesh(balGeo, railMat);
+          bal.position.set(0, 0.6 + b * 0.35, -1.2 + b * 0.5);
+          group.add(bal);
+        }
+
+        return group;
+      },
+      draw2D: function(ctx, w, d) {
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-w/2, -d/2, w, d);
+        // Center division
+        ctx.beginPath();
+        ctx.moveTo(0, -d/2);
+        ctx.lineTo(0, d/2);
+        ctx.stroke();
+        // Treads
+        for (let i = 1; i <= 9; i++) {
+          const y = -d/2 + (i / 10) * d;
+          ctx.beginPath();
+          ctx.moveTo(-w/2, y);
+          ctx.lineTo(0, y);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w/2, y);
+          ctx.stroke();
+        }
+      }
     }
   ];
 
@@ -3182,234 +3276,13 @@ body {
         }
       ],
       furniture: [
-        // GRAND OPEN LIVING & LOUNGE (Dining Table Removed - Pure Open Space!)
+        // Dedicated Architectural Staircase in South-West Core (No furniture or accessories)
         {
-          id: `${floorId}_f_sofa`,
-          typeId: 'sofa_sectional',
-          name: 'L-Shape Sectional Sofa',
-          category: 'living',
-          position: { x: -0.2, y: 0, z: 6.2 },
-          rotation: { y: Math.PI },
-          color: '#2563eb'
-        },
-        {
-          id: `${floorId}_f_coffee`,
-          typeId: 'coffee_table_wood',
-          name: 'Oak Coffee Table',
-          category: 'living',
-          position: { x: -0.2, y: 0, z: 5.4 },
-          rotation: { y: 0 },
-          color: '#b45309'
-        },
-        {
-          id: `${floorId}_f_tv`,
-          typeId: 'tv_console',
-          name: 'Media Console & 65" TV',
-          category: 'living',
-          position: { x: -0.2, y: 0, z: 3.6 },
-          rotation: { y: 0 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_lamp`,
-          typeId: 'floor_lamp',
-          name: 'Arc Floor Lamp',
-          category: 'living',
-          position: { x: 1.3, y: 0, z: 7.2 },
-          rotation: { y: 0 }
-        },
-        // Decorative Plant in Open Central Hall
-        {
-          id: `${floorId}_f_plant`,
-          typeId: 'indoor_plant_large',
-          name: 'Monstera Plant',
-          category: 'decor',
-          position: { x: 0.3, y: 0, z: 1.8 },
-          rotation: { y: 0 }
-        },
-
-        // 🔥 AGNI KITCHEN: Cooktop oriented so cook faces EAST
-        {
-          id: `${floorId}_f_kit_counter`,
-          typeId: 'kitchen_counter_base',
-          name: 'Kitchen Counter Cabinet (East)',
-          category: 'kitchen',
-          position: { x: 4.2, y: 0, z: 5.6 },
-          rotation: { y: -Math.PI / 2 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_kit_sink`,
-          typeId: 'kitchen_counter_sink',
-          name: 'Kitchen Sink (North of Counter)',
-          category: 'kitchen',
-          position: { x: 3.2, y: 0, z: 3.8 },
-          rotation: { y: 0 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_fridge`,
-          typeId: 'refrigerator',
-          name: 'Refrigerator (South-West of Kitchen)',
-          category: 'kitchen',
-          position: { x: 2.2, y: 0, z: 7.2 },
-          rotation: { y: Math.PI },
-          color: '#94a3b8'
-        },
-
-        // 🙏 ISHANYA / EAST MANDIR
-        {
-          id: `${floorId}_f_mandir_art`,
-          typeId: 'wall_art_large',
-          name: 'Om & Deity Altar',
-          category: 'decor',
-          position: { x: 3.6, y: 0, z: 1.7 },
-          rotation: { y: 0 },
-          color: '#f59e0b'
-        },
-
-        // 👑 NAIRUTYA MASTER BEDROOM SUITE (11'3" x 19'8")
-        {
-          id: `${floorId}_f_mbed`,
-          typeId: 'bed_king',
-          name: 'King Bed (Head towards South)',
-          category: 'bedroom',
-          position: { x: -2.8, y: 0, z: 1.2 },
-          rotation: { y: 0 },
-          color: '#334155'
-        },
-        {
-          id: `${floorId}_f_mnight1`,
-          typeId: 'nightstand',
-          name: 'Bedside Nightstand',
-          category: 'bedroom',
-          position: { x: -4.0, y: 0, z: 2.0 },
-          rotation: { y: 0 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_mnight2`,
-          typeId: 'nightstand',
-          name: 'Bedside Nightstand',
-          category: 'bedroom',
-          position: { x: -1.6, y: 0, z: 2.0 },
-          rotation: { y: 0 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_mward`,
-          typeId: 'wardrobe_3door',
-          name: 'Master Wardrobe (West Wall)',
-          category: 'bedroom',
-          position: { x: -4.2, y: 0, z: -0.4 },
-          rotation: { y: Math.PI / 2 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_mtub`,
-          typeId: 'bathtub_freestanding',
-          name: 'Luxury Soaking Tub',
-          category: 'bathroom',
-          position: { x: -3.7, y: 0, z: -2.5 },
-          rotation: { y: 0 }
-        },
-        {
-          id: `${floorId}_f_mvanity`,
-          typeId: 'bathroom_vanity',
-          name: 'Vanity Sink',
-          category: 'bathroom',
-          position: { x: -3.2, y: 0, z: -1.8 },
-          rotation: { y: Math.PI }
-        },
-
-        // 🌬️ VAYAVYA BEDROOM 2 (15' x 14'6"): King Bed with head towards South
-        {
-          id: `${floorId}_f_b2bed`,
-          typeId: 'bed_king',
-          name: 'King Bed (Head towards South)',
-          category: 'bedroom',
-          position: { x: -1.2, y: 0, z: -4.8 },
-          rotation: { y: 0 },
-          color: '#475569'
-        },
-        {
-          id: `${floorId}_f_b2ward`,
-          typeId: 'wardrobe_3door',
-          name: 'Wardrobe',
-          category: 'bedroom',
-          position: { x: -0.3, y: 0, z: -5.6 },
-          rotation: { y: -Math.PI / 2 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_b2shower`,
-          typeId: 'shower_cabin',
-          name: 'Shower Cabin',
-          category: 'bathroom',
-          position: { x: -4.0, y: 0, z: -7.2 },
-          rotation: { y: 0 }
-        },
-        {
-          id: `${floorId}_f_b2toilet`,
-          typeId: 'toilet_modern',
-          name: 'Toilet (North-South Axis)',
-          category: 'bathroom',
-          position: { x: -3.2, y: 0, z: -7.2 },
-          rotation: { y: 0 }
-        },
-
-        // 🛏️ BEDROOM 3 (15' x 14'6" - North-East): Spacious King Bed & Study
-        {
-          id: `${floorId}_f_b3bed`,
-          typeId: 'bed_king',
-          name: 'King Bed (Head towards South)',
-          category: 'bedroom',
-          position: { x: 1.4, y: 0, z: -4.8 },
-          rotation: { y: 0 },
-          color: '#0d9488'
-        },
-        {
-          id: `${floorId}_f_b3desk`,
-          typeId: 'study_desk',
-          name: 'Study Desk (Facing East)',
-          category: 'bedroom',
-          position: { x: 0.5, y: 0, z: -3.8 },
-          rotation: { y: -Math.PI / 2 },
-          color: '#b45309'
-        },
-        {
-          id: `${floorId}_f_b3ward`,
-          typeId: 'wardrobe_3door',
-          name: 'Wardrobe',
-          category: 'bedroom',
-          position: { x: 2.2, y: 0, z: -5.6 },
-          rotation: { y: 0 },
-          color: '#1e293b'
-        },
-        {
-          id: `${floorId}_f_b3shower`,
-          typeId: 'shower_cabin',
-          name: 'Shower Cabin',
-          category: 'bathroom',
-          position: { x: 4.0, y: 0, z: -7.2 },
-          rotation: { y: 0 }
-        },
-        {
-          id: `${floorId}_f_b3toilet`,
-          typeId: 'toilet_modern',
-          name: 'Toilet (North-South Axis)',
-          category: 'bathroom',
-          position: { x: 3.2, y: 0, z: -7.2 },
-          rotation: { y: 0 }
-        },
-
-        // COMMON POWDER ROOM
-        {
-          id: `${floorId}_f_ctoilet`,
-          typeId: 'toilet_modern',
-          name: 'Toilet (N-S Axis)',
-          category: 'bathroom',
-          position: { x: 0.0, y: 0, z: -1.6 },
+          id: `${floorId}_f_stairs`,
+          typeId: 'staircase_rcc',
+          name: 'RCC Dog-Legged Staircase (7\'6" Wide)',
+          category: 'stairs',
+          position: { x: -3.4, y: 0, z: 5.6 },
           rotation: { y: 0 }
         }
       ]
@@ -3526,41 +3399,14 @@ body {
       }
     ],
     furniture: [
+      // Dedicated Architectural Staircase in South-West Core (No furniture or accessories)
       {
-        id: 'g_f_bed1',
-        typeId: 'bed_king',
-        name: 'King Bed (Head towards South)',
-        category: 'bedroom',
-        position: { x: -1.2, y: 0, z: -5.8 },
-        rotation: { y: 0 },
-        color: '#334155'
-      },
-      {
-        id: 'g_f_ward1',
-        typeId: 'wardrobe_3door',
-        name: 'Wardrobe',
-        category: 'bedroom',
-        position: { x: -0.3, y: 0, z: -4.5 },
-        rotation: { y: -Math.PI / 2 },
-        color: '#1e293b'
-      },
-      {
-        id: 'g_f_bed2',
-        typeId: 'bed_king',
-        name: 'King Bed (Head towards South)',
-        category: 'bedroom',
-        position: { x: 3.2, y: 0, z: -5.8 },
-        rotation: { y: 0 },
-        color: '#334155'
-      },
-      {
-        id: 'g_f_ward2',
-        typeId: 'wardrobe_3door',
-        name: 'Wardrobe',
-        category: 'bedroom',
-        position: { x: 4.2, y: 0, z: -4.5 },
-        rotation: { y: Math.PI / 2 },
-        color: '#1e293b'
+        id: 'g_f_stairs',
+        typeId: 'staircase_rcc',
+        name: 'RCC Dog-Legged Staircase (7\'6" Wide)',
+        category: 'stairs',
+        position: { x: -3.4, y: 0, z: 5.6 },
+        rotation: { y: 0 }
       }
     ]
   };
@@ -5098,14 +4944,18 @@ body {
     }
 
     exitWalkthrough() {
+      if (!this.isWalkthrough) return;
       this.isWalkthrough = false;
       this.orbitControls.enabled = true;
       if (this.walkControls && this.walkControls.isLocked) {
         this.walkControls.unlock();
       }
-      document.getElementById('walkthrough-hud').style.display = 'none';
+      const hud = document.getElementById('walkthrough-hud');
+      if (hud) hud.style.display = 'none';
       this.setCameraPreset('isometric');
-      this.app.setViewMode('3d_orbit');
+      if (this.app && this.app.viewMode !== '3d_orbit') {
+        this.app.setViewMode('3d_orbit');
+      }
     }
 
     updateWalkthrough(delta) {
@@ -5133,23 +4983,33 @@ body {
       }
     }
 
-    setCameraPreset(preset) {
+    setCameraPreset(preset, instant = false) {
       if (this.isWalkthrough) return;
 
-      const duration = 800;
+      const duration = instant ? 0 : 800;
       let targetPos = { x: 12, y: 18, z: 24 };
       let targetLook = { x: 0, y: 3, z: 0 };
 
       if (preset === 'top') {
         targetPos = { x: 0, y: 35, z: 0.1 };
+        targetLook = { x: 0, y: 0, z: 0 };
       } else if (preset === 'front') {
         // South Front Road Elevation
         targetPos = { x: 0, y: 6, z: 28 };
         targetLook = { x: 0, y: 4.5, z: 0 };
       } else if (preset === 'side') {
         targetPos = { x: 26, y: 7, z: 0 };
+        targetLook = { x: 0, y: 3, z: 0 };
       } else {
         targetPos = { x: 16, y: 16, z: 22 };
+        targetLook = { x: 0, y: 3, z: 0 };
+      }
+
+      if (instant) {
+        this.camera.position.set(targetPos.x, targetPos.y, targetPos.z);
+        this.orbitControls.target.set(targetLook.x, targetLook.y, targetLook.z);
+        this.orbitControls.update();
+        return;
       }
 
       const startPos = this.camera.position.clone();
@@ -5273,9 +5133,36 @@ body {
       this.init();
     }
 
-        init() {
-      // 1. Load primary 30x60 Jodhpur Villa Template
-      const saved = localStorage.getItem('homecraft3d_project_30x60_v3');
+        sanitizeFurniture(projectData) {
+      if (!projectData || !projectData.floors) return projectData;
+      projectData.floors.forEach(fl => {
+        // Strip out all furniture & accessories (sofas, beds, tv, dining table, wardrobes, kitchen counters, etc.)
+        // Retain only the dedicated staircase in South-West core
+        fl.furniture = (fl.furniture || []).filter(item => item && item.typeId === 'staircase_rcc');
+        const hasStairs = fl.furniture.some(item => item.typeId === 'staircase_rcc');
+        if (!hasStairs && fl.id !== 'floor_terrace') {
+          fl.furniture.push({
+            id: `${fl.id}_f_stairs`,
+            typeId: 'staircase_rcc',
+            name: 'RCC Dog-Legged Staircase (7\'6" Wide)',
+            category: 'stairs',
+            position: { x: -3.4, y: 0, z: 5.6 },
+            rotation: { y: 0 }
+          });
+        }
+      });
+      return projectData;
+    }
+
+    init() {
+      // 1. Purge legacy localStorage caches containing old furniture
+      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4'].forEach(k => {
+        try { localStorage.removeItem(k); } catch (e) {}
+      });
+
+      // Load primary 30x60 Jodhpur Villa Template (Clean, furniture-free with SW stairs)
+      const STORAGE_KEY = 'homecraft3d_project_30x60_v5_clean';
+      const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
           this.projectData = JSON.parse(saved);
@@ -5289,6 +5176,9 @@ body {
       if (!this.projectData || !this.projectData.floors || this.projectData.floors.length === 0) {
         this.projectData = JSON.parse(JSON.stringify(window.HouseTemplates.getDefaultTemplate()));
       }
+
+      // Unconditionally sanitize all floors
+      this.sanitizeFurniture(this.projectData);
 
       // 2. Initialize Engines
       const canvas2d = document.getElementById('floorplan-canvas');
@@ -5315,6 +5205,21 @@ body {
         this.scene3D.rebuildScene(this.projectData);
         setTimeout(() => this.scene3D.onResize(), 50);
       }
+
+      // 4. URL parameters support (e.g. ?floor=1&view=3d_orbit&cam=top)
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('floor')) {
+          const fl = parseInt(urlParams.get('floor'));
+          this.switchFloor(fl);
+        }
+        if (urlParams.has('view')) {
+          this.setViewMode(urlParams.get('view'));
+        }
+        if (urlParams.has('cam') && this.scene3D) {
+          this.scene3D.setCameraPreset(urlParams.get('cam'), true);
+        }
+      } catch (e) {}
     }
 
     getActiveFloor() {
@@ -5368,7 +5273,7 @@ body {
       });
 
       if (mode === '2d_plan') {
-        if (this.scene3D) this.scene3D.exitWalkthrough();
+        if (this.scene3D && this.scene3D.isWalkthrough) this.scene3D.exitWalkthrough();
         if (this.activeFloorIndex === -1) {
           this.switchFloor(0);
         }
@@ -5380,7 +5285,7 @@ body {
           this.floorplan2D.render();
         }
       } else if (mode === '3d_orbit') {
-        if (this.scene3D) this.scene3D.exitWalkthrough();
+        if (this.scene3D && this.scene3D.isWalkthrough) this.scene3D.exitWalkthrough();
         if (canvas2d) canvas2d.style.display = 'none';
         if (container3d) container3d.style.display = 'block';
         if (camBar) camBar.style.display = 'flex';
@@ -5434,7 +5339,7 @@ body {
 
     autoSave() {
       try {
-        localStorage.setItem('homecraft3d_project_30x60_v3', JSON.stringify(this.projectData));
+        localStorage.setItem('homecraft3d_project_30x60_v5_clean', JSON.stringify(this.projectData));
       } catch (e) {}
     }
 
@@ -5995,7 +5900,7 @@ body {
           const data = JSON.parse(event.target.result);
           if (data && data.floors) {
             this.saveState();
-            this.projectData = data;
+            this.projectData = this.sanitizeFurniture(data);
             this.activeFloorIndex = 0;
             this.switchFloor(0);
             this.showToast('House design loaded successfully');
@@ -6030,7 +5935,7 @@ body {
         `;
         card.querySelector('.template-load-btn').addEventListener('click', () => {
           this.saveState();
-          this.projectData = JSON.parse(JSON.stringify(tmpl));
+          this.projectData = this.sanitizeFurniture(JSON.parse(JSON.stringify(tmpl)));
           this.activeFloorIndex = 0;
           this.switchFloor(0);
           this.closeTemplateModal();
