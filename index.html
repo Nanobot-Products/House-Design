@@ -508,7 +508,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 20;
-  display: none;
+  display: block;
 }
 
 .camera-quick-bar {
@@ -1354,7 +1354,7 @@ body {
       <canvas id="floorplan-canvas" style="display: none;"></canvas>
 
       <!-- 3D Three.js Canvas Container -->
-      <div id="threejs-canvas-container"></div>
+      <div id="threejs-canvas-container" style="display: block;"></div>
 
       <!-- Live Drawing Hint Tooltip -->
       <div id="drawing-hint">Click anywhere to start drawing wall.</div>
@@ -1435,15 +1435,21 @@ body {
               <th>Space / Room</th>
               <th>Dimensions</th>
               <th>Carpet Area</th>
-              <th>Vastu Zone</th>
+              <th>Vastu Zone & Details</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><b>🛋️ Grand Living & Dining Hall</b></td>
+              <td><b>🚪 Private Entrance Foyer</b></td>
+              <td>5'0" × 7'5"</td>
+              <td>37 sq ft</td>
+              <td><span class="vastu-tag sw">Entry Buffer Screen</span></td>
+            </tr>
+            <tr>
+              <td><b>🛋️ Grand Open Living Hall</b></td>
               <td>13'6" to 22'6" × 25'0"</td>
-              <td><b>~330 sq ft</b></td>
-              <td><span class="vastu-tag cen">Central Open</span></td>
+              <td><b>~350 sq ft</b></td>
+              <td><span class="vastu-tag cen">Dining Table Removed</span></td>
             </tr>
             <tr>
               <td><b>👑 Restored Master Suite</b></td>
@@ -1455,13 +1461,13 @@ body {
               <td><b>🛏️ Bedroom 3 (Study/Bed)</b></td>
               <td>15'0" × 14'6"</td>
               <td><b>217 sq ft</b></td>
-              <td><span class="vastu-tag ne">North-East</span></td>
+              <td><span class="vastu-tag ne">Door to North Gali</span></td>
             </tr>
             <tr>
               <td><b>🌬️ Bedroom 2 (Children/Bed)</b></td>
               <td>15'0" × 14'6"</td>
               <td><b>217 sq ft</b></td>
-              <td><span class="vastu-tag nw">Vayavya (NW)</span></td>
+              <td><span class="vastu-tag nw">Door to North Gali</span></td>
             </tr>
             <tr>
               <td><b>🔥 Modular Kitchen</b></td>
@@ -1488,10 +1494,10 @@ body {
               <td>South Front</td>
             </tr>
             <tr>
-              <td><b>North Rear Balcony</b></td>
+              <td><b>North Rear Common Gali</b></td>
               <td>30'0" × 4'0"</td>
               <td>120 sq ft</td>
-              <td>North Cool Air</td>
+              <td>Direct Door Access on All Floors</td>
             </tr>
           </tbody>
         </table>
@@ -1517,13 +1523,13 @@ body {
               <td><b>🛏️ Rear Room 1 + Bath</b></td>
               <td>15'0" × 14'9"</td>
               <td>221 sq ft</td>
-              <td>Vayavya (NW) with window to North gali</td>
+              <td>Door directly to North gali</td>
             </tr>
             <tr>
               <td><b>🛏️ Rear Room 2 + Bath</b></td>
               <td>15'0" × 14'9"</td>
               <td>221 sq ft</td>
-              <td>Ishanya (NE) with window to North gali</td>
+              <td>Door directly to North gali</td>
             </tr>
             <tr>
               <td><b>🌬️ North Rear Gali</b></td>
@@ -1539,6 +1545,19 @@ body {
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Selection Modal (Hidden Fallback) -->
+  <div id="templates-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Select Template</h3>
+        <button id="modal-close" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="template-list" class="template-card-grid"></div>
       </div>
     </div>
   </div>
@@ -5254,29 +5273,29 @@ body {
       this.init();
     }
 
-    init() {
+        init() {
       // 1. Load primary 30x60 Jodhpur Villa Template
       const saved = localStorage.getItem('homecraft3d_project_30x60_v3');
       if (saved) {
         try {
           this.projectData = JSON.parse(saved);
         } catch (e) {
-          this.projectData = JSON.parse(JSON.stringify(window.HouseTemplates.getDefault()));
+          this.projectData = JSON.parse(JSON.stringify(window.HouseTemplates.getDefaultTemplate()));
         }
       } else {
-        this.projectData = JSON.parse(JSON.stringify(window.HouseTemplates.getDefault()));
+        this.projectData = JSON.parse(JSON.stringify(window.HouseTemplates.getDefaultTemplate()));
       }
 
-      if (!this.projectData.floors || this.projectData.floors.length === 0) {
-        this.projectData = JSON.parse(JSON.stringify(window.HouseTemplates.getDefault()));
+      if (!this.projectData || !this.projectData.floors || this.projectData.floors.length === 0) {
+        this.projectData = JSON.parse(JSON.stringify(window.HouseTemplates.getDefaultTemplate()));
       }
 
       // 2. Initialize Engines
       const canvas2d = document.getElementById('floorplan-canvas');
-      this.floorplan2D = new window.Floorplan2D(canvas2d, this);
+      if (canvas2d) this.floorplan2D = new window.Floorplan2D(canvas2d, this);
 
       const container3d = document.getElementById('threejs-canvas-container');
-      this.scene3D = new window.Scene3D(container3d, this);
+      if (container3d) this.scene3D = new window.Scene3D(container3d, this);
 
       // 3. UI Setup
       this.setupUI();
@@ -5284,18 +5303,18 @@ body {
       this.renderInspector();
       this.updateStatusSummary();
 
-      // Initial render
-            // Initial render in 3D Orbit view
-      this.floorplan2D.render();
-      this.scene3D.rebuildScene(this.projectData);
-      
       // Auto-collapse sidebars for a clean, spacious 3D viewport
       const leftSb = document.getElementById('left-sidebar');
       if (leftSb) leftSb.classList.add('collapsed');
       const rightSb = document.getElementById('right-sidebar');
       if (rightSb) rightSb.classList.add('collapsed');
-      
+
+      // Set to 3D Orbit view and build initial scene
       this.setViewMode('3d_orbit');
+      if (this.scene3D) {
+        this.scene3D.rebuildScene(this.projectData);
+        setTimeout(() => this.scene3D.onResize(), 50);
+      }
     }
 
     getActiveFloor() {
@@ -5307,7 +5326,7 @@ body {
     // =========================================================================
     // MULTI-FLOOR NAVIGATION
     // =========================================================================
-    switchFloor(floorIndex) {
+        switchFloor(floorIndex) {
       this.activeFloorIndex = floorIndex;
 
       // Update Floor Tab Buttons
@@ -5322,11 +5341,11 @@ body {
         this.showToast('Viewing full 3-story building stack');
       } else {
         const floor = this.getActiveFloor();
-        this.showToast(`Switched to ${floor.name}`);
+        this.showToast(`Switched to ${floor ? floor.name : 'Floor'}`);
         if (this.viewMode === '2d_plan') {
-          this.floorplan2D.render();
+          if (this.floorplan2D) this.floorplan2D.render();
         } else {
-          this.scene3D.rebuildScene(this.projectData);
+          if (this.scene3D) this.scene3D.rebuildScene(this.projectData);
         }
       }
 
@@ -5337,10 +5356,7 @@ body {
     // =========================================================================
     // VIEW MODE MANAGEMENT
     // =========================================================================
-    setViewMode(mode) {
-      if (this.viewMode === mode) return;
-
-      const prevMode = this.viewMode;
+        setViewMode(mode) {
       this.viewMode = mode;
 
       const canvas2d = document.getElementById('floorplan-canvas');
@@ -5352,38 +5368,39 @@ body {
       });
 
       if (mode === '2d_plan') {
-        if (prevMode === '3d_walk') {
-          this.scene3D.exitWalkthrough();
-        }
-        // If coming from building stack, revert to single floor for 2D
+        if (this.scene3D) this.scene3D.exitWalkthrough();
         if (this.activeFloorIndex === -1) {
           this.switchFloor(0);
         }
-        canvas2d.style.display = 'block';
-        container3d.style.display = 'none';
-        camBar.style.display = 'none';
-        this.floorplan2D.resize();
-        this.floorplan2D.render();
-      } else if (mode === '3d_orbit') {
-        if (prevMode === '3d_walk') {
-          this.scene3D.exitWalkthrough();
+        if (canvas2d) canvas2d.style.display = 'block';
+        if (container3d) container3d.style.display = 'none';
+        if (camBar) camBar.style.display = 'none';
+        if (this.floorplan2D) {
+          this.floorplan2D.resize();
+          this.floorplan2D.render();
         }
-        canvas2d.style.display = 'none';
-        container3d.style.display = 'block';
-        camBar.style.display = 'flex';
-        this.scene3D.rebuildScene(this.projectData);
-        this.scene3D.onResize();
+      } else if (mode === '3d_orbit') {
+        if (this.scene3D) this.scene3D.exitWalkthrough();
+        if (canvas2d) canvas2d.style.display = 'none';
+        if (container3d) container3d.style.display = 'block';
+        if (camBar) camBar.style.display = 'flex';
+        if (this.scene3D) {
+          this.scene3D.rebuildScene(this.projectData);
+          this.scene3D.onResize();
+        }
       } else if (mode === '3d_walk') {
         if (this.activeFloorIndex === -1) {
           this.activeFloorIndex = 0;
           this.switchFloor(0);
         }
-        canvas2d.style.display = 'none';
-        container3d.style.display = 'block';
-        camBar.style.display = 'none';
-        this.scene3D.rebuildScene(this.projectData);
-        this.scene3D.onResize();
-        this.scene3D.enterWalkthrough();
+        if (canvas2d) canvas2d.style.display = 'none';
+        if (container3d) container3d.style.display = 'block';
+        if (camBar) camBar.style.display = 'none';
+        if (this.scene3D) {
+          this.scene3D.rebuildScene(this.projectData);
+          this.scene3D.onResize();
+          this.scene3D.enterWalkthrough();
+        }
       }
 
       this.renderInspector();
@@ -5868,22 +5885,22 @@ body {
       if (m) m.classList.remove('active');
     }
 
-    setupUI() {
+        setupUI() {
+      const on = (id, evt, fn) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener(evt, fn);
+      };
+
       // Toggle Left Sidebar (Drawer)
-      const btnToggleCat = document.getElementById('btn-toggle-catalog');
-      if (btnToggleCat) btnToggleCat.addEventListener('click', () => this.toggleLeftSidebar());
-      const btnCloseCat = document.getElementById('btn-close-catalog');
-      if (btnCloseCat) btnCloseCat.addEventListener('click', () => this.toggleLeftSidebar());
+      on('btn-toggle-catalog', 'click', () => this.toggleLeftSidebar());
+      on('btn-close-catalog', 'click', () => this.toggleLeftSidebar());
 
       // Close Right Inspector
-      const btnCloseInsp = document.getElementById('btn-close-inspector');
-      if (btnCloseInsp) btnCloseInsp.addEventListener('click', () => this.closeInspector());
+      on('btn-close-inspector', 'click', () => this.closeInspector());
 
       // Room Sizes Modal
-      const btnRoomSizes = document.getElementById('btn-room-sizes');
-      if (btnRoomSizes) btnRoomSizes.addEventListener('click', () => this.openRoomSizesModal());
-      const btnCloseRoomSizes = document.getElementById('modal-close-room-sizes');
-      if (btnCloseRoomSizes) btnCloseRoomSizes.addEventListener('click', () => this.closeRoomSizesModal());
+      on('btn-room-sizes', 'click', () => this.openRoomSizesModal());
+      on('modal-close-room-sizes', 'click', () => this.closeRoomSizesModal());
       const roomSizesModal = document.getElementById('room-sizes-modal');
       if (roomSizesModal) {
         roomSizesModal.addEventListener('click', (e) => {
@@ -5894,7 +5911,8 @@ body {
       // 1. Floor Navigation Bar Buttons
       document.querySelectorAll('.floor-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          this.switchFloor(parseInt(btn.dataset.floor));
+          const floorIdx = parseInt(btn.dataset.floor);
+          this.switchFloor(floorIdx);
         });
       });
 
@@ -5910,7 +5928,7 @@ body {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-          this.floorplan2D.setTool(btn.dataset.tool);
+          if (this.floorplan2D) this.floorplan2D.setTool(btn.dataset.tool);
         });
       });
 
@@ -5933,23 +5951,27 @@ body {
         });
       }
 
-      // 5. Header Actions
-      document.getElementById('btn-save-project').addEventListener('click', () => this.exportProjectJSON());
-      document.getElementById('btn-load-project').addEventListener('click', () => document.getElementById('file-input-load').click());
-      document.getElementById('file-input-load').addEventListener('change', (e) => this.handleFileLoad(e));
-      document.getElementById('btn-templates').addEventListener('click', () => this.openTemplateModal());
-      document.getElementById('btn-snapshot').addEventListener('click', () => this.takeSnapshot());
-      document.getElementById('btn-undo').addEventListener('click', () => this.undo());
-      document.getElementById('btn-redo').addEventListener('click', () => this.redo());
+      // 5. Header Actions (Safe)
+      on('btn-save-project', 'click', () => this.exportProjectJSON());
+      on('btn-load-project', 'click', () => {
+        const fi = document.getElementById('file-input-load');
+        if (fi) fi.click();
+      });
+      on('file-input-load', 'change', (e) => this.handleFileLoad(e));
+      on('btn-templates', 'click', () => this.openTemplateModal());
+      on('btn-snapshot', 'click', () => this.takeSnapshot());
+      on('btn-undo', 'click', () => this.undo());
+      on('btn-redo', 'click', () => this.redo());
 
       // 6. Camera Presets
       document.querySelectorAll('.cam-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          this.scene3D.setCameraPreset(btn.dataset.preset);
+          if (this.scene3D) this.scene3D.setCameraPreset(btn.dataset.preset);
         });
       });
 
-      document.getElementById('modal-close').addEventListener('click', () => this.closeTemplateModal());
+      // 7. Template Modal Close
+      on('modal-close', 'click', () => this.closeTemplateModal());
     }
 
     exportProjectJSON() {
