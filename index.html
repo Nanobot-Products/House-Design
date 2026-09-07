@@ -1278,6 +1278,10 @@ body {
         <span>🏠</span>
         <span>2nd Floor (Bro 2)</span>
       </button>
+      <button class="floor-tab-btn" data-floor="3" style="border-color: #10b981; color: #10b981;">
+        <span>🌿</span>
+        <span>Rooftop Terrace & Garden</span>
+      </button>
       <button class="floor-tab-btn" data-floor="-1" style="border-color: #38bdf8; color: #38bdf8;">
         <span>🏢</span>
         <span>Whole Building (3D Stack)</span>
@@ -3026,7 +3030,366 @@ body {
           ctx.stroke();
         }
       }
-    }
+    },
+    // =========================================================================
+    // ROOFTOP TERRACE OUTDOOR & LEISURE
+    // =========================================================================
+    {
+      id: 'jhoola_traditional',
+      name: 'Royal Hanging Jhoola (Indian Swing)',
+      category: 'outdoor',
+      icon: '👑',
+      width: 1.8,
+      depth: 0.9,
+      height: 2.2,
+      defaultColor: '#78350f',
+      createMesh: function(options = {}) {
+        const group = new THREE.Group();
+        group.name = 'jhoola_traditional';
+
+        const teakMat = createMat('#78350f', 0.4, 0.1);
+        const brassMat = createMat('#ca8a04', 0.2, 0.85);
+        const cushionMat = createMat('#fef08a', 0.8, 0.05);
+        const bolsterMat = createMat('#f97316', 0.75, 0.05);
+
+        // Top Mounting Crossbeam
+        const beamGeo = new THREE.BoxGeometry(2.0, 0.12, 0.12);
+        const beamMesh = new THREE.Mesh(beamGeo, teakMat);
+        beamMesh.position.set(0, 2.2, 0);
+        group.add(beamMesh);
+
+        // Brass Top Rings
+        const ringGeo = new THREE.TorusGeometry(0.06, 0.015, 8, 16);
+        const ringL = new THREE.Mesh(ringGeo, brassMat);
+        ringL.position.set(-0.7, 2.12, 0);
+        group.add(ringL);
+        const ringR = new THREE.Mesh(ringGeo, brassMat);
+        ringR.position.set(0.7, 2.12, 0);
+        group.add(ringR);
+
+        // 4 Brass Suspension Chains
+        const chainGeo = new THREE.CylinderGeometry(0.015, 0.015, 1.45, 8);
+        const chainOffsets = [
+          [-0.7, 1.35, -0.28],
+          [-0.7, 1.35, 0.28],
+          [0.7, 1.35, -0.28],
+          [0.7, 1.35, 0.28]
+        ];
+        chainOffsets.forEach(pos => {
+          const chain = new THREE.Mesh(chainGeo, brassMat);
+          chain.position.set(pos[0], pos[1], pos[2]);
+          group.add(chain);
+        });
+
+        // Swing Seat Base (Solid Teak Wood Plank)
+        const seatGeo = new THREE.BoxGeometry(1.65, 0.08, 0.75);
+        const seatMesh = new THREE.Mesh(seatGeo, teakMat);
+        seatMesh.position.set(0, 0.58, 0);
+        seatMesh.castShadow = true;
+        group.add(seatMesh);
+
+        // Carved Backrest
+        const backGeo = new THREE.BoxGeometry(1.65, 0.45, 0.06);
+        const backMesh = new THREE.Mesh(backGeo, teakMat);
+        backMesh.position.set(0, 0.82, -0.34);
+        backMesh.castShadow = true;
+        group.add(backMesh);
+
+        // Left & Right Armrests
+        const armGeo = new THREE.BoxGeometry(0.06, 0.25, 0.72);
+        const armL = new THREE.Mesh(armGeo, teakMat);
+        armL.position.set(-0.80, 0.72, 0);
+        group.add(armL);
+        const armR = new THREE.Mesh(armGeo, teakMat);
+        armR.position.set(0.80, 0.72, 0);
+        group.add(armR);
+
+        // Plush Sitting Cushion
+        const cushionGeo = new THREE.BoxGeometry(1.52, 0.10, 0.68);
+        const cushionMesh = new THREE.Mesh(cushionGeo, cushionMat);
+        cushionMesh.position.set(0, 0.65, 0.02);
+        cushionMesh.castShadow = true;
+        group.add(cushionMesh);
+
+        // End Bolster Pillows
+        const bolsterGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.60, 12);
+        const bolsterL = new THREE.Mesh(bolsterGeo, bolsterMat);
+        bolsterL.rotation.x = Math.PI / 2;
+        bolsterL.position.set(-0.68, 0.74, 0.02);
+        group.add(bolsterL);
+        const bolsterR = new THREE.Mesh(bolsterGeo, bolsterMat);
+        bolsterR.rotation.x = Math.PI / 2;
+        bolsterR.position.set(0.68, 0.74, 0.02);
+        group.add(bolsterR);
+
+        return group;
+      },
+      draw2D: function(ctx, w, d) {
+        ctx.fillStyle = '#fef3c7';
+        ctx.strokeStyle = '#78350f';
+        ctx.lineWidth = 2;
+        ctx.fillRect(-w/2, -d/2, w, d);
+        ctx.strokeRect(-w/2, -d/2, w, d);
+        // Backrest line
+        ctx.fillStyle = '#78350f';
+        ctx.fillRect(-w/2, -d/2, w, d * 0.2);
+        // Brass chain mounts
+        ctx.fillStyle = '#ca8a04';
+        [[-w*0.4, -d*0.35], [-w*0.4, d*0.35], [w*0.4, -d*0.35], [w*0.4, d*0.35]].forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p[0], p[1], 4, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        // Text
+        ctx.fillStyle = '#78350f';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('JHOOLA', 0, d * 0.15);
+      }
+    },
+    {
+      id: 'outdoor_pergola_shed',
+      name: 'Weatherproof Pergola Shed Canopy',
+      category: 'outdoor',
+      icon: '🌿',
+      width: 5.5,
+      depth: 5.5,
+      height: 2.7,
+      defaultColor: '#78350f',
+      createMesh: function(options = {}) {
+        const group = new THREE.Group();
+        group.name = 'outdoor_pergola_shed';
+
+        const pillarMat = createMat('#78350f', 0.4, 0.1);
+        const rafterMat = createMat('#92400e', 0.5, 0.1);
+        const glassMat = createMat('#fef3c7', 0.1, 0.9, true, 0.45);
+
+        const pw = 5.2;
+        const pd = 5.2;
+        const ph = 2.6;
+
+        // 4 Heavy Corner Pillars
+        const pillarGeo = new THREE.BoxGeometry(0.22, ph, 0.22);
+        const cornerOffsets = [
+          [-pw/2, ph/2, -pd/2],
+          [pw/2, ph/2, -pd/2],
+          [-pw/2, ph/2, pd/2],
+          [pw/2, ph/2, pd/2]
+        ];
+        cornerOffsets.forEach(pos => {
+          const pillar = new THREE.Mesh(pillarGeo, pillarMat);
+          pillar.position.set(pos[0], pos[1], pos[2]);
+          pillar.castShadow = true;
+          group.add(pillar);
+        });
+
+        // 4 Perimeter Header Beams
+        const beamXGeo = new THREE.BoxGeometry(pw + 0.5, 0.18, 0.16);
+        const bNorth = new THREE.Mesh(beamXGeo, pillarMat);
+        bNorth.position.set(0, ph + 0.05, -pd/2);
+        group.add(bNorth);
+        const bSouth = new THREE.Mesh(beamXGeo, pillarMat);
+        bSouth.position.set(0, ph + 0.05, pd/2);
+        group.add(bSouth);
+
+        const beamZGeo = new THREE.BoxGeometry(0.16, 0.18, pd + 0.5);
+        const bWest = new THREE.Mesh(beamZGeo, pillarMat);
+        bWest.position.set(-pw/2, ph + 0.05, 0);
+        group.add(bWest);
+        const bEast = new THREE.Mesh(beamZGeo, pillarMat);
+        bEast.position.set(pw/2, ph + 0.05, 0);
+        group.add(bEast);
+
+        // Horizontal Shade Rafters (8 rafters along Z)
+        const rafterGeo = new THREE.BoxGeometry(pw + 0.4, 0.12, 0.08);
+        for (let i = 0; i <= 7; i++) {
+          const zPos = -pd/2 + (i / 7) * pd;
+          const rafter = new THREE.Mesh(rafterGeo, rafterMat);
+          rafter.position.set(0, ph + 0.18, zPos);
+          rafter.castShadow = true;
+          group.add(rafter);
+        }
+
+        // Translucent Weatherproof Rain Canopy Roof
+        const roofGeo = new THREE.BoxGeometry(pw + 0.6, 0.02, pd + 0.6);
+        const roofMesh = new THREE.Mesh(roofGeo, glassMat);
+        roofMesh.position.set(0, ph + 0.25, 0);
+        group.add(roofMesh);
+
+        return group;
+      },
+      draw2D: function(ctx, w, d) {
+        ctx.strokeStyle = '#b45309';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 4]);
+        ctx.strokeRect(-w/2, -d/2, w, d);
+        ctx.setLineDash([]);
+        // Pillars
+        ctx.fillStyle = '#78350f';
+        [[-w/2, -d/2], [w/2, -d/2], [-w/2, d/2], [w/2, d/2]].forEach(p => {
+          ctx.fillRect(p[0] - 6, p[1] - 6, 12, 12);
+        });
+        // Text
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('PERGOLA SHED CANOPY', 0, 0);
+      }
+    },
+    {
+      id: 'terrace_lounge_bench',
+      name: 'Outdoor Weatherproof L-Sectional Lounge',
+      category: 'outdoor',
+      icon: '🛋️',
+      width: 3.2,
+      depth: 2.2,
+      height: 0.85,
+      defaultColor: '#92400e',
+      createMesh: function(options = {}) {
+        const group = new THREE.Group();
+        group.name = 'terrace_lounge_bench';
+
+        const woodMat = createMat('#92400e', 0.5, 0.1);
+        const cushionMat = createMat('#fde68a', 0.85, 0.05);
+        const pillowMat1 = createMat('#f97316', 0.8, 0.05);
+        const pillowMat2 = createMat('#38bdf8', 0.8, 0.05);
+
+        // Main Base (width: 3.0m, depth: 0.85m, height: 0.25m)
+        const baseGeo = new THREE.BoxGeometry(3.0, 0.25, 0.85);
+        const baseMesh = new THREE.Mesh(baseGeo, woodMat);
+        baseMesh.position.set(0, 0.15, 0);
+        baseMesh.castShadow = true;
+        group.add(baseMesh);
+
+        // Chaise Base (length along Z: 1.4m, width: 0.85m)
+        const chaiseGeo = new THREE.BoxGeometry(0.85, 0.25, 1.4);
+        const chaiseMesh = new THREE.Mesh(chaiseGeo, woodMat);
+        chaiseMesh.position.set(-1.075, 0.15, 1.05);
+        chaiseMesh.castShadow = true;
+        group.add(chaiseMesh);
+
+        // Backrest (along back X)
+        const backGeo = new THREE.BoxGeometry(3.0, 0.50, 0.15);
+        const backMesh = new THREE.Mesh(backGeo, woodMat);
+        backMesh.position.set(0, 0.45, -0.35);
+        group.add(backMesh);
+
+        // Side Backrest for chaise
+        const sideBackGeo = new THREE.BoxGeometry(0.15, 0.50, 1.4);
+        const sideBackMesh = new THREE.Mesh(sideBackGeo, woodMat);
+        sideBackMesh.position.set(-1.425, 0.45, 1.05);
+        group.add(sideBackMesh);
+
+        // Cushions
+        const c1Geo = new THREE.BoxGeometry(2.9, 0.15, 0.75);
+        const c1Mesh = new THREE.Mesh(c1Geo, cushionMat);
+        c1Mesh.position.set(0, 0.32, 0);
+        c1Mesh.castShadow = true;
+        group.add(c1Mesh);
+
+        const c2Geo = new THREE.BoxGeometry(0.75, 0.15, 1.35);
+        const c2Mesh = new THREE.Mesh(c2Geo, cushionMat);
+        c2Mesh.position.set(-1.075, 0.32, 1.05);
+        c2Mesh.castShadow = true;
+        group.add(c2Mesh);
+
+        // Scatter Pillows
+        const pillowGeo = new THREE.BoxGeometry(0.35, 0.35, 0.12);
+        [-0.8, -0.2, 0.5, 1.1].forEach((x, idx) => {
+          const p = new THREE.Mesh(pillowGeo, idx % 2 === 0 ? pillowMat1 : pillowMat2);
+          p.position.set(x, 0.55, -0.22);
+          p.rotation.x = -0.2;
+          group.add(p);
+        });
+
+        // Teak Coffee Table (in front of sofa)
+        const tableGeo = new THREE.BoxGeometry(1.2, 0.38, 0.7);
+        const tableMesh = new THREE.Mesh(tableGeo, woodMat);
+        tableMesh.position.set(0.3, 0.20, 0.95);
+        tableMesh.castShadow = true;
+        group.add(tableMesh);
+
+        return group;
+      },
+      draw2D: function(ctx, w, d) {
+        ctx.fillStyle = '#fde68a';
+        ctx.strokeStyle = '#92400e';
+        ctx.lineWidth = 2;
+        ctx.fillRect(-w/2, -d/2, w, d*0.4);
+        ctx.fillRect(-w/2, -d/2, w*0.3, d);
+        ctx.strokeRect(-w/2, -d/2, w, d*0.4);
+        ctx.strokeRect(-w/2, -d/2, w*0.3, d);
+        // Table
+        ctx.fillStyle = '#78350f';
+        ctx.fillRect(-w*0.1, 0, w*0.4, d*0.35);
+        ctx.fillStyle = '#92400e';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('OUTDOOR LOUNGE', 0, -d*0.15);
+      }
+    },
+    {
+      id: 'kids_play_equipment',
+      name: 'Kids Play Turf Activity Set',
+      category: 'outdoor',
+      icon: '⚽',
+      width: 2.2,
+      depth: 1.2,
+      height: 0.75,
+      defaultColor: '#0284c7',
+      createMesh: function(options = {}) {
+        const group = new THREE.Group();
+        group.name = 'kids_play_equipment';
+
+        const topMat = createMat('#0284c7', 0.3, 0.2);
+        const legMat = createMat('#334155', 0.2, 0.8);
+        const netMat = createMat('#ffffff', 0.9, 0.0, true, 0.7);
+
+        // Table Tennis Table Surface
+        const topGeo = new THREE.BoxGeometry(2.0, 0.05, 1.1);
+        const topMesh = new THREE.Mesh(topGeo, topMat);
+        topMesh.position.set(0, 0.65, 0);
+        topMesh.castShadow = true;
+        group.add(topMesh);
+
+        // White Center Line
+        const lineGeo = new THREE.BoxGeometry(2.0, 0.052, 0.015);
+        const lineMesh = new THREE.Mesh(lineGeo, netMat);
+        lineMesh.position.set(0, 0.651, 0);
+        group.add(lineMesh);
+
+        // Net in Middle
+        const netGeo = new THREE.BoxGeometry(0.02, 0.15, 1.2);
+        const netMesh = new THREE.Mesh(netGeo, netMat);
+        netMesh.position.set(0, 0.75, 0);
+        group.add(netMesh);
+
+        // Sturdy Metal Legs
+        const legGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.65, 8);
+        [[-0.8, -0.45], [0.8, -0.45], [-0.8, 0.45], [0.8, 0.45]].forEach(p => {
+          const leg = new THREE.Mesh(legGeo, legMat);
+          leg.position.set(p[0], 0.325, p[1]);
+          group.add(leg);
+        });
+
+        return group;
+      },
+      draw2D: function(ctx, w, d) {
+        ctx.fillStyle = '#0284c7';
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.fillRect(-w/2, -d/2, w, d);
+        ctx.strokeRect(-w/2, -d/2, w, d);
+        ctx.beginPath();
+        ctx.moveTo(0, -d/2);
+        ctx.lineTo(0, d/2);
+        ctx.stroke();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 9px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('PLAY GAMES', 0, 0);
+      }
+    },
   ];
 
   window.FurnitureCatalog = {
@@ -3395,35 +3758,116 @@ body {
     ]
   };
 
-  // Rooftop Terrace Floor
+    // Rooftop Terrace & Garden Retreat Floor
   const terraceFloor = {
     id: "floor_terrace",
-    name: "Terrace & Solar Roof",
+    name: "Rooftop Terrace & Garden Retreat",
     elevation: 8.4,
-    description: "Rooftop terrace with 3.5ft parapet walls, staircase and lift machine room tower in West (aligned with core), and solar generation zone.",
+    description: "Rooftop terrace featuring 21x22ft Weatherproof Pergola Shed with chilling lounge and traditional royal Jhoola, 19x22ft shock-turf kids play area, perimeter tropical planters, West staircase and lift mumty tower, and 10 kW solar PV zone.",
     walls: [
+      // 3.5ft high outer parapet walls
       { id: "t_w_n", start: { x: -4.57, y: -9.14 }, end: { x: 4.57, y: -9.14 }, thickness: 0.25, height: 1.05, color: "#334155" },
       { id: "t_w_e", start: { x: 4.57, y: -9.14 }, end: { x: 4.57, y: 9.14 }, thickness: 0.22, height: 1.05, color: "#f8fafc" },
       { id: "t_w_s", start: { x: 4.57, y: 9.14 }, end: { x: -4.57, y: 9.14 }, thickness: 0.22, height: 1.05, color: "#f8fafc" },
       { id: "t_w_w", start: { x: -4.57, y: 9.14 }, end: { x: -4.57, y: -9.14 }, thickness: 0.22, height: 1.05, color: "#f8fafc" },
-      // Mumty / Staircase & Lift Tower
+
+      // West Circulation Mumty Tower (Height 2.8m)
       { id: "t_mumty_e", start: { x: -1.52, y: -2.85 }, end: { x: -1.52, y: 1.30 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
       { id: "t_mumty_n", start: { x: -4.57, y: -2.85 }, end: { x: -1.52, y: -2.85 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
-      { id: "t_mumty_s", start: { x: -4.57, y: 1.30 }, end: { x: -1.52, y: 1.30 }, thickness: 0.2, height: 2.8, color: "#0284c7" }
+      { id: "t_mumty_s", start: { x: -4.57, y: 1.30 }, end: { x: -1.52, y: 1.30 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
+      { id: "t_mumty_lift_s", start: { x: -4.57, y: -1.33 }, end: { x: -3.05, y: -1.33 }, thickness: 0.16, height: 2.8, color: "#cbd5e1" },
+
+      // Rear Central Ventilation Exhaust Parapet (18ft x 7ft: X = -2.74 to 2.74, Z = -9.14 to -7.01)
+      { id: "t_w_ots_s", start: { x: -2.74, y: -7.01 }, end: { x: 2.74, y: -7.01 }, thickness: 0.15, height: 1.05, color: "#059669" },
+      { id: "t_w_ots_w", start: { x: -2.74, y: -9.14 }, end: { x: -2.74, y: -7.01 }, thickness: 0.15, height: 1.05, color: "#059669" },
+      { id: "t_w_ots_e", start: { x: 2.74, y: -9.14 }, end: { x: 2.74, y: -7.01 }, thickness: 0.15, height: 1.05, color: "#059669" },
+
+      // Green Planter Raised Ledges (Height 0.65m, Color #16a34a)
+      { id: "t_planter_e", start: { x: 4.25, y: -7.01 }, end: { x: 4.25, y: 8.85 }, thickness: 0.35, height: 0.65, color: "#16a34a" },
+      { id: "t_planter_s", start: { x: -4.25, y: 8.80 }, end: { x: 4.25, y: 8.80 }, thickness: 0.35, height: 0.65, color: "#16a34a" }
     ],
     openings: [
       { id: "t_op_mumty_dr", wallId: "t_mumty_e", type: "door", offset: 3.2, width: 1.0, height: 2.1, elevation: 0 }
     ],
     rooms: [
       {
-        id: "t_rm_open",
-        name: "Open Sky Rooftop & Solar Zone",
+        id: "t_rm_shed",
+        name: "Weatherproof Pergola Shed & Chilling Lounge",
+        floorMaterial: "oak_wood",
+        floorColor: "#b45309",
+        bounds: { minX: -4.57, maxX: 1.80, minY: 1.30, maxY: 8.80 }
+      },
+      {
+        id: "t_rm_play",
+        name: "Kids Playing Area & Activity Turf (~400 sq ft)",
         floorMaterial: "tile",
-        floorColor: "#e2e8f0",
-        bounds: { minX: -4.57, maxX: 4.57, minY: -9.14, maxY: 9.14 }
+        floorColor: "#059669",
+        bounds: { minX: -1.52, maxX: 4.25, minY: -7.01, maxY: 1.30 }
+      },
+      {
+        id: "t_rm_garden",
+        name: "Rooftop Garden & Walkway",
+        floorMaterial: "tile",
+        floorColor: "#15803d",
+        bounds: { minX: 1.80, maxX: 4.25, minY: 1.30, maxY: 8.80 }
+      },
+      {
+        id: "t_rm_solar",
+        name: "10 kW Solar PV & Service Deck",
+        floorMaterial: "tile",
+        floorColor: "#0284c7",
+        bounds: { minX: -4.57, maxX: -1.52, minY: -7.01, maxY: -2.85 }
+      },
+      {
+        id: "t_rm_mumty",
+        name: "Staircase & Lift Machine Room Tower",
+        floorMaterial: "tile",
+        floorColor: "#1e293b",
+        bounds: { minX: -4.57, maxX: -1.52, minY: -2.85, maxY: 1.30 }
       }
     ],
-    furniture: []
+    furniture: [
+      {
+        id: "t_f_stairs",
+        typeId: "staircase_rcc",
+        name: "RCC Dog-Legged Staircase",
+        category: "stairs",
+        position: { x: -3.45, y: 0, z: -0.05 },
+        rotation: { y: 0 }
+      },
+      {
+        id: "t_f_pergola",
+        typeId: "outdoor_pergola_shed",
+        name: "Pergola Shed Canopy",
+        category: "outdoor",
+        position: { x: -1.35, y: 0, z: 5.15 },
+        rotation: { y: 0 }
+      },
+      {
+        id: "t_f_lounge",
+        typeId: "terrace_lounge_bench",
+        name: "Outdoor Chilling Lounge",
+        category: "outdoor",
+        position: { x: -2.75, y: 0, z: 4.80 },
+        rotation: { y: 0 }
+      },
+      {
+        id: "t_f_jhoola",
+        typeId: "jhoola_traditional",
+        name: "Royal Teakwood Jhoola",
+        category: "outdoor",
+        position: { x: 0.25, y: 0, z: 5.15 },
+        rotation: { y: 0 }
+      },
+      {
+        id: "t_f_play",
+        typeId: "kids_play_equipment",
+        name: "Kids Play Table & Games Set",
+        category: "outdoor",
+        position: { x: 1.35, y: 0, z: -2.75 },
+        rotation: { y: 0 }
+      }
+    ]
   };
 
   const templates = [
@@ -5111,22 +5555,33 @@ body {
       this.init();
     }
 
-        sanitizeFurniture(projectData) {
+            sanitizeFurniture(projectData) {
       if (!projectData || !projectData.floors) return projectData;
+      const terraceAllowedIds = [
+        'staircase_rcc',
+        'jhoola_traditional',
+        'outdoor_pergola_shed',
+        'terrace_lounge_bench',
+        'coffee_table_wood',
+        'kids_play_equipment'
+      ];
       projectData.floors.forEach(fl => {
-        // Strip out all furniture & accessories (sofas, beds, tv, dining table, wardrobes, kitchen counters, etc.)
-        // Retain only the dedicated staircase in South-West core
-        fl.furniture = (fl.furniture || []).filter(item => item && item.typeId === 'staircase_rcc');
-        const hasStairs = fl.furniture.some(item => item.typeId === 'staircase_rcc');
-        if (!hasStairs && fl.id !== 'floor_terrace') {
-          fl.furniture.push({
-            id: `${fl.id}_f_stairs`,
-            typeId: 'staircase_rcc',
-            name: 'RCC Dog-Legged Staircase (7\'6" Wide)',
-            category: 'stairs',
-            position: { x: -3.45, y: 0, z: -0.55 },
-            rotation: { y: 0 }
-          });
+        if (fl.id === 'floor_terrace') {
+          fl.furniture = (fl.furniture || []).filter(item => item && terraceAllowedIds.includes(item.typeId));
+        } else {
+          // Strip out all furniture & accessories on residential floors
+          fl.furniture = (fl.furniture || []).filter(item => item && item.typeId === 'staircase_rcc');
+          const hasStairs = fl.furniture.some(item => item.typeId === 'staircase_rcc');
+          if (!hasStairs) {
+            fl.furniture.push({
+              id: `${fl.id}_f_stairs`,
+              typeId: 'staircase_rcc',
+              name: 'RCC Dog-Legged Staircase (7ft 6in Wide)',
+              category: 'stairs',
+              position: { x: -3.45, y: 0, z: -0.05 },
+              rotation: { y: 0 }
+            });
+          }
         }
       });
       return projectData;
@@ -5134,12 +5589,12 @@ body {
 
     init() {
       // 1. Purge legacy localStorage caches containing old furniture
-      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back'].forEach(k => {
+      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6'].forEach(k => {
         try { localStorage.removeItem(k); } catch (e) {}
       });
 
       // Load primary 30x60 Jodhpur Villa Template (Clean, furniture-free with SW stairs)
-      const STORAGE_KEY = 'homecraft3d_project_30x60_v10_gali7_balc6';
+      const STORAGE_KEY = 'homecraft3d_project_30x60_v11_terrace_lounge';
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
