@@ -174,7 +174,7 @@ html_template = f"""<!DOCTYPE html>
       <canvas id="floorplan-canvas" style="display: none;"></canvas>
 
       <!-- 3D Three.js Canvas Container -->
-      <div id="threejs-canvas-container"></div>
+      <div id="threejs-canvas-container" style="display: block;"></div>
 
       <!-- Live Drawing Hint Tooltip -->
       <div id="drawing-hint">Click anywhere to start drawing wall.</div>
@@ -255,15 +255,21 @@ html_template = f"""<!DOCTYPE html>
               <th>Space / Room</th>
               <th>Dimensions</th>
               <th>Carpet Area</th>
-              <th>Vastu Zone</th>
+              <th>Vastu Zone & Details</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><b>🛋️ Grand Living & Dining Hall</b></td>
+              <td><b>🚪 Private Entrance Foyer</b></td>
+              <td>5'0" × 7'5"</td>
+              <td>37 sq ft</td>
+              <td><span class="vastu-tag sw">Entry Buffer Screen</span></td>
+            </tr>
+            <tr>
+              <td><b>🛋️ Grand Open Living Hall</b></td>
               <td>13'6" to 22'6" × 25'0"</td>
-              <td><b>~330 sq ft</b></td>
-              <td><span class="vastu-tag cen">Central Open</span></td>
+              <td><b>~350 sq ft</b></td>
+              <td><span class="vastu-tag cen">Dining Table Removed</span></td>
             </tr>
             <tr>
               <td><b>👑 Restored Master Suite</b></td>
@@ -275,13 +281,13 @@ html_template = f"""<!DOCTYPE html>
               <td><b>🛏️ Bedroom 3 (Study/Bed)</b></td>
               <td>15'0" × 14'6"</td>
               <td><b>217 sq ft</b></td>
-              <td><span class="vastu-tag ne">North-East</span></td>
+              <td><span class="vastu-tag ne">Door to North Gali</span></td>
             </tr>
             <tr>
               <td><b>🌬️ Bedroom 2 (Children/Bed)</b></td>
               <td>15'0" × 14'6"</td>
               <td><b>217 sq ft</b></td>
-              <td><span class="vastu-tag nw">Vayavya (NW)</span></td>
+              <td><span class="vastu-tag nw">Door to North Gali</span></td>
             </tr>
             <tr>
               <td><b>🔥 Modular Kitchen</b></td>
@@ -308,10 +314,10 @@ html_template = f"""<!DOCTYPE html>
               <td>South Front</td>
             </tr>
             <tr>
-              <td><b>North Rear Balcony</b></td>
+              <td><b>North Rear Common Gali</b></td>
               <td>30'0" × 4'0"</td>
               <td>120 sq ft</td>
-              <td>North Cool Air</td>
+              <td>Direct Door Access on All Floors</td>
             </tr>
           </tbody>
         </table>
@@ -337,13 +343,13 @@ html_template = f"""<!DOCTYPE html>
               <td><b>🛏️ Rear Room 1 + Bath</b></td>
               <td>15'0" × 14'9"</td>
               <td>221 sq ft</td>
-              <td>Vayavya (NW) with window to North gali</td>
+              <td>Door directly to North gali</td>
             </tr>
             <tr>
               <td><b>🛏️ Rear Room 2 + Bath</b></td>
               <td>15'0" × 14'9"</td>
               <td>221 sq ft</td>
-              <td>Ishanya (NE) with window to North gali</td>
+              <td>Door directly to North gali</td>
             </tr>
             <tr>
               <td><b>🌬️ North Rear Gali</b></td>
@@ -359,6 +365,19 @@ html_template = f"""<!DOCTYPE html>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Selection Modal (Hidden Fallback) -->
+  <div id="templates-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Select Template</h3>
+        <button id="modal-close" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="template-list" class="template-card-grid"></div>
       </div>
     </div>
   </div>
