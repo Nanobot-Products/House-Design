@@ -98,6 +98,10 @@ html_template = f"""<!DOCTYPE html>
         <span>🏠</span>
         <span>2nd Floor (Bro 2)</span>
       </button>
+      <button class="floor-tab-btn" data-floor="3" style="border-color: #10b981; color: #10b981;">
+        <span>🌿</span>
+        <span>Rooftop Terrace & Garden</span>
+      </button>
       <button class="floor-tab-btn" data-floor="-1" style="border-color: #38bdf8; color: #38bdf8;">
         <span>🏢</span>
         <span>Whole Building (3D Stack)</span>
@@ -385,17 +389,15 @@ html_template = f"""<!DOCTYPE html>
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
 
-  <!-- CDN Three.js Core & Controls (Cloudflare CDNJS & jsDelivr) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"></script>
-
-  <!-- Local fallback if CDN is offline -->
+  <!-- Local Three.js Core & Controls (Instant zero-latency load) -->
+  <script src="js/lib/three.min.js"></script>
+  <script src="js/lib/OrbitControls.js"></script>
+  <script src="js/lib/PointerLockControls.js"></script>
   <script>
     if (typeof THREE === 'undefined') {{
-      document.write('<script src="js/lib/three.min.js"><\\/script>');
-      document.write('<script src="js/lib/OrbitControls.js"><\\/script>');
-      document.write('<script src="js/lib/PointerLockControls.js"><\\/script>');
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\\/script>');
+      document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"><\\/script>');
+      document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"><\\/script>');
     }}
   </script>
 

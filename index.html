@@ -3456,7 +3456,7 @@ body {
         { id: `${floorId}_rear_front_h`, start: { x: -4.57, y: -2.85 }, end: { x: 4.57, y: -2.85 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
         { id: `${floorId}_rear_div_v`, start: { x: 0, y: -7.01 }, end: { x: 0, y: -2.85 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
 
-        // 5. CIRCULATION CORE WITH ⭐ SHARED CENTRAL OTS ⭐
+        // 5. CIRCULATION CORE: BEDROOM 2 -> OTS -> GUEST BATH -> FOYER (OPEN TO LIVING)
         // South boundary wall of core facing Master Bedroom (Z = 1.30, X = -4.57 to -0.10)
         { id: `${floorId}_stair_s`, start: { x: -4.57, y: 1.30 }, end: { x: -0.10, y: 1.30 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
 
@@ -3464,24 +3464,22 @@ body {
         { id: `${floorId}_lift_s`, start: { x: -4.57, y: -1.25 }, end: { x: -2.45, y: -1.25 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
         { id: `${floorId}_lift_e`, start: { x: -2.45, y: -2.85 }, end: { x: -2.45, y: -1.25 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
 
-        // B. ⭐ SHARED CENTRAL OTS (3ft 10in x 8ft 8in: X = -2.45 to -1.30, Z = -2.85 to -0.20)
-        // Touches Bed 2 (North), Guest Bath (East), and Master Bath (South)!
-        { id: `${floorId}_ots_e`, start: { x: -1.30, y: -2.85 }, end: { x: -1.30, y: -0.20 }, thickness: 0.12, height: 2.8, color: "#94a3b8" },
-        { id: `${floorId}_ots_s`, start: { x: -2.45, y: -0.20 }, end: { x: -1.30, y: -0.20 }, thickness: 0.12, height: 2.8, color: "#94a3b8" },
-
-        // C. Common Guest Powder Toilet (4ft 0in x 5ft 3in: X = -1.30 to -0.10, Z = -2.85 to -1.25)
-        // West wall is ots_e (vents directly into OTS)! East wall is flush with Foyer East wall!
-        { id: `${floorId}_cbath_s`, start: { x: -1.30, y: -1.25 }, end: { x: -0.10, y: -1.25 }, thickness: 0.12, height: 2.8, color: "#e2e8f0" },
-        { id: `${floorId}_cbath_e`, start: { x: -0.10, y: -2.85 }, end: { x: -0.10, y: -1.25 }, thickness: 0.15, height: 2.8, color: "#e2e8f0" },
-
-        // D. Master Attached Bathroom UNDER STAIRS AREA (7ft 0in x 5ft 0in: X = -4.57 to -2.45, Z = -0.20 to 1.30)
-        // North wall touches ots_s (vents directly into OTS)!
-        { id: `${floorId}_mbath_n`, start: { x: -4.57, y: -0.20 }, end: { x: -2.45, y: -0.20 }, thickness: 0.12, height: 2.8, color: "#cbd5e1" },
+        // B. Master Attached Bathroom UNDER STAIRS AREA (7ft 0in x 4ft 7in: X = -4.57 to -2.45, Z = -0.10 to 1.30)
+        { id: `${floorId}_mbath_n`, start: { x: -4.57, y: -0.10 }, end: { x: -2.45, y: -0.10 }, thickness: 0.12, height: 2.8, color: "#cbd5e1" },
         { id: `${floorId}_core_div_v`, start: { x: -2.45, y: -1.25 }, end: { x: -2.45, y: 1.30 }, thickness: 0.18, height: 2.8, color: "#f8fafc" },
 
-        // 7. ENTRANCE PRIVACY FOYER (Prawesh Vestibule: X = -2.45 to -0.10, Z = -1.25 to 1.30)
-        // East wall is 100% FLUSH with cbath_e at X = -0.10 (forming one single continuous line)!
-        { id: `${floorId}_foyer_e`, start: { x: -0.10, y: -1.25 }, end: { x: -0.10, y: 1.30 }, thickness: 0.15, height: 2.8, color: "#f8fafc" },
+        // C. ⭐ CENTRAL OTS (Touches Bedroom 2 North, Guest Bath South, Living Area East!)
+        // X = -2.45 to -0.10 (7'8" Wide), Z = -2.85 to -1.65 (4'0" Deep)
+        { id: `${floorId}_ots_s`, start: { x: -2.45, y: -1.65 }, end: { x: -0.10, y: -1.65 }, thickness: 0.15, height: 2.8, color: "#94a3b8" },
+        { id: `${floorId}_ots_e`, start: { x: -0.10, y: -2.85 }, end: { x: -0.10, y: -1.65 }, thickness: 0.15, height: 2.8, color: "#94a3b8" },
+
+        // D. ⭐ GUEST BATH (Touches OTS North, Foyer South, Living Area East!)
+        // X = -2.45 to -0.10 (7'8" Wide), Z = -1.65 to -0.10 (5'1" Deep)
+        { id: `${floorId}_cbath_s`, start: { x: -2.45, y: -0.10 }, end: { x: -0.10, y: -0.10 }, thickness: 0.15, height: 2.8, color: "#e2e8f0" },
+        { id: `${floorId}_cbath_e`, start: { x: -0.10, y: -1.65 }, end: { x: -0.10, y: -0.10 }, thickness: 0.15, height: 2.8, color: "#e2e8f0" },
+
+        // E. ⭐ ENTRANCE FOYER (Z = -0.10 to 1.30, X = -2.45 to -0.10)
+        // NOTICE: ZERO EAST WALL! Foyer is 100% OPEN to Grand Living Hall!
 
         // 8. PURE RECTANGULAR MASTER SUITE (12ft x 19ft 9in = 240 sq ft: X = -4.57 to -0.95, Z = 1.30 to 7.31)
         { id: `${floorId}_mbed_e`, start: { x: -0.95, y: 1.30 }, end: { x: -0.95, y: 7.31 }, thickness: 0.18, height: 2.8, color: "#f8fafc" },
@@ -3507,28 +3505,25 @@ body {
         { id: `${floorId}_op_kit_dr`, wallId: `${floorId}_kit_w`, type: "door", offset: 0.8, width: 0.9, height: 2.1, elevation: 0 },
 
         // Apartment Main Door opening from Stair Lobby into Private Foyer
-        { id: `${floorId}_op_main_dr`, wallId: `${floorId}_core_div_v`, type: "door", offset: 1.45, width: 1.05, height: 2.2, elevation: 0 },
+        { id: `${floorId}_op_main_dr`, wallId: `${floorId}_core_div_v`, type: "door", offset: 1.85, width: 1.05, height: 2.2, elevation: 0 },
 
         // Master Bedroom Door from Foyer
-        { id: `${floorId}_op_mbed_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 2.85, width: 0.95, height: 2.1, elevation: 0 },
+        { id: `${floorId}_op_mbed_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 3.30, width: 0.95, height: 2.1, elevation: 0 },
 
         // Master Bath Door from Master Bedroom opening directly into under-stair bathroom
         { id: `${floorId}_op_mbath_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 1.05, width: 0.85, height: 2.1, elevation: 0 },
 
-        // ⭐ Master Bath Ventilation Window directly into SHARED OTS
-        { id: `${floorId}_op_mbath_ots`, wallId: `${floorId}_ots_s`, type: "window", offset: 0.58, width: 0.75, height: 0.75, elevation: 1.8 },
+        // ⭐ Bedroom 2 (NW) Window directly into OTS (North Wall of OTS)
+        { id: `${floorId}_op_b2_ots_win`, wallId: `${floorId}_rear_front_h`, type: "window", offset: 3.30, width: 1.20, height: 1.0, elevation: 1.5 },
 
-        // ⭐ Guest Bath Ventilation Window directly into SHARED OTS
-        { id: `${floorId}_op_cbath_ots`, wallId: `${floorId}_ots_e`, type: "window", offset: 0.80, width: 0.75, height: 0.75, elevation: 1.8 },
+        // ⭐ Living Area Window directly into OTS (East Wall of OTS)
+        { id: `${floorId}_op_liv_ots_win`, wallId: `${floorId}_ots_e`, type: "window", offset: 0.60, width: 0.80, height: 1.0, elevation: 1.5 },
 
-        // Guest Bath Entry Door from Foyer
-        { id: `${floorId}_op_cbath_dr`, wallId: `${floorId}_cbath_s`, type: "door", offset: 0.60, width: 0.75, height: 2.1, elevation: 0 },
+        // ⭐ Guest Bath Ventilation Window directly into OTS (South Wall of OTS / North Wall of Guest Bath)
+        { id: `${floorId}_op_gbath_ots`, wallId: `${floorId}_ots_s`, type: "window", offset: 1.15, width: 0.80, height: 0.75, elevation: 1.8 },
 
-        // Grand Foyer Archway / Portal opening into Grand Living Hall
-        { id: `${floorId}_op_foyer_portal`, wallId: `${floorId}_foyer_e`, type: "door", offset: 1.25, width: 1.60, height: 2.40, elevation: 0 },
-
-        // ⭐ Bedroom 2 (NW) Cross-Ventilation Window directly into SHARED OTS
-        { id: `${floorId}_op_b2_ots_win`, wallId: `${floorId}_rear_front_h`, type: "window", offset: 2.70, width: 1.0, height: 0.9, elevation: 1.6 },
+        // Guest Bath Entry Door from Foyer (South Wall of Guest Bath)
+        { id: `${floorId}_op_cbath_dr`, wallId: `${floorId}_cbath_s`, type: "door", offset: 1.15, width: 0.80, height: 2.1, elevation: 0 },
 
         // Bedroom 2 Entry Door & Gali Access
         { id: `${floorId}_op_b2_dr`, wallId: `${floorId}_rear_front_h`, type: "door", offset: 4.10, width: 0.90, height: 2.1, elevation: 0 },
@@ -3551,7 +3546,7 @@ body {
           name: "Private Entrance Foyer (Prawesh)",
           floorMaterial: "marble",
           floorColor: "#f8fafc",
-          bounds: { minX: -2.45, maxX: -0.10, minY: -1.25, maxY: 1.30 }
+          bounds: { minX: -2.45, maxX: -0.10, minY: -0.10, maxY: 1.30 }
         },
         {
           id: `${floorId}_rm_living`,
@@ -3597,10 +3592,10 @@ body {
         },
         {
           id: `${floorId}_rm_mbath`,
-          name: "Master Bath Under Stairs (Vents to OTS)",
+          name: "Master Bath Under Stairs",
           floorMaterial: "tile",
           floorColor: "#475569",
-          bounds: { minX: -4.57, maxX: -2.45, minY: -0.20, maxY: 1.30 }
+          bounds: { minX: -4.57, maxX: -2.45, minY: -0.10, maxY: 1.30 }
         },
         {
           id: `${floorId}_rm_bed2`,
@@ -3632,17 +3627,17 @@ body {
         },
         {
           id: `${floorId}_rm_cbath`,
-          name: "Guest Toilet (4x5ft - Vents to OTS)",
+          name: "Guest Toilet (8x5ft - Vents to OTS)",
           floorMaterial: "tile",
           floorColor: "#475569",
-          bounds: { minX: -1.30, maxX: -0.10, minY: -2.85, maxY: -1.25 }
+          bounds: { minX: -2.45, maxX: -0.10, minY: -1.65, maxY: -0.10 }
         },
         {
           id: `${floorId}_rm_ots`,
-          name: "⭐ SHARED CENTRAL OTS (4ft x 8ft 8in)",
+          name: "⭐ CENTRAL OTS (8x4ft - Touches Bed, Bath & Living)",
           floorMaterial: "tile",
           floorColor: "#0284c7",
-          bounds: { minX: -2.45, maxX: -1.30, minY: -2.85, maxY: -0.20 }
+          bounds: { minX: -2.45, maxX: -0.10, minY: -2.85, maxY: -1.65 }
         },
         {
           id: `${floorId}_rm_stair`,
@@ -5553,7 +5548,7 @@ body {
 (function(window) {
   'use strict';
 
-  const STORAGE_KEY = 'homecraft3d_project_30x60_v13_flush_aligned_ots';
+  const STORAGE_KEY = 'homecraft3d_project_30x60_v14_linear_ots';
 
   class App {
     constructor() {
@@ -5604,7 +5599,7 @@ body {
 
     init() {
       // 1. Purge legacy localStorage caches containing old furniture
-      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge', 'homecraft3d_project_30x60_v12_shared_ots'].forEach(k => {
+      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge', 'homecraft3d_project_30x60_v12_shared_ots', 'homecraft3d_project_30x60_v13_flush_aligned_ots'].forEach(k => {
         try { localStorage.removeItem(k); } catch (e) {}
       });
 
