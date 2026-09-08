@@ -2962,19 +2962,19 @@ body {
         const riserH = 0.175;
         const numSteps = 7;
 
-        // Flight 1 (West flight, rising South to North towards landing)
+        // Flight 1 (East flight: starts on Inside, rising South to North towards landing)
         for (let i = 0; i < numSteps; i++) {
           const stepY = i * riserH;
           const stepZ = 1.225 - (i + 0.5) * treadDepth;
           const stepGeo = new THREE.BoxGeometry(flightW, riserH, treadDepth);
           const stepMesh = new THREE.Mesh(stepGeo, treadMat);
-          stepMesh.position.set(-width / 2 + flightW / 2, stepY + riserH / 2, stepZ);
+          stepMesh.position.set(width / 2 - flightW / 2, stepY + riserH / 2, stepZ);
           stepMesh.castShadow = true;
           stepMesh.receiveShadow = true;
           group.add(stepMesh);
         }
 
-        // Mid-landing slab at North end (Z = -1.225 to -0.425)
+        // Mid-landing slab at North end (Z = -1.225 to -0.425) - turns left-left
         const landingY = 8 * riserH;
         const landingGeo = new THREE.BoxGeometry(width, riserH, landingDepth);
         const landingMesh = new THREE.Mesh(landingGeo, treadMat);
@@ -2983,13 +2983,13 @@ body {
         landingMesh.receiveShadow = true;
         group.add(landingMesh);
 
-        // Flight 2 (East flight, rising from landing South to upper floor)
+        // Flight 2 (West flight: turns along outer wall, rising from landing South towards front of foyer)
         for (let i = 0; i < numSteps; i++) {
           const stepY = landingY + i * riserH;
           const stepZ = -0.425 + (i + 0.5) * treadDepth;
           const stepGeo = new THREE.BoxGeometry(flightW, riserH, treadDepth);
           const stepMesh = new THREE.Mesh(stepGeo, treadMat);
-          stepMesh.position.set(width / 2 - flightW / 2, stepY + riserH / 2, stepZ);
+          stepMesh.position.set(-width / 2 + flightW / 2, stepY + riserH / 2, stepZ);
           stepMesh.castShadow = true;
           stepMesh.receiveShadow = true;
           group.add(stepMesh);
@@ -2999,7 +2999,7 @@ body {
         const railGeo = new THREE.CylinderGeometry(0.025, 0.025, 2.1, 8);
         const railMesh = new THREE.Mesh(railGeo, woodRailMat);
         railMesh.position.set(0, 1.7, 0.35);
-        railMesh.rotation.x = 0.58;
+        railMesh.rotation.x = -0.58;
         group.add(railMesh);
 
         for (let b = 0; b < 5; b++) {
@@ -3015,7 +3015,7 @@ body {
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 2;
         ctx.strokeRect(-w/2, -d/2, w, d);
-        // Landing at top
+        // Landing at North
         ctx.strokeRect(-w/2, -d/2, w, 0.80);
         // Center division
         ctx.beginPath();
@@ -3034,6 +3034,12 @@ body {
           ctx.lineTo(w/2, y);
           ctx.stroke();
         }
+        // Direction labels
+        ctx.fillStyle = '#0284c7';
+        ctx.font = 'bold 9px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('▲ UP (Inside)', w/4, d/2 - 10);
+        ctx.fillText('▲ UP to Foyer', -w/4, d/2 - 10);
       }
     },
     // =========================================================================
@@ -3507,6 +3513,9 @@ body {
         // Apartment Main Door opening from Stair Lobby into Private Foyer (West wall of Foyer)
         { id: `${floorId}_op_main_dr`, wallId: `${floorId}_core_div_v`, type: "door", offset: 1.85, width: 1.05, height: 2.2, elevation: 0 },
 
+        // Aligned Lift Sliding Door opening South into Stair & Lift Landing Lobby
+        { id: `${floorId}_op_lift_dr`, wallId: `${floorId}_lift_s`, type: "door", offset: 1.05, width: 0.95, height: 2.1, elevation: 0 },
+
         // Master Bedroom Door from Grand Living Hall (East wall of Master Suite - ZERO door in Foyer!)
         { id: `${floorId}_op_mbed_dr`, wallId: `${floorId}_mbed_e`, type: "door", offset: 0.85, width: 0.95, height: 2.1, elevation: 0 },
 
@@ -3693,6 +3702,7 @@ body {
     ],
     openings: [
       { id: "g_op_gate", wallId: "g_w_s_left", type: "door", offset: 0.9, width: 7.2, height: 2.5, elevation: 0 },
+      { id: "g_op_lift_dr", wallId: "g_lift_s", type: "door", offset: 1.05, width: 0.95, height: 2.1, elevation: 0 },
       { id: "g_op_stair_dr", wallId: "g_core_e", type: "door", offset: 2.7, width: 1.05, height: 2.2, elevation: 0 },
       { id: "g_op_r1_dr", wallId: "g_w_room_front_h", type: "door", offset: 3.65, width: 0.95, height: 2.1, elevation: 0 },
       { id: "g_op_r1_bath_dr", wallId: "g_w_gali_h", type: "door", offset: 0.9, width: 0.85, height: 2.1, elevation: 0 },
@@ -5548,7 +5558,7 @@ body {
 (function(window) {
   'use strict';
 
-  const STORAGE_KEY = 'homecraft3d_project_30x60_v16_clean_foyer';
+  const STORAGE_KEY = 'homecraft3d_project_30x60_v17_aligned_lift_stairs';
 
   class App {
     constructor() {
@@ -5599,7 +5609,7 @@ body {
 
     init() {
       // 1. Purge legacy localStorage caches containing old furniture
-      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge', 'homecraft3d_project_30x60_v12_shared_ots', 'homecraft3d_project_30x60_v13_flush_aligned_ots', 'homecraft3d_project_30x60_v14_linear_ots', 'homecraft3d_project_30x60_v15_entrance_door'].forEach(k => {
+      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge', 'homecraft3d_project_30x60_v12_shared_ots', 'homecraft3d_project_30x60_v13_flush_aligned_ots', 'homecraft3d_project_30x60_v14_linear_ots', 'homecraft3d_project_30x60_v15_entrance_door', 'homecraft3d_project_30x60_v16_clean_foyer'].forEach(k => {
         try { localStorage.removeItem(k); } catch (e) {}
       });
 
