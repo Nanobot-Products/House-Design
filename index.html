@@ -2939,12 +2939,12 @@ body {
     },
     {
       id: 'staircase_rcc',
-      name: 'RCC Dog-Legged Staircase (7\'6" Core)',
+      name: 'RCC Dog-Legged Staircase (7\'0" Core)',
       category: 'stairs',
       icon: '🪜',
-      width: 2.2,
-      depth: 4.2,
-      height: 2.9,
+      width: 2.05,
+      depth: 2.45,
+      height: 2.8,
       defaultColor: '#e2e8f0',
       createMesh: function(options = {}) {
         const group = new THREE.Group();
@@ -2954,55 +2954,58 @@ body {
         const railMat = createMat('#1e293b', 0.3, 0.8);
         const woodRailMat = createMat('#78350f', 0.4, 0.1);
 
-        const flightW = 1.05;
-        const treadDepth = 0.28;
-        const riserH = 0.16;
-        const numSteps = 9;
+        const width = 2.05;
+        const depth = 2.45;
+        const flightW = 0.98;
+        const landingDepth = 0.80;
+        const treadDepth = 0.235;
+        const riserH = 0.175;
+        const numSteps = 7;
 
-        // Flight 1 (Rising North to South or climbing towards landing)
+        // Flight 1 (West flight, rising South to North towards landing)
         for (let i = 0; i < numSteps; i++) {
           const stepY = i * riserH;
-          const stepZ = (numSteps - 1 - i) * treadDepth - 0.5;
+          const stepZ = 1.225 - (i + 0.5) * treadDepth;
           const stepGeo = new THREE.BoxGeometry(flightW, riserH, treadDepth);
           const stepMesh = new THREE.Mesh(stepGeo, treadMat);
-          stepMesh.position.set(-flightW / 2 - 0.04, stepY + riserH / 2, stepZ);
+          stepMesh.position.set(-width / 2 + flightW / 2, stepY + riserH / 2, stepZ);
           stepMesh.castShadow = true;
           stepMesh.receiveShadow = true;
           group.add(stepMesh);
         }
 
-        // Mid-landing slab (at Y = 9 * riserH = 1.44m)
-        const landingY = numSteps * riserH;
-        const landingGeo = new THREE.BoxGeometry(2.2, riserH, 1.1);
+        // Mid-landing slab at North end (Z = -1.225 to -0.425)
+        const landingY = 8 * riserH;
+        const landingGeo = new THREE.BoxGeometry(width, riserH, landingDepth);
         const landingMesh = new THREE.Mesh(landingGeo, treadMat);
-        landingMesh.position.set(0, landingY - riserH / 2, -1.8);
+        landingMesh.position.set(0, landingY - riserH / 2, -1.225 + landingDepth / 2);
         landingMesh.castShadow = true;
         landingMesh.receiveShadow = true;
         group.add(landingMesh);
 
-        // Flight 2 (Rising from landing back towards floor level)
+        // Flight 2 (East flight, rising from landing South to upper floor)
         for (let i = 0; i < numSteps; i++) {
           const stepY = landingY + i * riserH;
-          const stepZ = -1.2 + i * treadDepth;
+          const stepZ = -0.425 + (i + 0.5) * treadDepth;
           const stepGeo = new THREE.BoxGeometry(flightW, riserH, treadDepth);
           const stepMesh = new THREE.Mesh(stepGeo, treadMat);
-          stepMesh.position.set(flightW / 2 + 0.04, stepY + riserH / 2, stepZ);
+          stepMesh.position.set(width / 2 - flightW / 2, stepY + riserH / 2, stepZ);
           stepMesh.castShadow = true;
           stepMesh.receiveShadow = true;
           group.add(stepMesh);
         }
 
         // Center handrail divider & balusters
-        const railGeo = new THREE.CylinderGeometry(0.025, 0.025, 3.2, 8);
+        const railGeo = new THREE.CylinderGeometry(0.025, 0.025, 2.1, 8);
         const railMesh = new THREE.Mesh(railGeo, woodRailMat);
-        railMesh.position.set(0, 1.8, 0);
-        railMesh.rotation.x = 0.45;
+        railMesh.position.set(0, 1.7, 0.35);
+        railMesh.rotation.x = 0.58;
         group.add(railMesh);
 
-        for (let b = 0; b < 6; b++) {
+        for (let b = 0; b < 5; b++) {
           const balGeo = new THREE.CylinderGeometry(0.012, 0.012, 0.9, 8);
           const bal = new THREE.Mesh(balGeo, railMat);
-          bal.position.set(0, 0.6 + b * 0.35, -1.2 + b * 0.5);
+          bal.position.set(0, 0.6 + b * 0.32, -0.35 + b * 0.38);
           group.add(bal);
         }
 
@@ -3012,14 +3015,16 @@ body {
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 2;
         ctx.strokeRect(-w/2, -d/2, w, d);
+        // Landing at top
+        ctx.strokeRect(-w/2, -d/2, w, 0.80);
         // Center division
         ctx.beginPath();
-        ctx.moveTo(0, -d/2);
+        ctx.moveTo(0, -d/2 + 0.80);
         ctx.lineTo(0, d/2);
         ctx.stroke();
         // Treads
-        for (let i = 1; i <= 9; i++) {
-          const y = -d/2 + (i / 10) * d;
+        for (let i = 1; i <= 7; i++) {
+          const y = -d/2 + 0.80 + i * 0.235;
           ctx.beginPath();
           ctx.moveTo(-w/2, y);
           ctx.lineTo(0, y);
@@ -3452,31 +3457,31 @@ body {
         { id: `${floorId}_rear_div_v`, start: { x: 0, y: -7.01 }, end: { x: 0, y: -2.85 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
 
         // 5. CIRCULATION CORE WITH ⭐ SHARED CENTRAL OTS ⭐
-        // South boundary wall of core facing Master Bedroom (Z = 1.30, X = -4.57 to -0.30)
-        { id: `${floorId}_stair_s`, start: { x: -4.57, y: 1.30 }, end: { x: -0.30, y: 1.30 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
+        // South boundary wall of core facing Master Bedroom (Z = 1.30, X = -4.57 to -0.10)
+        { id: `${floorId}_stair_s`, start: { x: -4.57, y: 1.30 }, end: { x: -0.10, y: 1.30 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
 
-        // A. 5ft x 5ft Lift Shaft Wall ON BACKSIDE (Z = -2.85 to -1.33, X = -4.57 to -3.05)
-        { id: `${floorId}_lift_s`, start: { x: -4.57, y: -1.33 }, end: { x: -3.05, y: -1.33 }, thickness: 0.16, height: 2.8, color: "#cbd5e1" },
-        { id: `${floorId}_lift_e`, start: { x: -3.05, y: -2.85 }, end: { x: -3.05, y: -1.33 }, thickness: 0.16, height: 2.8, color: "#cbd5e1" },
+        // A. 5ft x 5ft Lift Shaft Wall ON BACKSIDE (Z = -2.85 to -1.25, X = -4.57 to -2.45)
+        { id: `${floorId}_lift_s`, start: { x: -4.57, y: -1.25 }, end: { x: -2.45, y: -1.25 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
+        { id: `${floorId}_lift_e`, start: { x: -2.45, y: -2.85 }, end: { x: -2.45, y: -1.25 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
 
-        // B. ⭐ SHARED CENTRAL OTS (4ft 1in x 7ft 9in: X = -3.05 to -1.80, Z = -2.85 to -0.50)
+        // B. ⭐ SHARED CENTRAL OTS (3ft 10in x 8ft 8in: X = -2.45 to -1.30, Z = -2.85 to -0.20)
         // Touches Bed 2 (North), Guest Bath (East), and Master Bath (South)!
-        { id: `${floorId}_ots_w`, start: { x: -3.05, y: -1.33 }, end: { x: -3.05, y: -0.50 }, thickness: 0.12, height: 2.8, color: "#94a3b8" },
-        { id: `${floorId}_ots_e`, start: { x: -1.80, y: -2.85 }, end: { x: -1.80, y: -0.50 }, thickness: 0.12, height: 2.8, color: "#94a3b8" },
-        { id: `${floorId}_ots_s`, start: { x: -3.05, y: -0.50 }, end: { x: -1.80, y: -0.50 }, thickness: 0.12, height: 2.8, color: "#94a3b8" },
+        { id: `${floorId}_ots_e`, start: { x: -1.30, y: -2.85 }, end: { x: -1.30, y: -0.20 }, thickness: 0.12, height: 2.8, color: "#94a3b8" },
+        { id: `${floorId}_ots_s`, start: { x: -2.45, y: -0.20 }, end: { x: -1.30, y: -0.20 }, thickness: 0.12, height: 2.8, color: "#94a3b8" },
 
-        // C. Common Guest Powder Toilet (5ft 0in x 5ft 0in: X = -1.80 to -0.30, Z = -2.85 to -1.33)
-        // West wall is ots_e (vents directly into OTS)!
-        { id: `${floorId}_cbath_e`, start: { x: -0.30, y: -2.85 }, end: { x: -0.30, y: -1.33 }, thickness: 0.12, height: 2.8, color: "#e2e8f0" },
-        { id: `${floorId}_cbath_s`, start: { x: -1.80, y: -1.33 }, end: { x: -0.30, y: -1.33 }, thickness: 0.12, height: 2.8, color: "#e2e8f0" },
+        // C. Common Guest Powder Toilet (4ft 0in x 5ft 3in: X = -1.30 to -0.10, Z = -2.85 to -1.25)
+        // West wall is ots_e (vents directly into OTS)! East wall is flush with Foyer East wall!
+        { id: `${floorId}_cbath_s`, start: { x: -1.30, y: -1.25 }, end: { x: -0.10, y: -1.25 }, thickness: 0.12, height: 2.8, color: "#e2e8f0" },
+        { id: `${floorId}_cbath_e`, start: { x: -0.10, y: -2.85 }, end: { x: -0.10, y: -1.25 }, thickness: 0.15, height: 2.8, color: "#e2e8f0" },
 
-        // D. Master Attached Bathroom UNDER STAIRS AREA (6ft 6in x 6ft 0in: X = -4.57 to -1.80, Z = -0.50 to 1.30)
+        // D. Master Attached Bathroom UNDER STAIRS AREA (7ft 0in x 5ft 0in: X = -4.57 to -2.45, Z = -0.20 to 1.30)
         // North wall touches ots_s (vents directly into OTS)!
-        { id: `${floorId}_mbath_n`, start: { x: -4.57, y: -0.50 }, end: { x: -3.05, y: -0.50 }, thickness: 0.12, height: 2.8, color: "#e2e8f0" },
-        { id: `${floorId}_mbath_e`, start: { x: -1.80, y: -0.50 }, end: { x: -1.80, y: 1.30 }, thickness: 0.12, height: 2.8, color: "#e2e8f0" },
+        { id: `${floorId}_mbath_n`, start: { x: -4.57, y: -0.20 }, end: { x: -2.45, y: -0.20 }, thickness: 0.12, height: 2.8, color: "#cbd5e1" },
+        { id: `${floorId}_core_div_v`, start: { x: -2.45, y: -1.25 }, end: { x: -2.45, y: 1.30 }, thickness: 0.18, height: 2.8, color: "#f8fafc" },
 
-        // 7. ENTRANCE PRIVACY FOYER (Prawesh Vestibule: X = -1.80 to -0.30, Z = -1.33 to 1.30)
-        { id: `${floorId}_foyer_screen`, start: { x: -0.30, y: 0.30 }, end: { x: -0.30, y: 1.30 }, thickness: 0.15, height: 2.8, color: "#38bdf8" },
+        // 7. ENTRANCE PRIVACY FOYER (Prawesh Vestibule: X = -2.45 to -0.10, Z = -1.25 to 1.30)
+        // East wall is 100% FLUSH with cbath_e at X = -0.10 (forming one single continuous line)!
+        { id: `${floorId}_foyer_e`, start: { x: -0.10, y: -1.25 }, end: { x: -0.10, y: 1.30 }, thickness: 0.15, height: 2.8, color: "#f8fafc" },
 
         // 8. PURE RECTANGULAR MASTER SUITE (12ft x 19ft 9in = 240 sq ft: X = -4.57 to -0.95, Z = 1.30 to 7.31)
         { id: `${floorId}_mbed_e`, start: { x: -0.95, y: 1.30 }, end: { x: -0.95, y: 7.31 }, thickness: 0.18, height: 2.8, color: "#f8fafc" },
@@ -3502,28 +3507,31 @@ body {
         { id: `${floorId}_op_kit_dr`, wallId: `${floorId}_kit_w`, type: "door", offset: 0.8, width: 0.9, height: 2.1, elevation: 0 },
 
         // Apartment Main Door opening from Stair Lobby into Private Foyer
-        { id: `${floorId}_op_main_dr`, wallId: `${floorId}_mbath_e`, type: "door", offset: 1.1, width: 1.05, height: 2.2, elevation: 0 },
+        { id: `${floorId}_op_main_dr`, wallId: `${floorId}_core_div_v`, type: "door", offset: 1.45, width: 1.05, height: 2.2, elevation: 0 },
 
         // Master Bedroom Door from Foyer
-        { id: `${floorId}_op_mbed_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 3.2, width: 0.95, height: 2.1, elevation: 0 },
+        { id: `${floorId}_op_mbed_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 2.85, width: 0.95, height: 2.1, elevation: 0 },
 
         // Master Bath Door from Master Bedroom opening directly into under-stair bathroom
-        { id: `${floorId}_op_mbath_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 0.9, width: 0.85, height: 2.1, elevation: 0 },
+        { id: `${floorId}_op_mbath_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 1.05, width: 0.85, height: 2.1, elevation: 0 },
 
         // ⭐ Master Bath Ventilation Window directly into SHARED OTS
-        { id: `${floorId}_op_mbath_ots`, wallId: `${floorId}_ots_s`, type: "window", offset: 0.6, width: 0.75, height: 0.75, elevation: 1.8 },
+        { id: `${floorId}_op_mbath_ots`, wallId: `${floorId}_ots_s`, type: "window", offset: 0.58, width: 0.75, height: 0.75, elevation: 1.8 },
 
         // ⭐ Guest Bath Ventilation Window directly into SHARED OTS
-        { id: `${floorId}_op_cbath_ots`, wallId: `${floorId}_ots_e`, type: "window", offset: 0.7, width: 0.75, height: 0.75, elevation: 1.8 },
+        { id: `${floorId}_op_cbath_ots`, wallId: `${floorId}_ots_e`, type: "window", offset: 0.80, width: 0.75, height: 0.75, elevation: 1.8 },
 
         // Guest Bath Entry Door from Foyer
-        { id: `${floorId}_op_cbath_dr`, wallId: `${floorId}_cbath_s`, type: "door", offset: 0.75, width: 0.75, height: 2.1, elevation: 0 },
+        { id: `${floorId}_op_cbath_dr`, wallId: `${floorId}_cbath_s`, type: "door", offset: 0.60, width: 0.75, height: 2.1, elevation: 0 },
+
+        // Grand Foyer Archway / Portal opening into Grand Living Hall
+        { id: `${floorId}_op_foyer_portal`, wallId: `${floorId}_foyer_e`, type: "door", offset: 1.25, width: 1.60, height: 2.40, elevation: 0 },
 
         // ⭐ Bedroom 2 (NW) Cross-Ventilation Window directly into SHARED OTS
-        { id: `${floorId}_op_b2_ots_win`, wallId: `${floorId}_rear_front_h`, type: "window", offset: 2.1, width: 1.0, height: 0.9, elevation: 1.6 },
+        { id: `${floorId}_op_b2_ots_win`, wallId: `${floorId}_rear_front_h`, type: "window", offset: 2.70, width: 1.0, height: 0.9, elevation: 1.6 },
 
         // Bedroom 2 Entry Door & Gali Access
-        { id: `${floorId}_op_b2_dr`, wallId: `${floorId}_rear_front_h`, type: "door", offset: 3.8, width: 0.90, height: 2.1, elevation: 0 },
+        { id: `${floorId}_op_b2_dr`, wallId: `${floorId}_rear_front_h`, type: "door", offset: 4.10, width: 0.90, height: 2.1, elevation: 0 },
         { id: `${floorId}_op_b2_bath_dr`, wallId: `${floorId}_w_gali_h`, type: "door", offset: 0.9, width: 0.85, height: 2.1, elevation: 0 },
         { id: `${floorId}_op_b2_gali_dr`, wallId: `${floorId}_w_gali_h`, type: "door", offset: 2.7, width: 0.90, height: 2.2, elevation: 0 },
         { id: `${floorId}_op_b2_win`, wallId: `${floorId}_w_gali_h`, type: "window", offset: 3.8, width: 1.2, height: 1.4, elevation: 0.8 },
@@ -3543,14 +3551,14 @@ body {
           name: "Private Entrance Foyer (Prawesh)",
           floorMaterial: "marble",
           floorColor: "#f8fafc",
-          bounds: { minX: -1.80, maxX: -0.30, minY: -1.33, maxY: 1.30 }
+          bounds: { minX: -2.45, maxX: -0.10, minY: -1.25, maxY: 1.30 }
         },
         {
           id: `${floorId}_rm_living`,
           name: "Grand Open Living Hall (~350 sq ft)",
           floorMaterial: "marble",
           floorColor: "#f8fafc",
-          bounds: { minX: -0.30, maxX: 1.80, minY: -1.33, maxY: 7.31 }
+          bounds: { minX: -0.10, maxX: 1.80, minY: -2.85, maxY: 7.31 }
         },
         {
           id: `${floorId}_rm_kitchen`,
@@ -3592,7 +3600,7 @@ body {
           name: "Master Bath Under Stairs (Vents to OTS)",
           floorMaterial: "tile",
           floorColor: "#475569",
-          bounds: { minX: -4.57, maxX: -1.80, minY: -0.50, maxY: 1.30 }
+          bounds: { minX: -4.57, maxX: -2.45, minY: -0.20, maxY: 1.30 }
         },
         {
           id: `${floorId}_rm_bed2`,
@@ -3624,33 +3632,33 @@ body {
         },
         {
           id: `${floorId}_rm_cbath`,
-          name: "Guest Toilet (5x5ft - Vents to OTS)",
+          name: "Guest Toilet (4x5ft - Vents to OTS)",
           floorMaterial: "tile",
           floorColor: "#475569",
-          bounds: { minX: -1.80, maxX: -0.30, minY: -2.85, maxY: -1.33 }
+          bounds: { minX: -1.30, maxX: -0.10, minY: -2.85, maxY: -1.25 }
         },
         {
           id: `${floorId}_rm_ots`,
-          name: "⭐ SHARED CENTRAL OTS (4ft x 7ft 6in)",
+          name: "⭐ SHARED CENTRAL OTS (4ft x 8ft 8in)",
           floorMaterial: "tile",
           floorColor: "#0284c7",
-          bounds: { minX: -3.05, maxX: -1.80, minY: -2.85, maxY: -0.50 }
+          bounds: { minX: -2.45, maxX: -1.30, minY: -2.85, maxY: -0.20 }
         },
         {
           id: `${floorId}_rm_stair`,
           name: "West Staircase & Lift Core",
           floorMaterial: "tile",
           floorColor: "#1e293b",
-          bounds: { minX: -4.57, maxX: -1.80, minY: -2.85, maxY: 1.30 }
+          bounds: { minX: -4.57, maxX: -2.45, minY: -2.85, maxY: 1.30 }
         }
       ],
       furniture: [
         {
           id: `${floorId}_f_stairs`,
           typeId: "staircase_rcc",
-          name: "RCC Dog-Legged Staircase (7ft 6in Wide)",
+          name: "RCC Dog-Legged Staircase (7ft Core)",
           category: "stairs",
-          position: { x: -3.45, y: 0, z: -0.05 },
+          position: { x: -3.51, y: 0, z: 0.025 },
           rotation: { y: 0 }
         }
       ]
@@ -3680,18 +3688,17 @@ body {
       { id: "g_w_room_front_h", start: { x: -4.57, y: -2.85 }, end: { x: 4.57, y: -2.85 }, thickness: 0.2, height: 2.8, color: "#f8fafc" },
 
       // Circulation Core: Lift on backside, Stairs in front
-      { id: "g_core_e", start: { x: -1.52, y: -2.85 }, end: { x: -1.52, y: 1.30 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
-      { id: "g_stair_s", start: { x: -4.57, y: 1.30 }, end: { x: -1.52, y: 1.30 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
+      { id: "g_core_e", start: { x: -2.45, y: -2.85 }, end: { x: -2.45, y: 1.30 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
+      { id: "g_stair_s", start: { x: -4.57, y: 1.30 }, end: { x: -2.45, y: 1.30 }, thickness: 0.20, height: 2.8, color: "#f8fafc" },
       // Lift on backside
-      { id: "g_lift_s", start: { x: -4.57, y: -1.33 }, end: { x: -3.05, y: -1.33 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
-      { id: "g_lift_e", start: { x: -3.05, y: -2.85 }, end: { x: -3.05, y: -1.33 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
+      { id: "g_lift_s", start: { x: -4.57, y: -1.25 }, end: { x: -2.45, y: -1.25 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
+      { id: "g_lift_e", start: { x: -2.45, y: -2.85 }, end: { x: -2.45, y: -1.25 }, thickness: 0.18, height: 2.8, color: "#cbd5e1" },
       // Under-stairs driver toilet partition
-      { id: "g_ubath_n", start: { x: -4.57, y: -0.11 }, end: { x: -2.50, y: -0.11 }, thickness: 0.14, height: 2.8, color: "#cbd5e1" },
-      { id: "g_ubath_e", start: { x: -2.50, y: -0.11 }, end: { x: -2.50, y: 1.30 }, thickness: 0.14, height: 2.8, color: "#cbd5e1" }
+      { id: "g_ubath_n", start: { x: -4.57, y: -0.20 }, end: { x: -2.45, y: -0.20 }, thickness: 0.14, height: 2.8, color: "#cbd5e1" }
     ],
     openings: [
       { id: "g_op_gate", wallId: "g_w_s_left", type: "door", offset: 0.9, width: 7.2, height: 2.5, elevation: 0 },
-      { id: "g_op_stair_dr", wallId: "g_core_e", type: "door", offset: 3.2, width: 1.05, height: 2.2, elevation: 0 },
+      { id: "g_op_stair_dr", wallId: "g_core_e", type: "door", offset: 2.7, width: 1.05, height: 2.2, elevation: 0 },
       { id: "g_op_r1_dr", wallId: "g_w_room_front_h", type: "door", offset: 3.65, width: 0.95, height: 2.1, elevation: 0 },
       { id: "g_op_r1_bath_dr", wallId: "g_w_gali_h", type: "door", offset: 0.9, width: 0.85, height: 2.1, elevation: 0 },
       { id: "g_op_r1_gali_dr", wallId: "g_w_gali_h", type: "door", offset: 2.7, width: 0.95, height: 2.2, elevation: 0 },
@@ -3749,7 +3756,7 @@ body {
         name: "West Staircase & Lift Core",
         floorMaterial: "tile",
         floorColor: "#0f172a",
-        bounds: { minX: -4.57, maxX: -1.52, minY: -2.85, maxY: 1.30 }
+        bounds: { minX: -4.57, maxX: -2.45, minY: -2.85, maxY: 1.30 }
       }
     ],
     furniture: [
@@ -3778,10 +3785,10 @@ body {
       { id: "t_w_w", start: { x: -4.57, y: 9.14 }, end: { x: -4.57, y: -9.14 }, thickness: 0.22, height: 1.05, color: "#f8fafc" },
 
       // West Circulation Mumty Tower (Height 2.8m)
-      { id: "t_mumty_e", start: { x: -1.52, y: -2.85 }, end: { x: -1.52, y: 1.30 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
-      { id: "t_mumty_n", start: { x: -4.57, y: -2.85 }, end: { x: -1.52, y: -2.85 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
-      { id: "t_mumty_s", start: { x: -4.57, y: 1.30 }, end: { x: -1.52, y: 1.30 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
-      { id: "t_mumty_lift_s", start: { x: -4.57, y: -1.33 }, end: { x: -3.05, y: -1.33 }, thickness: 0.16, height: 2.8, color: "#cbd5e1" },
+      { id: "t_mumty_e", start: { x: -2.45, y: -2.85 }, end: { x: -2.45, y: 1.30 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
+      { id: "t_mumty_n", start: { x: -4.57, y: -2.85 }, end: { x: -2.45, y: -2.85 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
+      { id: "t_mumty_s", start: { x: -4.57, y: 1.30 }, end: { x: -2.45, y: 1.30 }, thickness: 0.2, height: 2.8, color: "#0284c7" },
+      { id: "t_mumty_lift_s", start: { x: -4.57, y: -1.25 }, end: { x: -2.45, y: -1.25 }, thickness: 0.16, height: 2.8, color: "#cbd5e1" },
 
       // Rear Central Ventilation Exhaust Parapet (18ft x 7ft: X = -2.74 to 2.74, Z = -9.14 to -7.01)
       { id: "t_w_ots_s", start: { x: -2.74, y: -7.01 }, end: { x: 2.74, y: -7.01 }, thickness: 0.15, height: 1.05, color: "#059669" },
@@ -3793,7 +3800,7 @@ body {
       { id: "t_planter_s", start: { x: -4.25, y: 8.80 }, end: { x: 4.25, y: 8.80 }, thickness: 0.35, height: 0.65, color: "#16a34a" }
     ],
     openings: [
-      { id: "t_op_mumty_dr", wallId: "t_mumty_e", type: "door", offset: 3.2, width: 1.0, height: 2.1, elevation: 0 }
+      { id: "t_op_mumty_dr", wallId: "t_mumty_e", type: "door", offset: 2.7, width: 1.0, height: 2.1, elevation: 0 }
     ],
     rooms: [
       {
@@ -3808,7 +3815,7 @@ body {
         name: "Kids Playing Area & Activity Turf (~400 sq ft)",
         floorMaterial: "tile",
         floorColor: "#059669",
-        bounds: { minX: -1.52, maxX: 4.25, minY: -7.01, maxY: 1.30 }
+        bounds: { minX: -2.45, maxX: 4.25, minY: -7.01, maxY: 1.30 }
       },
       {
         id: "t_rm_garden",
@@ -3822,14 +3829,14 @@ body {
         name: "10 kW Solar PV & Service Deck",
         floorMaterial: "tile",
         floorColor: "#0284c7",
-        bounds: { minX: -4.57, maxX: -1.52, minY: -7.01, maxY: -2.85 }
+        bounds: { minX: -4.57, maxX: -2.45, minY: -7.01, maxY: -2.85 }
       },
       {
         id: "t_rm_mumty",
         name: "Staircase & Lift Machine Room Tower",
         floorMaterial: "tile",
         floorColor: "#1e293b",
-        bounds: { minX: -4.57, maxX: -1.52, minY: -2.85, maxY: 1.30 }
+        bounds: { minX: -4.57, maxX: -2.45, minY: -2.85, maxY: 1.30 }
       }
     ],
     furniture: [
@@ -3838,7 +3845,7 @@ body {
         typeId: "staircase_rcc",
         name: "RCC Dog-Legged Staircase",
         category: "stairs",
-        position: { x: -3.45, y: 0, z: -0.05 },
+        position: { x: -3.51, y: 0, z: 0.025 },
         rotation: { y: 0 }
       },
       {
@@ -5546,6 +5553,8 @@ body {
 (function(window) {
   'use strict';
 
+  const STORAGE_KEY = 'homecraft3d_project_30x60_v13_flush_aligned_ots';
+
   class App {
     constructor() {
       this.projectData = null;
@@ -5561,7 +5570,7 @@ body {
       this.init();
     }
 
-            sanitizeFurniture(projectData) {
+    sanitizeFurniture(projectData) {
       if (!projectData || !projectData.floors) return projectData;
       const terraceAllowedIds = [
         'staircase_rcc',
@@ -5582,9 +5591,9 @@ body {
             fl.furniture.push({
               id: `${fl.id}_f_stairs`,
               typeId: 'staircase_rcc',
-              name: 'RCC Dog-Legged Staircase (7ft 6in Wide)',
+              name: 'RCC Dog-Legged Staircase (7ft Core)',
               category: 'stairs',
-              position: { x: -3.45, y: 0, z: -0.05 },
+              position: { x: -3.51, y: 0, z: 0.025 },
               rotation: { y: 0 }
             });
           }
@@ -5595,12 +5604,11 @@ body {
 
     init() {
       // 1. Purge legacy localStorage caches containing old furniture
-      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge'].forEach(k => {
+      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge', 'homecraft3d_project_30x60_v12_shared_ots'].forEach(k => {
         try { localStorage.removeItem(k); } catch (e) {}
       });
 
       // Load primary 30x60 Jodhpur Villa Template (Clean, furniture-free with SW stairs)
-      const STORAGE_KEY = 'homecraft3d_project_30x60_v12_shared_ots';
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
