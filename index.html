@@ -3504,8 +3504,8 @@ body {
         { id: `${floorId}_op_kit_win`, wallId: `${floorId}_w_s`, type: "window", offset: 7.2, width: 1.4, height: 1.4, elevation: 0.8 },
         { id: `${floorId}_op_kit_dr`, wallId: `${floorId}_kit_w`, type: "door", offset: 0.8, width: 0.9, height: 2.1, elevation: 0 },
 
-        // Apartment Main Door opening from Stair Lobby into Private Foyer
-        { id: `${floorId}_op_main_dr`, wallId: `${floorId}_core_div_v`, type: "door", offset: 1.85, width: 1.05, height: 2.2, elevation: 0 },
+        // Apartment Main Door opening from Stair Lobby into Private Foyer (West wall of Foyer)
+        { id: `${floorId}_op_main_dr`, wallId: `${floorId}_core_div_v`, type: "door", offset: 3.45, width: 1.05, height: 2.2, elevation: 0 },
 
         // Master Bedroom Door from Foyer
         { id: `${floorId}_op_mbed_dr`, wallId: `${floorId}_stair_s`, type: "door", offset: 3.30, width: 0.95, height: 2.1, elevation: 0 },
@@ -5548,7 +5548,7 @@ body {
 (function(window) {
   'use strict';
 
-  const STORAGE_KEY = 'homecraft3d_project_30x60_v14_linear_ots';
+  const STORAGE_KEY = 'homecraft3d_project_30x60_v15_entrance_door';
 
   class App {
     constructor() {
@@ -5599,7 +5599,7 @@ body {
 
     init() {
       // 1. Purge legacy localStorage caches containing old furniture
-      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge', 'homecraft3d_project_30x60_v12_shared_ots', 'homecraft3d_project_30x60_v13_flush_aligned_ots'].forEach(k => {
+      ['homecraft3d_project_30x60', 'homecraft3d_project_30x60_v2', 'homecraft3d_project_30x60_v3', 'homecraft3d_project_30x60_v4', 'homecraft3d_project_30x60_v5_clean', 'homecraft3d_project_30x60_v6_front_master', 'homecraft3d_project_30x60_v7_rain_lounge', 'homecraft3d_project_30x60_v8_balcony8x30', 'homecraft3d_project_30x60_v9_stairs_front_lift_back', 'homecraft3d_project_30x60_v10_gali7_balc6', 'homecraft3d_project_30x60_v11_terrace_lounge', 'homecraft3d_project_30x60_v12_shared_ots', 'homecraft3d_project_30x60_v13_flush_aligned_ots', 'homecraft3d_project_30x60_v14_linear_ots'].forEach(k => {
         try { localStorage.removeItem(k); } catch (e) {}
       });
 
